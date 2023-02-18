@@ -1,3 +1,13 @@
+/*
+ * Copyright © 2023 By Geeks Empire.
+ *
+ * Created by Elias Fazel
+ * Last modified 2/18/23, 9:02 AM
+ *
+ * Licensed Under MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 package co.geeksempire.floating.smart.panel
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
