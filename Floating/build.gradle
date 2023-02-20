@@ -4,7 +4,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 
     id 'com.google.gms.google-services'
-    id 'com.google.relay' version '0.3.00'
 
     id 'com.google.firebase.firebase-perf'
     id 'com.google.firebase.crashlytics'
@@ -55,12 +54,8 @@ android {
 
     buildFeatures {
         viewBinding true
-        compose true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.3.2'
-    }
 }
 
 static def getDateYear() {
@@ -119,6 +114,7 @@ dependencies {
 
 
     testImplementation 'junit:junit:4.13.2'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
