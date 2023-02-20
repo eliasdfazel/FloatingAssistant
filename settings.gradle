@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Floating Smart Panel"
 include ':Floating'
+include ':BlurryEffect'
+include ':CustomShapes'
