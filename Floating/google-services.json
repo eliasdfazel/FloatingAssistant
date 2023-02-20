@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "566832117745",
+    "project_id": "floating-ai",
+    "storage_bucket": "floating-ai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566832117745:android:b727a7aaa2b9229611f650",
+        "android_client_info": {
+          "package_name": "co.geeksempire.floating.smart.panel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566832117745-fvi098m3mkmknv3526vq4vmsratljqek.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.geeksempire.floating.smart.panel",
+            "certificate_hash": "6fa2d23f54167ebdfcb1ce7cb183c0f709f8934e"
+          }
+        },
+        {
+          "client_id": "566832117745-hiq9nm3aghqaca9rk6nvg2jlukhln53t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.geeksempire.floating.smart.panel",
+            "certificate_hash": "92b39a86d3b1a7dcd41b6a4a8dc870564cc17ba5"
+          }
+        },
+        {
+          "client_id": "566832117745-puaimb9i577p4a8g4obraegb666s7a1b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAx1YeSsbATp788msnKH236ywha08BZMVc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566832117745-puaimb9i577p4a8g4obraegb666s7a1b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
