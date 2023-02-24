@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 9:23 AM
+ * Last modified 2/24/23, 11:23 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -22,6 +22,7 @@ import android.provider.Settings
 import android.view.View
 import android.view.animation.AnimationUtils
 import co.geeksempire.floating.smart.panel.Dashboard.UI.Dashboard
+import co.geeksempire.floating.smart.panel.Floating.FloatingPanelServices
 import co.geeksempire.floating.smart.panel.R
 import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchController
 import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchInterface
@@ -183,12 +184,22 @@ fun Dashboard.setupUserInterface() {
     if (systemSettings.accessibilityServiceEnabled()
         && systemSettings.floatingPermissionEnabled()) {
 
+        dashboardLayoutBinding.launchButtonBackground.visibility = View.VISIBLE
+        dashboardLayoutBinding.launchButtonBackground.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
+
         dashboardLayoutBinding.launchButton.visibility = View.VISIBLE
         dashboardLayoutBinding.launchButton.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
 
         dashboardLayoutBinding.launchButton.setOnClickListener {
 
+            notificationsCreator.playNotificationSound(this@setupUserInterface, R.raw.titan)
+            notificationsCreator.doVibrate(applicationContext, 73)
 
+            if (!FloatingPanelServices.Floating) {
+
+                startForegroundService(Intent(applicationContext, FloatingPanelServices::class.java))
+
+            }
 
         }
 

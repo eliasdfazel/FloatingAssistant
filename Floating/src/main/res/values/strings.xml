@@ -2,7 +2,7 @@
   ~ Copyright © 2023 By Geeks Empire.
   ~
   ~ Created by Elias Fazel
-  ~ Last modified 2/24/23, 5:30 AM
+  ~ Last modified 2/24/23, 11:23 AM
   ~
   ~ Licensed Under MIT License.
   ~ https://opensource.org/licenses/MIT
@@ -10,7 +10,8 @@
 
 <resources>
 
-    <string name="applicationName">Floating Assistant</string>
+    <string name="applicationName">AAAAA; Floating Assistant</string>
+    <string name="applicationDescription">AAAAA The AI Assistant is Learning…</string>
 
     <string name="login">login</string>
     <string name="syncing">syncing</string>
