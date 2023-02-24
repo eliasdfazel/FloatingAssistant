@@ -3,65 +3,22 @@
   ~ Copyright © 2023 By Geeks Empire.
   ~
   ~ Created by Elias Fazel
-  ~ Last modified 2/24/23, 4:21 AM
+  ~ Last modified 2/24/23, 6:49 AM
   ~
   ~ Licensed Under MIT License.
   ~ https://opensource.org/licenses/MIT
   -->
 
-<co.geeksempire.floating.smart.panel.Utils.Views.ViewGroups.NextedConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<co.geeksempire.floating.smart.panel.Utils.Views.ViewGroups.NextedConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:apps="http://schemas.android.com/apk/res-auto"
     android:background="@color/primaryColorPurple"
     tools:context=".Dashboard.UI.Dashboard">
 
-    <co.geeksempire.floating.smart.panel.Utils.Views.Scrolls.NextedScrollView
-        android:id="@+id/nextedScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="173dp"
-            android:paddingBottom="73dp">
-
-            <co.geeksempire.blurry.effect.library.OverlayBlur
-                android:id="@+id/blurryBackground"
-                android:layout_width="0dp"
-                android:layout_height="153dp"
-                android:layout_marginHorizontal="37dp"
-
-                apps:realtimeBlurRadius="7dp"
-                apps:realtimeFirstColor="#03FFFFFF"
-
-                apps:realtimeBlurTopLeft="19dp"
-                apps:realtimeBlurTopRight="19dp"
-                apps:realtimeBlurBottomLeft="19dp"
-                apps:realtimeBlurBottomRight="19dp"
-
-                apps:layout_constraintTop_toTopOf="parent"
-                apps:layout_constraintStart_toStartOf="parent"
-                apps:layout_constraintEnd_toEndOf="parent"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="7dp"
-
-                apps:layout_constraintTop_toTopOf="@id/blurryBackground"
-                apps:layout_constraintStart_toStartOf="@id/blurryBackground"
-                apps:layout_constraintEnd_toEndOf="@id/blurryBackground"/>
-
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </co.geeksempire.floating.smart.panel.Utils.Views.Scrolls.NextedScrollView>
-
-    <!-- Start - Profile -->
+    <!-- Start - Decoration -->
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -81,7 +38,66 @@
 
         apps:layout_constraintTop_toTopOf="parent"
         apps:layout_constraintStart_toStartOf="parent"/>
+    <!-- End - Decoration -->
 
+    <co.geeksempire.floating.smart.panel.Utils.Views.Scrolls.NextedScrollView
+        android:id="@+id/nextedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="173dp"
+            android:paddingBottom="73dp">
+
+            <include
+                layout="@layout/switch_layout"
+
+                android:id="@+id/interactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <include
+                layout="@layout/switch_layout"
+
+                android:id="@+id/floatingPermission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+
+                apps:layout_constraintTop_toBottomOf="@id/interactions"/>
+
+            <include
+                layout="@layout/switch_layout"
+
+                android:id="@+id/usageAccess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+
+                apps:layout_constraintTop_toBottomOf="@id/floatingPermission"/>
+            
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/launchButton"
+                android:layout_width="333dp"
+                android:layout_height="333dp"
+                android:layout_marginTop="19dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/launch"
+                android:visibility="gone"
+
+                apps:layout_constraintTop_toBottomOf="@id/usageAccess"
+                apps:layout_constraintBottom_toBottomOf="parent"
+                apps:layout_constraintStart_toStartOf="parent"
+                apps:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </co.geeksempire.floating.smart.panel.Utils.Views.Scrolls.NextedScrollView>
+
+    <!-- Start - Profile -->
     <net.geekstools.imageview.customshapes.ShapesImage
         android:id="@+id/profileImageBackground"
         android:layout_width="73dp"

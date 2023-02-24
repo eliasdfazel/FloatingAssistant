@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 4:58 AM
+ * Last modified 2/24/23, 6:55 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import co.geeksempire.floating.smart.panel.Dashboard.UI.Dashboard
 import co.geeksempire.floating.smart.panel.R
+import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -57,5 +58,32 @@ fun Dashboard.setupUserInterface() {
             .submit()
 
     }
+
+    /* Start - Interactions  */
+    dashboardLayoutBinding.interactions.preferencesTitle.text = getString(R.string.interactionsTitle)
+    dashboardLayoutBinding.interactions.preferencesDescription.text = getString(R.string.interactionsDescription)
+
+    dashboardLayoutBinding.interactions.preferencesTitle.setOnClickListener {  }
+
+    SwitchController(applicationContext, dashboardLayoutBinding.interactions.switchBackground, dashboardLayoutBinding.interactions.switchHandheld)
+    /* End - Interactions  */
+
+    /* Start - Floating  */
+    dashboardLayoutBinding.floatingPermission.preferencesTitle.text = getString(R.string.floatingTitle)
+    dashboardLayoutBinding.floatingPermission.preferencesDescription.text = getString(R.string.floatingDescription)
+
+    dashboardLayoutBinding.floatingPermission.preferencesTitle.setOnClickListener {  }
+
+    SwitchController(applicationContext, dashboardLayoutBinding.interactions.switchBackground, dashboardLayoutBinding.interactions.switchHandheld)
+    /* End - Floating  */
+
+    /* Start - Usage Access  */
+    dashboardLayoutBinding.usageAccess.preferencesTitle.text = getString(R.string.usageAccessTitle)
+    dashboardLayoutBinding.usageAccess.preferencesDescription.text = getString(R.string.usageAccessDescription)
+
+    dashboardLayoutBinding.usageAccess.preferencesTitle.setOnClickListener {  }
+
+    SwitchController(applicationContext, dashboardLayoutBinding.interactions.switchBackground, dashboardLayoutBinding.interactions.switchHandheld)
+    /* End - Usage Access  */
 
 }
