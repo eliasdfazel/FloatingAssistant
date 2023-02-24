@@ -2,7 +2,7 @@
   ~ Copyright © 2023 By Geeks Empire.
   ~
   ~ Created by Elias Fazel
-  ~ Last modified 2/18/23, 9:02 AM
+  ~ Last modified 2/24/23, 4:22 AM
   ~
   ~ Licensed Under MIT License.
   ~ https://opensource.org/licenses/MIT
@@ -10,6 +10,10 @@
 
 <resources>
 
-    <string name="app_name">Floating Assistant</string>
+    <string name="applicationName">Floating Assistant</string>
+
+    <string name="login">login</string>
+    <string name="syncing">syncing</string>
+    <string name="profile">profile</string>
 
 </resources>
