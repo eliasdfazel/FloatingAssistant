@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 8:04 AM
+ * Last modified 2/24/23, 8:13 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -66,22 +66,30 @@ fun Dashboard.setupUserInterface() {
 
     dashboardLayoutBinding.interactions.preferencesTitle.setOnClickListener {  }
 
-    SwitchController(applicationContext, dashboardLayoutBinding.interactions.switchBackground, dashboardLayoutBinding.interactions.switchHandheld)
-        .switchIt(systemSettings.accessibilityServiceEnabled(), object : SwitchInterface {
+    val switchControllerInteraction = SwitchController(applicationContext,
+        dashboardLayoutBinding.interactions.switchBackground, dashboardLayoutBinding.interactions.switchHandheld)
+    switchControllerInteraction.switchStatus = systemSettings.accessibilityServiceEnabled()
+    switchControllerInteraction.switchIt(object : SwitchInterface {
 
-            override fun switchedOn() {
-
-
-
-            }
-
-            override fun switchedOff() {
+        override fun switchedOn() {
 
 
 
-            }
+        }
 
-        })
+        override fun switchedOff() {
+
+
+
+        }
+
+        override fun switchedIt() {
+
+
+
+        }
+
+    })
     /* End - Interactions  */
 
     /* Start - Floating  */
@@ -90,22 +98,30 @@ fun Dashboard.setupUserInterface() {
 
     dashboardLayoutBinding.floatingPermission.preferencesTitle.setOnClickListener {  }
 
-    SwitchController(applicationContext, dashboardLayoutBinding.floatingPermission.switchBackground, dashboardLayoutBinding.floatingPermission.switchHandheld)
-        .switchIt(systemSettings.floatingPermissionEnabled(), object : SwitchInterface {
+    val switchControllerFloating = SwitchController(applicationContext,
+        dashboardLayoutBinding.floatingPermission.switchBackground, dashboardLayoutBinding.floatingPermission.switchHandheld)
+    switchControllerFloating.switchStatus = systemSettings.floatingPermissionEnabled()
+    switchControllerFloating.switchIt(object : SwitchInterface {
 
-            override fun switchedOn() {
-
-
-
-            }
-
-            override fun switchedOff() {
+        override fun switchedOn() {
 
 
 
-            }
+        }
 
-        })
+        override fun switchedOff() {
+
+
+
+        }
+
+        override fun switchedIt() {
+
+
+
+        }
+
+    })
     /* End - Floating  */
 
     /* Start - Usage Access  */
@@ -114,22 +130,30 @@ fun Dashboard.setupUserInterface() {
 
     dashboardLayoutBinding.usageAccess.preferencesTitle.setOnClickListener {  }
 
-    SwitchController(applicationContext, dashboardLayoutBinding.usageAccess.switchBackground, dashboardLayoutBinding.usageAccess.switchHandheld)
-        .switchIt(systemSettings.usageAccessEnabled(), object : SwitchInterface {
+    val switchControllerUsage = SwitchController(applicationContext,
+        dashboardLayoutBinding.usageAccess.switchBackground, dashboardLayoutBinding.usageAccess.switchHandheld)
+    switchControllerUsage.switchStatus = systemSettings.usageAccessEnabled()
+    switchControllerUsage.switchIt(object : SwitchInterface {
 
-            override fun switchedOn() {
-
-
-
-            }
-
-            override fun switchedOff() {
+        override fun switchedOn() {
 
 
 
-            }
+        }
 
-        })
+        override fun switchedOff() {
+
+
+
+        }
+
+        override fun switchedIt() {
+
+
+
+        }
+
+    })
     /* End - Usage Access  */
 
 }

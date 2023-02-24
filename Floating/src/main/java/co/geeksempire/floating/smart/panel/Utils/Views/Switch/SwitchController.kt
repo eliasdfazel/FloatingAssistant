@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 8:04 AM
+ * Last modified 2/24/23, 8:13 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -22,6 +22,7 @@ import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 interface SwitchInterface {
     fun switchedOn()
     fun switchedOff()
+    fun switchedIt()
 }
 
 class SwitchController (private val context: Context, private val switchBackground: AppCompatImageView, private val switchHandheld: AppCompatImageView) {
@@ -37,20 +38,28 @@ class SwitchController (private val context: Context, private val switchBackgrou
 
     }
 
-    fun switchIt(switchStatus: Boolean, switchInterface: SwitchInterface) {
+    var switchStatus = false
+
+    fun switchIt(switchInterface: SwitchInterface) {
 
         when (switchStatus) {
             switchOn -> {
+
+                switchStatus = true
 
                 switchOn()
 
             }
             switchOff -> {
 
+                switchStatus = false
+
                 switchOff()
 
             }
             else -> {
+
+                switchStatus = true
 
                 switchOn()
 
@@ -62,6 +71,8 @@ class SwitchController (private val context: Context, private val switchBackgrou
             when (switchStatus) {
                 switchOn -> {
 
+                    switchStatus = false
+
                     switchOff()
 
                     switchInterface.switchedOff()
@@ -69,12 +80,16 @@ class SwitchController (private val context: Context, private val switchBackgrou
                 }
                 switchOff -> {
 
+                    switchStatus = true
+
                     switchOn()
 
                     switchInterface.switchedOn()
 
                 }
                 else -> {
+
+                    switchStatus = true
 
                     switchOn()
 
@@ -90,6 +105,8 @@ class SwitchController (private val context: Context, private val switchBackgrou
             when (switchStatus) {
                 switchOn -> {
 
+                    switchStatus = false
+
                     switchOff()
 
                     switchInterface.switchedOff()
@@ -97,12 +114,16 @@ class SwitchController (private val context: Context, private val switchBackgrou
                 }
                 switchOff -> {
 
+                    switchStatus = false
+
                     switchOn()
 
                     switchInterface.switchedOn()
 
                 }
                 else -> {
+
+                    switchStatus = true
 
                     switchOn()
 
