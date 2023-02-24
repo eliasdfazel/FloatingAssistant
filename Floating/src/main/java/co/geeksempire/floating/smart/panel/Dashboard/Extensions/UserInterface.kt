@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 6:55 AM
+ * Last modified 2/24/23, 7:45 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -66,6 +66,7 @@ fun Dashboard.setupUserInterface() {
     dashboardLayoutBinding.interactions.preferencesTitle.setOnClickListener {  }
 
     SwitchController(applicationContext, dashboardLayoutBinding.interactions.switchBackground, dashboardLayoutBinding.interactions.switchHandheld)
+        .switchIt(systemSettings.accessibilityServiceEnabled())
     /* End - Interactions  */
 
     /* Start - Floating  */
@@ -74,7 +75,8 @@ fun Dashboard.setupUserInterface() {
 
     dashboardLayoutBinding.floatingPermission.preferencesTitle.setOnClickListener {  }
 
-    SwitchController(applicationContext, dashboardLayoutBinding.interactions.switchBackground, dashboardLayoutBinding.interactions.switchHandheld)
+    SwitchController(applicationContext, dashboardLayoutBinding.floatingPermission.switchBackground, dashboardLayoutBinding.floatingPermission.switchHandheld)
+        .switchIt(systemSettings.floatingPermissionEnabled())
     /* End - Floating  */
 
     /* Start - Usage Access  */
@@ -83,7 +85,8 @@ fun Dashboard.setupUserInterface() {
 
     dashboardLayoutBinding.usageAccess.preferencesTitle.setOnClickListener {  }
 
-    SwitchController(applicationContext, dashboardLayoutBinding.interactions.switchBackground, dashboardLayoutBinding.interactions.switchHandheld)
+    SwitchController(applicationContext, dashboardLayoutBinding.usageAccess.switchBackground, dashboardLayoutBinding.usageAccess.switchHandheld)
+        .switchIt(systemSettings.usageAccessEnabled())
     /* End - Usage Access  */
 
 }
