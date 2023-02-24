@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 7:45 AM
+ * Last modified 2/24/23, 8:04 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable
 import co.geeksempire.floating.smart.panel.Dashboard.UI.Dashboard
 import co.geeksempire.floating.smart.panel.R
 import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchController
+import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchInterface
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -66,7 +67,21 @@ fun Dashboard.setupUserInterface() {
     dashboardLayoutBinding.interactions.preferencesTitle.setOnClickListener {  }
 
     SwitchController(applicationContext, dashboardLayoutBinding.interactions.switchBackground, dashboardLayoutBinding.interactions.switchHandheld)
-        .switchIt(systemSettings.accessibilityServiceEnabled())
+        .switchIt(systemSettings.accessibilityServiceEnabled(), object : SwitchInterface {
+
+            override fun switchedOn() {
+
+
+
+            }
+
+            override fun switchedOff() {
+
+
+
+            }
+
+        })
     /* End - Interactions  */
 
     /* Start - Floating  */
@@ -76,7 +91,21 @@ fun Dashboard.setupUserInterface() {
     dashboardLayoutBinding.floatingPermission.preferencesTitle.setOnClickListener {  }
 
     SwitchController(applicationContext, dashboardLayoutBinding.floatingPermission.switchBackground, dashboardLayoutBinding.floatingPermission.switchHandheld)
-        .switchIt(systemSettings.floatingPermissionEnabled())
+        .switchIt(systemSettings.floatingPermissionEnabled(), object : SwitchInterface {
+
+            override fun switchedOn() {
+
+
+
+            }
+
+            override fun switchedOff() {
+
+
+
+            }
+
+        })
     /* End - Floating  */
 
     /* Start - Usage Access  */
@@ -86,7 +115,21 @@ fun Dashboard.setupUserInterface() {
     dashboardLayoutBinding.usageAccess.preferencesTitle.setOnClickListener {  }
 
     SwitchController(applicationContext, dashboardLayoutBinding.usageAccess.switchBackground, dashboardLayoutBinding.usageAccess.switchHandheld)
-        .switchIt(systemSettings.usageAccessEnabled())
+        .switchIt(systemSettings.usageAccessEnabled(), object : SwitchInterface {
+
+            override fun switchedOn() {
+
+
+
+            }
+
+            override fun switchedOff() {
+
+
+
+            }
+
+        })
     /* End - Usage Access  */
 
 }
