@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 9:02 AM
+ * Last modified 2/24/23, 9:23 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -19,6 +19,8 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.view.View
+import android.view.animation.AnimationUtils
 import co.geeksempire.floating.smart.panel.Dashboard.UI.Dashboard
 import co.geeksempire.floating.smart.panel.R
 import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchController
@@ -29,6 +31,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+
 
 fun Dashboard.setupUserInterface() {
 
@@ -176,5 +179,20 @@ fun Dashboard.setupUserInterface() {
     })
     /* End - Usage Access  */
 
+    /* Start - Launch Button */
+    if (systemSettings.accessibilityServiceEnabled()
+        && systemSettings.floatingPermissionEnabled()) {
+
+        dashboardLayoutBinding.launchButton.visibility = View.VISIBLE
+        dashboardLayoutBinding.launchButton.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
+
+        dashboardLayoutBinding.launchButton.setOnClickListener {
+
+
+
+        }
+
+    }
+    /* End - Launch Button */
 
 }
