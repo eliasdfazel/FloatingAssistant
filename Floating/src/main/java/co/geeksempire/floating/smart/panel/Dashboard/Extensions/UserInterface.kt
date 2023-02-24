@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 8:13 AM
+ * Last modified 2/24/23, 8:19 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -10,9 +10,13 @@
 
 package co.geeksempire.floating.smart.panel.Dashboard.Extensions
 
+import android.app.ActivityOptions
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.provider.Settings
 import co.geeksempire.floating.smart.panel.Dashboard.UI.Dashboard
 import co.geeksempire.floating.smart.panel.R
 import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchController
@@ -85,7 +89,8 @@ fun Dashboard.setupUserInterface() {
 
         override fun switchedIt() {
 
-
+            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                ActivityOptions.makeCustomAnimation(applicationContext, R.anim.fade_in, 0).toBundle())
 
         }
 
@@ -117,7 +122,8 @@ fun Dashboard.setupUserInterface() {
 
         override fun switchedIt() {
 
-
+            startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                ActivityOptions.makeCustomAnimation(applicationContext, R.anim.fade_in, 0).toBundle())
 
         }
 
@@ -149,7 +155,8 @@ fun Dashboard.setupUserInterface() {
 
         override fun switchedIt() {
 
-
+            startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                ActivityOptions.makeCustomAnimation(applicationContext, R.anim.fade_in, 0).toBundle())
 
         }
 
