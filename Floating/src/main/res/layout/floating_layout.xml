@@ -3,17 +3,46 @@
   ~ Copyright © 2023 By Geeks Empire.
   ~
   ~ Created by Elias Fazel
-  ~ Last modified 2/24/23, 11:23 AM
+  ~ Last modified 2/24/23, 12:01 PM
   ~
   ~ Licensed Under MIT License.
   ~ https://opensource.org/licenses/MIT
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:layout_height="100dp"
-    android:background="@color/primaryColorGreen">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    android:layout_width="301dp"
+    android:layout_height="73dp"
+    android:background="@color/transparent">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/floatingBackground"
+        android:layout_width="301dp"
+        android:layout_height="73dp"
+        android:tint="@color/primaryColorPurpleLight"
+        android:src="@drawable/floating_panel_background"
 
+        apps:layout_constraintTop_toTopOf="parent"
+        apps:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/floatingHandheld"
+        android:layout_width="19dp"
+        android:layout_height="73dp"
+        android:tint="@color/primaryColorPurpleLight"
+        android:src="@drawable/floating_handheld"
+
+        apps:layout_constraintTop_toTopOf="parent"
+        apps:layout_constraintStart_toStartOf="parent"/>
+
+    <co.geeksempire.floating.smart.panel.Utils.Views.Scrolls.NextedRecyclerView
+        android:id="@+id/floatingRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layoutAnimation="@anim/fade_in_layout_animation"
+
+        apps:layout_constraintStart_toEndOf="@id/floatingHandheld"
+        apps:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

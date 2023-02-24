@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © 2023 By Geeks Empire.
+  ~
+  ~ Created by Elias Fazel
+  ~ Last modified 2/24/23, 11:39 AM
+  ~
+  ~ Licensed Under MIT License.
+  ~ https://opensource.org/licenses/MIT
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:drawable="@color/transparent" />
+
+    <item
+        android:width="301dp"
+        android:height="73dp"
+        android:gravity="center">
+
+        <shape
+            android:shape="rectangle">
+
+            <corners
+                android:radius="7dp"/>
+
+            <solid
+                android:color="#3038003C"/>
+
+        </shape>
+
+    </item>
+
+</layer-list>

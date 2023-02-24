@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 11:26 AM
+ * Last modified 2/24/23, 12:03 PM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -16,6 +16,9 @@ import android.content.Intent
 import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.WindowManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import co.geeksempire.floating.smart.panel.Floating.Adapter.FloatingAdapter
 import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCreator
 import co.geeksempire.floating.smart.panel.databinding.FloatingLayoutBinding
 
@@ -31,6 +34,10 @@ class FloatingPanelServices : Service() {
         getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     }
 
+    private val floatingAdapter: FloatingAdapter by lazy {
+        FloatingAdapter(layoutInflater)
+    }
+
     override fun onBind(intent: Intent?): IBinder? { return null }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -40,7 +47,14 @@ class FloatingPanelServices : Service() {
 
         val floatingLayoutBinding = FloatingLayoutBinding.inflate(layoutInflater)
 
-        windowManager.addView(floatingLayoutBinding.root, notificationsCreator.generateLayoutParameters(applicationContext, 100, 130, 333, 333))
+        windowManager.addView(floatingLayoutBinding.root, notificationsCreator.generateLayoutParameters(applicationContext, 73, 301, 333, 333))
+
+        val linearLayoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+        floatingLayoutBinding.floatingRecyclerView.layoutManager = linearLayoutManager
+
+        floatingLayoutBinding.floatingRecyclerView.adapter = floatingAdapter
+
+
 
         return START_STICKY
     }
