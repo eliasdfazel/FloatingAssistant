@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 10:48 AM
+ * Last modified 2/24/23, 11:26 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -23,6 +23,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import co.geeksempire.floating.smart.panel.R
+import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 
 
 class NotificationsCreator {
@@ -48,20 +49,20 @@ class NotificationsCreator {
 
     }
 
-    fun normalLayoutParams(context: Context, HW: Int, X: Int, Y: Int): WindowManager.LayoutParams {
+    fun generateLayoutParameters(context: Context, height: Int, width: Int, xPosition: Int, yPosition: Int): WindowManager.LayoutParams {
 
         val marginClear = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics).toInt()
 
         val layoutParams: WindowManager.LayoutParams = WindowManager.LayoutParams(
-            HW + marginClear,
-            HW + marginClear,
+            dpToInteger(context, width) + marginClear,
+            dpToInteger(context, height) + marginClear,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT
         )
         layoutParams.gravity = Gravity.TOP or Gravity.START
-        layoutParams.x = X
-        layoutParams.y = Y
+        layoutParams.x = xPosition
+        layoutParams.y = yPosition
         layoutParams.windowAnimations = android.R.style.Animation_Dialog
 
         return layoutParams

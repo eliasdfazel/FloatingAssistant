@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 10:52 AM
+ * Last modified 2/24/23, 11:26 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -40,7 +40,7 @@ class FloatingPanelServices : Service() {
 
         val floatingLayoutBinding = FloatingLayoutBinding.inflate(layoutInflater)
 
-        windowManager.addView(floatingLayoutBinding.root, notificationsCreator.normalLayoutParams(applicationContext, 100, 333, 333))
+        windowManager.addView(floatingLayoutBinding.root, notificationsCreator.generateLayoutParameters(applicationContext, 100, 130, 333, 333))
 
         return START_STICKY
     }
