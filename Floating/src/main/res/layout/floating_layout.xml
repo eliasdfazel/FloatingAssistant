@@ -3,7 +3,7 @@
   ~ Copyright © 2023 By Geeks Empire.
   ~
   ~ Created by Elias Fazel
-  ~ Last modified 2/24/23, 12:01 PM
+  ~ Last modified 2/25/23, 9:30 AM
   ~
   ~ Licensed Under MIT License.
   ~ https://opensource.org/licenses/MIT
@@ -13,13 +13,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:apps="http://schemas.android.com/apk/res-auto"
     android:layout_width="301dp"
-    android:layout_height="73dp"
+    android:layout_height="77dp"
     android:background="@color/transparent">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/floatingBackground"
         android:layout_width="301dp"
-        android:layout_height="73dp"
+        android:layout_height="77dp"
         android:tint="@color/primaryColorPurpleLight"
         android:src="@drawable/floating_panel_background"
 
@@ -29,9 +29,9 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/floatingHandheld"
         android:layout_width="19dp"
-        android:layout_height="73dp"
-        android:tint="@color/primaryColorPurpleLight"
-        android:src="@drawable/floating_handheld"
+        android:layout_height="77dp"
+        android:backgroundTint="@color/primaryColorPurpleLight"
+        android:background="@drawable/floating_handheld"
 
         apps:layout_constraintTop_toTopOf="parent"
         apps:layout_constraintStart_toStartOf="parent"/>

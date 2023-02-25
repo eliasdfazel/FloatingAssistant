@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 12:03 PM
+ * Last modified 2/25/23, 9:33 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -35,7 +35,7 @@ class FloatingPanelServices : Service() {
     }
 
     private val floatingAdapter: FloatingAdapter by lazy {
-        FloatingAdapter(layoutInflater)
+        FloatingAdapter(applicationContext, layoutInflater)
     }
 
     override fun onBind(intent: Intent?): IBinder? { return null }
