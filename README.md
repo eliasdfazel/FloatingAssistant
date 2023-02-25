@@ -1,1 +1,1 @@
-# Floating Assistant 🤖
+# Arwen; Floating AI Assistant
