@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/25/23, 9:33 AM
+ * Last modified 2/25/23, 9:43 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -37,6 +37,12 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
         Glide.with(context)
             .load(applicationsData[position].applicationIcon)
             .submit()
+
+        floatingViewHolder.rootViewItem.setOnClickListener {
+
+
+
+        }
 
     }
 
