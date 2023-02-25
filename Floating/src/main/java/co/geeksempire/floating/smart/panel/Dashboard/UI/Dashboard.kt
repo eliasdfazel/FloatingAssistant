@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 10:49 AM
+ * Last modified 2/25/23, 10:16 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -13,6 +13,7 @@ package co.geeksempire.floating.smart.panel.Dashboard.UI
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import co.geeksempire.floating.smart.panel.Dashboard.Extensions.setupUserInterface
+import co.geeksempire.floating.smart.panel.Preferences.UI.ColorsIO
 import co.geeksempire.floating.smart.panel.R
 import co.geeksempire.floating.smart.panel.Utils.Colors.Palettes
 import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCreator
@@ -27,6 +28,10 @@ class Dashboard : AppCompatActivity() {
 
     val systemSettings: SystemSettings by lazy {
         SystemSettings(applicationContext)
+    }
+
+    val colorsIO: ColorsIO by lazy {
+        ColorsIO(applicationContext)
     }
 
     val notificationsCreator = NotificationsCreator()
@@ -50,6 +55,8 @@ class Dashboard : AppCompatActivity() {
         super.onResume()
 
         setupUserInterface()
+
+        colorsIO.processWallpaperColors()
 
     }
 
