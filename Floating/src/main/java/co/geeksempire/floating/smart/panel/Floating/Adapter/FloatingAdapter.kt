@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/25/23, 9:43 AM
+ * Last modified 2/25/23, 10:29 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -11,6 +11,7 @@
 package co.geeksempire.floating.smart.panel.Floating.Adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -39,6 +40,7 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
             .submit()
 
         floatingViewHolder.rootViewItem.setOnClickListener {
+            Log.d(this@FloatingAdapter.javaClass.simpleName, applicationsData[position].applicationPackageName)
 
 
 

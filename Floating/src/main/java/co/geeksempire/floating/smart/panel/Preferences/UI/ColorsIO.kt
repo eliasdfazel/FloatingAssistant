@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/25/23, 10:16 AM
+ * Last modified 2/25/23, 10:27 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -12,6 +12,7 @@ package co.geeksempire.floating.smart.panel.Preferences.UI
 
 import android.app.WallpaperManager
 import android.content.Context
+import android.content.Intent
 import androidx.datastore.preferences.core.intPreferencesKey
 import co.geeksempire.floating.smart.panel.FloatingApplication
 import co.geeksempire.floating.smart.panel.R
@@ -24,6 +25,8 @@ import kotlinx.coroutines.flow.Flow
 class ColorsIO(private val context: Context) {
 
     object Type {
+        const val colorsChanged = "colorsChanged"
+
         const val dominantColor = "dominantColor"
         const val vibrantColor = "vibrantColor"
         const val mutedColor = "mutedColor"
@@ -31,11 +34,23 @@ class ColorsIO(private val context: Context) {
 
     private val preferencesIO = (context.applicationContext as FloatingApplication).preferencesIO
 
-    fun processWallpaperColors() {
+    fun processWallpaperColors() = CoroutineScope(Dispatchers.Main).async {
 
         val wallpaperColors = WallpaperManager.getInstance(context).getWallpaperColors(WallpaperManager.FLAG_SYSTEM)
 
         wallpaperColors?.let {
+
+            dominantColor().collect { currentDominantWallpaper ->
+
+                if (currentDominantWallpaper != wallpaperColors.primaryColor.toArgb()) {
+
+                    context.sendBroadcast(Intent(ColorsIO.Type.colorsChanged).putExtra(ColorsIO.Type.dominantColor, wallpaperColors.primaryColor.toArgb()))
+
+                }
+
+            }
+
+
 
             storeDominantColor(wallpaperColors.primaryColor.toArgb())
 
