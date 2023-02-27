@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 7:58 AM
+ * Last modified 2/27/23, 8:23 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -15,9 +15,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 object Database {
-        const val DatabaseName = "Arwen"
+        const val DatabaseName = "ARWEN"
 }
 
+/**
+ * @param Links: PackageName1-PackageName2
+ * @param TimeDay: 24hrs -> 1319 (No Symbol)
+ **/
 @Entity(tableName = Database.DatabaseName)
 data class DataStructure(
         @PrimaryKey var Index: Int,
