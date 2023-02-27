@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 8:26 AM
+ * Last modified 2/27/23, 8:28 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -18,10 +18,8 @@ interface DataAccessObject {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg arrayOfDataStructure: DataStructure)
 
-
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(vararg arrayOfDataStructure: DataStructure)
-
 
     @Delete
     suspend fun delete(dataStructure: DataStructure)
@@ -34,4 +32,5 @@ interface DataAccessObject {
 
     @Query("SELECT COUNT(Index) FROM ARWEN")
     suspend fun rowCount() : Int
+
 }
