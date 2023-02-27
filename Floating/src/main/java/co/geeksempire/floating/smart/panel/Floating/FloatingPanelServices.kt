@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/25/23, 10:29 AM
+ * Last modified 2/27/23, 11:08 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -60,6 +60,8 @@ class FloatingPanelServices : Service() {
 
         floatingLayoutBinding.floatingRecyclerView.adapter = floatingAdapter
 
+
+        // if final list empty then show random apps from most used apps
 
 
         return START_STICKY
