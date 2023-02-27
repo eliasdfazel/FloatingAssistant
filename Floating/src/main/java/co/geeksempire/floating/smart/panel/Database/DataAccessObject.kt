@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 8:28 AM
+ * Last modified 2/27/23, 9:52 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -16,19 +16,19 @@ import androidx.room.*
 interface DataAccessObject {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(vararg arrayOfDataStructure: DataStructure)
+    suspend fun insert(vararg arrayOfArwenDataStructure: ArwenDataStructure)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(vararg arrayOfDataStructure: DataStructure)
+    suspend fun update(vararg arrayOfArwenDataStructure: ArwenDataStructure)
 
     @Delete
-    suspend fun delete(dataStructure: DataStructure)
+    suspend fun delete(arwenDataStructure: ArwenDataStructure)
 
     @Query("SELECT * FROM ARWEN ORDER BY Counter DESC")
-    suspend fun allLinks() : List<DataStructure>
+    suspend fun allLinks() : List<ArwenDataStructure>
 
     @Query("SELECT * FROM ARWEN WHERE Links IN (:PackageName) ORDER BY Counter DESC")
-    suspend fun queryRelatedLinks(PackageName: String) : List<DataStructure>
+    suspend fun queryRelatedLinks(PackageName: String) : List<ArwenDataStructure>
 
     @Query("SELECT COUNT(Index) FROM ARWEN")
     suspend fun rowCount() : Int

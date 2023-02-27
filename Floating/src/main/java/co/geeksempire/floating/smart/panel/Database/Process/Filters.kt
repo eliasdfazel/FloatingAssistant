@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 9:49 AM
+ * Last modified 2/27/23, 9:52 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -10,19 +10,19 @@
 
 package co.geeksempire.floating.smart.panel.Database.Process
 
-import co.geeksempire.floating.smart.panel.Database.DataStructure
+import co.geeksempire.floating.smart.panel.Database.ArwenDataStructure
 import java.util.*
 import kotlin.math.abs
 
 class Filters {
 
-    fun identifyNearestTime(input: ArrayList<DataStructure>) : List<DataStructure> {
+    fun identifyNearestTime(input: ArrayList<ArwenDataStructure>) : List<ArwenDataStructure> {
 
         val calendar = Calendar.getInstance()
 
         val currentTime = "${calendar.get(Calendar.HOUR_OF_DAY)}${calendar.get(Calendar.MINUTE)}".toInt()
 
-        val inputMap = HashMap<DataStructure, Int>()
+        val inputMap = HashMap<ArwenDataStructure, Int>()
 
         input.forEach {
 
@@ -30,7 +30,7 @@ class Filters {
 
         }
 
-        val nearElements = ArrayList<DataStructure>()
+        val nearElements = ArrayList<ArwenDataStructure>()
 
         val sortHashMap = inputMap.entries.sortedBy {
 

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 9:25 AM
+ * Last modified 2/27/23, 9:52 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -23,7 +23,7 @@ object Database {
  * @param TimeDay: 24hrs -> 1319 (No Symbol)
  **/
 @Entity(tableName = Database.DatabaseName)
-data class DataStructure(
+data class ArwenDataStructure(
         @PrimaryKey var Id: Int,
 
         @ColumnInfo(name = "Links") var Links: String,
