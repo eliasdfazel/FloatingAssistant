@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 11:04 AM
+ * Last modified 2/27/23, 11:09 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -31,6 +31,9 @@ class Filters {
         }
     }
 
+    /**
+     * @param inputDataSet Data Set After Being Prioritize
+     **/
     fun identifyNearestTime(inputDataSet: ArrayList<ArwenDataStructure>) : Deferred<List<ArwenDataStructure>> = CoroutineScope(Dispatchers.IO).async {
 
         val calendar = Calendar.getInstance()
