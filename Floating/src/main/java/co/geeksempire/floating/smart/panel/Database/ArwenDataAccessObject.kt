@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 9:56 AM
+ * Last modified 2/27/23, 10:31 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -30,7 +30,7 @@ interface ArwenDataAccessObject {
     @Query("SELECT * FROM ARWEN WHERE Links IN (:PackageName) ORDER BY Counter DESC")
     suspend fun queryRelatedLinks(PackageName: String) : List<ArwenDataStructure>
 
-    @Query("SELECT COUNT(Index) FROM ARWEN")
+    @Query("SELECT COUNT(Id) FROM ARWEN")
     suspend fun rowCount() : Int
 
 }

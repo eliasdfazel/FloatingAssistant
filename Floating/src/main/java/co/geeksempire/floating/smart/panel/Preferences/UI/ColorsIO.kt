@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/25/23, 10:27 AM
+ * Last modified 2/27/23, 10:51 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -14,7 +14,7 @@ import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
 import androidx.datastore.preferences.core.intPreferencesKey
-import co.geeksempire.floating.smart.panel.FloatingApplication
+import co.geeksempire.floating.smart.panel.Preferences.PreferencesIO
 import co.geeksempire.floating.smart.panel.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +32,8 @@ class ColorsIO(private val context: Context) {
         const val mutedColor = "mutedColor"
     }
 
-    private val preferencesIO = (context.applicationContext as FloatingApplication).preferencesIO
+    private val preferencesIO = PreferencesIO(context)
+
 
     fun processWallpaperColors() = CoroutineScope(Dispatchers.Main).async {
 
@@ -62,19 +63,19 @@ class ColorsIO(private val context: Context) {
 
     }
 
-    fun storeDominantColor(inputValue: Int) = CoroutineScope(Dispatchers.IO + SupervisorJob()).async {
+    fun storeDominantColor(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).async {
 
         preferencesIO.savePreferences(intPreferencesKey(ColorsIO.Type.dominantColor), inputValue)
 
     }
 
-    fun storeVibrantColor(inputValue: Int) = CoroutineScope(Dispatchers.IO + SupervisorJob()).async {
+    fun storeVibrantColor(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).async {
 
         preferencesIO.savePreferences(intPreferencesKey(ColorsIO.Type.vibrantColor), inputValue)
 
     }
 
-    fun storeMutedColor(inputValue: Int) = CoroutineScope(Dispatchers.IO + SupervisorJob()).async {
+    fun storeMutedColor(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).async {
 
         preferencesIO.savePreferences(intPreferencesKey(ColorsIO.Type.mutedColor), inputValue)
 

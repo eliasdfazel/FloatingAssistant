@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/25/23, 9:53 AM
+ * Last modified 2/27/23, 10:42 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -11,19 +11,23 @@
 package co.geeksempire.floating.smart.panel
 
 import android.app.Application
+import android.content.Context
 import android.os.Bundle
-import co.geeksempire.floating.smart.panel.Preferences.PreferencesIO
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Preferences", scope = CoroutineScope(SupervisorJob() + Dispatchers.IO))
 
 class FloatingApplication : Application() {
 
     val firebaseAnalytics: FirebaseAnalytics by lazy {
         FirebaseAnalytics.getInstance(applicationContext)
-    }
-
-    val preferencesIO: PreferencesIO by lazy {
-        PreferencesIO(context = applicationContext)
     }
 
     override fun onCreate() {

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/25/23, 10:04 AM
+ * Last modified 2/27/23, 10:51 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -11,21 +11,13 @@
 package co.geeksempire.floating.smart.panel.Preferences
 
 import android.content.Context
-import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import co.geeksempire.floating.smart.panel.dataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class PreferencesIO (private val context: Context,
-                     private val preferenceDatabaseName: String = "Preferences",
-                     private val coroutineScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)) {
-
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = preferenceDatabaseName, scope = coroutineScope)
+class PreferencesIO (private val context: Context) {
 
     suspend fun savePreferences(preferenceKey: Preferences.Key<String>, inputValue: String) {
 
