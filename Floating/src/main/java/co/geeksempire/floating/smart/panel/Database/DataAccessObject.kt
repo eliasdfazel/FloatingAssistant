@@ -34,5 +34,5 @@ interface DataAccessObject {
     suspend fun queryRelatedLinks(PackageName: String) : List<DataStructure>
 
     @Query("SELECT COUNT(Index) FROM ARWEN")
-    suspend fun getRowCount() : Int
+    suspend fun rowCount() : Int
 }
