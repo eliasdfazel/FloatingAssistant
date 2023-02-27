@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 10:54 AM
+ * Last modified 2/27/23, 10:56 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -41,7 +41,7 @@ class InteractionsObserver : AccessibilityService() {
                     val packageName = accessibilityEvent.packageName.toString()
                     val className = accessibilityEvent.className.toString()
 
-                    Log.d(this@InteractionsObserver.javaClass.simpleName, "Application: $packageName")
+                    Log.d(this@InteractionsObserver.javaClass.simpleName, "Application: $packageName | $className")
 
 
 

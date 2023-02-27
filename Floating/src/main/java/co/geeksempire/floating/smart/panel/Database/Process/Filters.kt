@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 9:55 AM
+ * Last modified 2/27/23, 11:04 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -20,7 +20,18 @@ import kotlin.math.abs
 
 class Filters {
 
-    fun identifyNearestTime(input: ArrayList<ArwenDataStructure>) : Deferred<List<ArwenDataStructure>> = CoroutineScope(Dispatchers.IO).async {
+    /**
+     * @param priorElement Current Clicked Element
+     **/
+    fun filterPriority(inputDataSet: ArrayList<ArwenDataStructure>, priorElement: String) : Deferred<List<ArwenDataStructure>> = CoroutineScope(Dispatchers.IO).async {
+
+        inputDataSet.filter {
+
+            (it.Links.split("-").first().contains(priorElement))
+        }
+    }
+
+    fun identifyNearestTime(inputDataSet: ArrayList<ArwenDataStructure>) : Deferred<List<ArwenDataStructure>> = CoroutineScope(Dispatchers.IO).async {
 
         val calendar = Calendar.getInstance()
 
@@ -28,7 +39,7 @@ class Filters {
 
         val inputMap = HashMap<ArwenDataStructure, Int>()
 
-        input.forEach {
+        inputDataSet.forEach {
 
             inputMap[it] = abs(it.TimeDay - currentTime)
 
