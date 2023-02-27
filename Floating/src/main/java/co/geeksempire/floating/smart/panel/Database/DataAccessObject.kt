@@ -26,7 +26,6 @@ interface DataAccessObject {
     @Delete
     suspend fun delete(dataStructure: DataStructure)
 
-
     @Query("SELECT * FROM ARWEN ORDER BY Counter DESC")
     suspend fun allLinks() : List<DataStructure>
 
