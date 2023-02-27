@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 10:51 AM
+ * Last modified 2/27/23, 10:54 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -46,8 +46,7 @@ class InteractionsObserver : AccessibilityService() {
 
 
 
-
-
+                    // perform database process
 
 
 
