@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/1/23, 10:12 AM
+ * Last modified 3/1/23, 10:51 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -24,6 +24,7 @@ import android.view.animation.AnimationUtils
 import co.geeksempire.floating.smart.panel.Dashboard.UI.Dashboard
 import co.geeksempire.floating.smart.panel.Floating.FloatingPanelServices
 import co.geeksempire.floating.smart.panel.R
+import co.geeksempire.floating.smart.panel.Utils.Animations.alphaAnimation
 import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchController
 import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchInterface
 import com.bumptech.glide.Glide
@@ -182,10 +183,16 @@ fun Dashboard.setupUserInterface() {
 
     /* Start - Launch Button */
     if (systemSettings.accessibilityServiceEnabled()
-        && systemSettings.floatingPermissionEnabled()) {
+        && systemSettings.floatingPermissionEnabled()
+        && systemSettings.usageAccessEnabled()) {
 
         dashboardLayoutBinding.launchButtonBackground.visibility = View.VISIBLE
         dashboardLayoutBinding.launchButtonBackground.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
+
+        dashboardLayoutBinding.launchButtonBlurry.visibility = View.VISIBLE
+        dashboardLayoutBinding.launchButtonBlurry.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
+
+        alphaAnimation(dashboardLayoutBinding.launchButtonBlurry)
 
         dashboardLayoutBinding.launchButton.visibility = View.VISIBLE
         dashboardLayoutBinding.launchButton.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))

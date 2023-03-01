@@ -3,7 +3,7 @@
   ~ Copyright © 2023 By Geeks Empire.
   ~
   ~ Created by Elias Fazel
-  ~ Last modified 2/24/23, 11:20 AM
+  ~ Last modified 3/1/23, 10:41 AM
   ~
   ~ Licensed Under MIT License.
   ~ https://opensource.org/licenses/MIT
@@ -40,6 +40,7 @@
         apps:layout_constraintStart_toStartOf="parent"/>
     <!-- End - Decoration -->
 
+    <!-- Start - Content -->
     <co.geeksempire.floating.smart.panel.Utils.Views.Scrolls.NextedScrollView
         android:id="@+id/nextedScrollView"
         android:layout_width="match_parent"
@@ -78,7 +79,21 @@
                 android:layout_marginTop="19dp"
 
                 apps:layout_constraintTop_toBottomOf="@id/floatingPermission"/>
-            
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/launchButtonBlurry"
+                android:layout_width="333dp"
+                android:layout_height="353dp"
+                android:layout_marginTop="19dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/launch_blurry"
+                android:visibility="gone"
+
+                apps:layout_constraintTop_toBottomOf="@id/usageAccess"
+                apps:layout_constraintBottom_toBottomOf="parent"
+                apps:layout_constraintStart_toStartOf="parent"
+                apps:layout_constraintEnd_toEndOf="parent"/>
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/launchButtonBackground"
                 android:layout_width="333dp"
@@ -112,6 +127,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </co.geeksempire.floating.smart.panel.Utils.Views.Scrolls.NextedScrollView>
+    <!-- end - Content -->
 
     <!-- Start - Profile -->
     <net.geekstools.imageview.customshapes.ShapesImage
