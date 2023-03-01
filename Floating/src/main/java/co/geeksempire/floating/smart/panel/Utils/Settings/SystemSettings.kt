@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 7:27 AM
+ * Last modified 3/1/23, 7:19 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -65,4 +65,9 @@ class SystemSettings (private val context: Context) {
         return mode == AppOpsManager.MODE_ALLOWED
     }
 
+}
+
+fun returnApi() : Int {
+
+    return Build.VERSION.SDK_INT
 }
