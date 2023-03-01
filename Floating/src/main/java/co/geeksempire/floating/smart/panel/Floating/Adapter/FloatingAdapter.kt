@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/25/23, 10:29 AM
+ * Last modified 3/1/23, 10:12 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -23,12 +23,12 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
 
     val applicationsData = ArrayList<FloatingDataStructure>()
 
-    override fun getItemCount(): Int {
+    override fun getItemCount() : Int {
 
         return applicationsData.size
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): FloatingViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int) : FloatingViewHolder {
 
         return FloatingViewHolder(FloatingItemBinding.inflate(layoutInflater, viewGroup, false))
     }

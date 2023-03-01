@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 11:26 AM
+ * Last modified 3/1/23, 10:12 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -49,7 +49,7 @@ class NotificationsCreator {
 
     }
 
-    fun generateLayoutParameters(context: Context, height: Int, width: Int, xPosition: Int, yPosition: Int): WindowManager.LayoutParams {
+    fun generateLayoutParameters(context: Context, height: Int, width: Int, xPosition: Int, yPosition: Int) : WindowManager.LayoutParams {
 
         val marginClear = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics).toInt()
 

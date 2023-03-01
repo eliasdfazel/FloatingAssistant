@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 4:59 AM
+ * Last modified 3/1/23, 10:12 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -22,7 +22,7 @@ import co.geeksempire.floating.smart.panel.Utils.Operations.drawableToBitmap
 
 class Palettes(private val context: Context) {
 
-    fun extractVibrantColor(drawable: Drawable?): Int {
+    fun extractVibrantColor(drawable: Drawable?) : Int {
 
         var vibrantColor = context.getColor(R.color.default_color)
 
@@ -74,7 +74,7 @@ class Palettes(private val context: Context) {
         return vibrantColor
     }
 
-    fun extractDominantColor(drawable: Drawable?): Int {
+    fun extractDominantColor(drawable: Drawable?) : Int {
 
         var dominantColor = context.getColor(R.color.primaryColorPurpleLight)
 

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/20/23, 6:58 AM
+ * Last modified 3/1/23, 10:12 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -65,12 +65,12 @@ fun pixelToFloat(context: Context, pixel: Float) : Float {
     return dpToFloat(context, pixelToDp(context, pixel))
 }
 
-fun dpToFloat(context: Context, dp: Float): Float {
+fun dpToFloat(context: Context, dp: Float) : Float {
 
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), context.resources.displayMetrics)
 }
 
-fun dpToInteger(context: Context, dp: Int): Int {
+fun dpToInteger(context: Context, dp: Int) : Int {
 
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), context.resources.displayMetrics).toInt()
 }
@@ -123,7 +123,7 @@ fun displayDiagonal(context: Context) : Double {
     return sqrt((displayX(context).toDouble().pow(2.0)) + (displayY(context).toDouble().pow(2.0)))
 }
 
-fun statusBarHeight(context: Context): Int {
+fun statusBarHeight(context: Context) : Int {
 
     var statusBarHeight = 0
 

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/24/23, 4:53 AM
+ * Last modified 3/1/23, 10:12 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -17,7 +17,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.VectorDrawable
 
-fun drawableToBitmap(drawable: Drawable): Bitmap? {
+fun drawableToBitmap(drawable: Drawable) : Bitmap? {
     var bitmap: Bitmap? = null
     if (drawable is VectorDrawable) {
         val vectorDrawable = drawable

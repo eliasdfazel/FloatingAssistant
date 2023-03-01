@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 11:08 AM
+ * Last modified 3/1/23, 10:10 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -42,9 +42,9 @@ class FloatingPanelServices : Service() {
         FloatingAdapter(applicationContext, layoutInflater)
     }
 
-    override fun onBind(intent: Intent?): IBinder? { return null }
+    override fun onBind(intent: Intent?) : IBinder? { return null }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int) : Int {
         super.onStartCommand(intent, flags, startId)
 
         val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager

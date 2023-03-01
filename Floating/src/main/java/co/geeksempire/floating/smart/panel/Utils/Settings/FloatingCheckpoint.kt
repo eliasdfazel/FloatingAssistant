@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/1/23, 7:19 AM
+ * Last modified 3/1/23, 10:12 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -24,7 +24,7 @@ class FloatingCheckpoint {
         const val FREEFORM_WORKSPACE_STACK_ID = 2
     }
 
-    fun freeFormSupport(context: Context): Boolean {
+    fun freeFormSupport(context: Context) : Boolean {
         return context.packageManager.hasSystemFeature(PackageManager.FEATURE_FREEFORM_WINDOW_MANAGEMENT) ||
                 Settings.Global.getInt(
                     context.contentResolver,
@@ -37,11 +37,11 @@ class FloatingCheckpoint {
         ) != 0
     }
 
-    fun getWindowingModeMethodName(): String? {
+    fun getWindowingModeMethodName() : String? {
         return if (returnApi() >= 28) "setLaunchWindowingMode" else "setLaunchStackId"
     }
 
-    private fun getFreeformWindowModeId(): Int {
+    private fun getFreeformWindowModeId() : Int {
         return if (returnApi() >= 28) {
             WindowMode.WINDOWING_MODE_FREEFORM
         } else {

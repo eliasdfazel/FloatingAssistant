@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 9:56 AM
+ * Last modified 3/1/23, 10:12 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -15,6 +15,6 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [ArwenDataStructure::class], version = 1000, exportSchema = false)
 abstract class ArwenDataInterface : RoomDatabase() {
-    abstract fun initializeDataAccessObject(): ArwenDataAccessObject
+    abstract fun initializeDataAccessObject() : ArwenDataAccessObject
 
 }
