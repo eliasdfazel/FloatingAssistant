@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 7:48 AM
+ * Last modified 3/3/23, 8:06 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -17,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 
 class FloatingIO (private val context: Context) {
 
@@ -40,6 +41,16 @@ class FloatingIO (private val context: Context) {
 
         preferencesIO.savePreferences(intPreferencesKey(FloatingIO.FloatingSide.FloatingSideY), inputValue)
 
+    }
+
+    fun positionX() : Flow<Int> {
+
+        return preferencesIO.readPreferencesInt(intPreferencesKey(FloatingIO.FloatingSide.FloatingSideX), 37)
+    }
+
+    fun positionY() : Flow<Int> {
+
+        return preferencesIO.readPreferencesInt(intPreferencesKey(FloatingIO.FloatingSide.FloatingSideY), 37)
     }
 
 }

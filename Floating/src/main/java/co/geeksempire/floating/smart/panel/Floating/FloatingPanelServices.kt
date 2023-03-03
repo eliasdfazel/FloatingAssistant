@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 7:49 AM
+ * Last modified 3/3/23, 8:08 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -18,6 +18,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.ColorStateList
 import android.os.IBinder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -32,6 +33,10 @@ import co.geeksempire.floating.smart.panel.Utils.Display.displayX
 import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCreator
 import co.geeksempire.floating.smart.panel.databinding.FloatingLayoutBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class FloatingPanelServices : Service() {
 
@@ -71,118 +76,125 @@ class FloatingPanelServices : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int) : Int {
         super.onStartCommand(intent, flags, startId)
 
-        val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        CoroutineScope(Dispatchers.Main).launch {
 
-        val floatingLayoutBinding = FloatingLayoutBinding.inflate(layoutInflater)
+            val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
-        layoutParameters = generateLayoutParameters(applicationContext, 73, 301, 333, 333)
+            val floatingLayoutBinding = FloatingLayoutBinding.inflate(layoutInflater)
 
-        windowManager.addView(floatingLayoutBinding.root, layoutParameters)
+            val xPosition: Int = floatingIO.positionX().first()
+            val yPosition: Int = floatingIO.positionY().first()
+            Log.d(this@FloatingPanelServices.javaClass.simpleName, "X -> $xPosition : Y  -> $yPosition")
 
-        registerFloatingBroadcasts(floatingLayoutBinding)
+            layoutParameters = generateLayoutParameters(applicationContext, 73, 301, xPosition, yPosition)
 
-        val linearLayoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-        floatingLayoutBinding.floatingRecyclerView.layoutManager = linearLayoutManager
+            windowManager.addView(floatingLayoutBinding.root, layoutParameters)
 
-        floatingLayoutBinding.floatingRecyclerView.adapter = floatingAdapter
+            registerFloatingBroadcasts(floatingLayoutBinding)
 
-        // if final list empty then show random apps from most used apps
+            val linearLayoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+            floatingLayoutBinding.floatingRecyclerView.layoutManager = linearLayoutManager
 
-        floatingLayoutBinding.floatingHandheld.setOnClickListener { }
-        floatingLayoutBinding.floatingHandheld.setOnTouchListener(object : View.OnTouchListener {
+            floatingLayoutBinding.floatingRecyclerView.adapter = floatingAdapter
 
-            var initialX: Int = 0
-            var initialY: Int = 0
+            // if final list empty then show random apps from most used apps
 
-            var initialTouchX: Float = 0f
-            var initialTouchY: Float = 0f
+            floatingLayoutBinding.floatingHandheld.setOnClickListener { }
+            floatingLayoutBinding.floatingHandheld.setOnTouchListener(object : View.OnTouchListener {
 
-            override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+                var initialX: Int = 0
+                var initialY: Int = 0
 
-                when (motionEvent.action) {
-                    MotionEvent.ACTION_DOWN -> {
+                var initialTouchX: Float = 0f
+                var initialTouchY: Float = 0f
 
-                        initialX = layoutParameters.x
-                        initialY = layoutParameters.y
+                override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
 
-                        initialTouchX = motionEvent.rawX
-                        initialTouchY = motionEvent.rawY
+                    when (motionEvent.action) {
+                        MotionEvent.ACTION_DOWN -> {
 
-                        alphaAnimation(floatingLayoutBinding.floatingHandheldGlow, initialDuration = 777, repeatCounter = 3)
+                            initialX = layoutParameters.x
+                            initialY = layoutParameters.y
 
-                    }
-                    MotionEvent.ACTION_UP -> {
+                            initialTouchX = motionEvent.rawX
+                            initialTouchY = motionEvent.rawY
 
-                        val moveX = initialX + ((motionEvent.rawX - initialTouchX)).toInt()
-                        val moveY = initialY + ((motionEvent.rawY - initialTouchY)).toInt()
+                            alphaAnimation(floatingLayoutBinding.floatingHandheldGlow, initialDuration = 777, repeatCounter = 3)
 
-                        when (sideLeftRight) {
-                            FloatingIO.FloatingSide.LeftSide -> {
-
-                                if (moveX > safeAreaLeft) {
-
-                                    layoutParameters.x = moveX
-                                    layoutParameters.y = moveY
-
-                                    floatingIO.storePositionX(layoutParameters.x)
-                                    floatingIO.storePositionY(layoutParameters.y)
-
-                                }
-
-                            }
-                            FloatingIO.FloatingSide.RightSide -> {
-
-                                if (moveX < safeAreaRight) {
-
-                                    layoutParameters.x = moveX
-                                    layoutParameters.y = moveY
-
-                                    floatingIO.storePositionX(layoutParameters.x)
-                                    floatingIO.storePositionY(layoutParameters.y)
-
-                                }
-
-                            }
                         }
+                        MotionEvent.ACTION_UP -> {
 
+                            val moveX = initialX + ((motionEvent.rawX - initialTouchX)).toInt()
+                            val moveY = initialY + ((motionEvent.rawY - initialTouchY)).toInt()
 
-                    }
-                    MotionEvent.ACTION_MOVE -> {
+                            when (sideLeftRight) {
+                                FloatingIO.FloatingSide.LeftSide -> {
 
-                        val moveX = initialX + ((motionEvent.rawX - initialTouchX)).toInt()
-                        val moveY = initialY + ((motionEvent.rawY - initialTouchY)).toInt()
+                                    if (moveX > safeAreaLeft) {
 
-                        when (sideLeftRight) {
-                            FloatingIO.FloatingSide.LeftSide -> {
+                                        layoutParameters.x = moveX
+                                        layoutParameters.y = moveY
 
+                                        floatingIO.storePositionX(layoutParameters.x)
+                                        floatingIO.storePositionY(layoutParameters.y)
 
-
-                            }
-                            FloatingIO.FloatingSide.RightSide -> {
-
-                                if (moveX < safeAreaRight) {
-
-                                    layoutParameters.x = moveX
-                                    layoutParameters.y = moveY
-
-                                    try {
-
-                                        windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
-
-                                    } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
+                                    }
 
                                 }
+                                FloatingIO.FloatingSide.RightSide -> {
 
+                                    if (moveX < safeAreaRight) {
+
+                                        layoutParameters.x = moveX
+                                        layoutParameters.y = moveY
+
+                                        floatingIO.storePositionX(layoutParameters.x)
+                                        floatingIO.storePositionY(layoutParameters.y)
+
+                                    }
+
+                                }
                             }
-                        }
 
+
+                        }
+                        MotionEvent.ACTION_MOVE -> {
+
+                            val moveX = initialX + ((motionEvent.rawX - initialTouchX)).toInt()
+                            val moveY = initialY + ((motionEvent.rawY - initialTouchY)).toInt()
+
+                            when (sideLeftRight) {
+                                FloatingIO.FloatingSide.LeftSide -> {
+
+
+
+                                }
+                                FloatingIO.FloatingSide.RightSide -> {
+
+                                    if (moveX < safeAreaRight) {
+
+                                        layoutParameters.x = moveX
+                                        layoutParameters.y = moveY
+
+                                        try {
+
+                                            windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
+
+                                        } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
+
+                                    }
+
+                                }
+                            }
+
+                        }
                     }
+
+                    return false
                 }
+            })
 
-                return false
-            }
-        })
-
+        }
 
         return START_STICKY
     }
