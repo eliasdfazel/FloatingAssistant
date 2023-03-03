@@ -3,7 +3,7 @@
   ~ Copyright © 2023 By Geeks Empire.
   ~
   ~ Created by Elias Fazel
-  ~ Last modified 2/24/23, 10:22 AM
+  ~ Last modified 3/3/23, 9:01 AM
   ~
   ~ Licensed Under MIT License.
   ~ https://opensource.org/licenses/MIT
@@ -69,6 +69,7 @@
             android:screenOrientation="sensorPortrait"
             android:noHistory="true"
             android:exported="true"
+            android:label="@string/applicationName"
             android:theme="@style/GeeksEmpire.Material">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -83,9 +84,11 @@
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:noHistory="false"
             android:exported="true"
+            android:label="@string/applicationName"
             android:theme="@style/GeeksEmpire.Material" />
 
         <service
+            android:label="@string/applicationName"
             android:name=".Interactions.InteractionsObserver"
             android:exported="false"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
@@ -99,6 +102,7 @@
         </service>
 
         <service
+            android:label="@string/applicationName"
             android:name=".Floating.FloatingPanelServices"
             android:foregroundServiceType="dataSync"/>
     </application>

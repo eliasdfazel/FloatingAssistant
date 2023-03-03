@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 8:09 AM
+ * Last modified 3/3/23, 8:54 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -25,6 +25,8 @@ import android.view.View
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import co.geeksempire.floating.smart.panel.Database.Database
+import co.geeksempire.floating.smart.panel.Database.Process.InitialDataSet
 import co.geeksempire.floating.smart.panel.Floating.Adapter.FloatingAdapter
 import co.geeksempire.floating.smart.panel.Preferences.Floating.FloatingIO
 import co.geeksempire.floating.smart.panel.Preferences.UI.ColorsIO
@@ -194,6 +196,8 @@ class FloatingPanelServices : Service() {
 
             // if final list empty then show random apps from most used apps
 
+            prepareInitialData()
+
         }
 
         return START_STICKY
@@ -237,6 +241,22 @@ class FloatingPanelServices : Service() {
 
         }
         registerReceiver(broadcastReceiver, intentFilter)
+
+    }
+
+    private fun prepareInitialData() {
+
+        if (getDatabasePath(Database.DatabaseName).exists()) {
+
+
+
+        } else {
+
+            floatingAdapter.applicationsData.clear()
+            floatingAdapter.applicationsData.addAll(InitialDataSet(applicationContext).generate())
+
+            floatingAdapter.notifyDataSetChanged()
+        }
 
     }
 
