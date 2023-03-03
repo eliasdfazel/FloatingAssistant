@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/1/23, 10:10 AM
+ * Last modified 3/3/23, 7:49 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -10,6 +10,7 @@
 
 package co.geeksempire.floating.smart.panel.Floating
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -18,11 +19,17 @@ import android.content.IntentFilter
 import android.content.res.ColorStateList
 import android.os.IBinder
 import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.geeksempire.floating.smart.panel.Floating.Adapter.FloatingAdapter
+import co.geeksempire.floating.smart.panel.Preferences.Floating.FloatingIO
 import co.geeksempire.floating.smart.panel.Preferences.UI.ColorsIO
+import co.geeksempire.floating.smart.panel.Utils.Animations.alphaAnimation
+import co.geeksempire.floating.smart.panel.Utils.Display.displayX
+import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCreator
 import co.geeksempire.floating.smart.panel.databinding.FloatingLayoutBinding
 
@@ -42,8 +49,25 @@ class FloatingPanelServices : Service() {
         FloatingAdapter(applicationContext, layoutInflater)
     }
 
+    private var layoutParameters = WindowManager.LayoutParams()
+
+    private val floatingIO: FloatingIO by lazy {
+        FloatingIO(applicationContext)
+    }
+
+    val safeAreaRight: Int by lazy {
+        displayX(applicationContext) - dpToInteger(applicationContext, 19)
+    }
+
+    val safeAreaLeft: Int by lazy {
+        dpToInteger(applicationContext, 19)
+    }
+
+    val sideLeftRight = FloatingIO.FloatingSide.RightSide
+
     override fun onBind(intent: Intent?) : IBinder? { return null }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int) : Int {
         super.onStartCommand(intent, flags, startId)
 
@@ -51,7 +75,9 @@ class FloatingPanelServices : Service() {
 
         val floatingLayoutBinding = FloatingLayoutBinding.inflate(layoutInflater)
 
-        windowManager.addView(floatingLayoutBinding.root, notificationsCreator.generateLayoutParameters(applicationContext, 73, 301, 333, 333))
+        layoutParameters = generateLayoutParameters(applicationContext, 73, 301, 333, 333)
+
+        windowManager.addView(floatingLayoutBinding.root, layoutParameters)
 
         registerFloatingBroadcasts(floatingLayoutBinding)
 
@@ -60,8 +86,102 @@ class FloatingPanelServices : Service() {
 
         floatingLayoutBinding.floatingRecyclerView.adapter = floatingAdapter
 
-
         // if final list empty then show random apps from most used apps
+
+        floatingLayoutBinding.floatingHandheld.setOnClickListener { }
+        floatingLayoutBinding.floatingHandheld.setOnTouchListener(object : View.OnTouchListener {
+
+            var initialX: Int = 0
+            var initialY: Int = 0
+
+            var initialTouchX: Float = 0f
+            var initialTouchY: Float = 0f
+
+            override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+
+                when (motionEvent.action) {
+                    MotionEvent.ACTION_DOWN -> {
+
+                        initialX = layoutParameters.x
+                        initialY = layoutParameters.y
+
+                        initialTouchX = motionEvent.rawX
+                        initialTouchY = motionEvent.rawY
+
+                        alphaAnimation(floatingLayoutBinding.floatingHandheldGlow, initialDuration = 777, repeatCounter = 3)
+
+                    }
+                    MotionEvent.ACTION_UP -> {
+
+                        val moveX = initialX + ((motionEvent.rawX - initialTouchX)).toInt()
+                        val moveY = initialY + ((motionEvent.rawY - initialTouchY)).toInt()
+
+                        when (sideLeftRight) {
+                            FloatingIO.FloatingSide.LeftSide -> {
+
+                                if (moveX > safeAreaLeft) {
+
+                                    layoutParameters.x = moveX
+                                    layoutParameters.y = moveY
+
+                                    floatingIO.storePositionX(layoutParameters.x)
+                                    floatingIO.storePositionY(layoutParameters.y)
+
+                                }
+
+                            }
+                            FloatingIO.FloatingSide.RightSide -> {
+
+                                if (moveX < safeAreaRight) {
+
+                                    layoutParameters.x = moveX
+                                    layoutParameters.y = moveY
+
+                                    floatingIO.storePositionX(layoutParameters.x)
+                                    floatingIO.storePositionY(layoutParameters.y)
+
+                                }
+
+                            }
+                        }
+
+
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+
+                        val moveX = initialX + ((motionEvent.rawX - initialTouchX)).toInt()
+                        val moveY = initialY + ((motionEvent.rawY - initialTouchY)).toInt()
+
+                        when (sideLeftRight) {
+                            FloatingIO.FloatingSide.LeftSide -> {
+
+
+
+                            }
+                            FloatingIO.FloatingSide.RightSide -> {
+
+                                if (moveX < safeAreaRight) {
+
+                                    layoutParameters.x = moveX
+                                    layoutParameters.y = moveY
+
+                                    try {
+
+                                        windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
+
+                                    } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
+
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+
+                return false
+            }
+        })
 
 
         return START_STICKY

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/1/23, 10:12 AM
+ * Last modified 3/3/23, 7:49 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -14,16 +14,11 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.graphics.PixelFormat
 import android.media.MediaPlayer
 import android.os.*
-import android.util.TypedValue
-import android.view.Gravity
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import co.geeksempire.floating.smart.panel.R
-import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 
 
 class NotificationsCreator {
@@ -47,25 +42,6 @@ class NotificationsCreator {
 
         return notificationBuilder.build()
 
-    }
-
-    fun generateLayoutParameters(context: Context, height: Int, width: Int, xPosition: Int, yPosition: Int) : WindowManager.LayoutParams {
-
-        val marginClear = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics).toInt()
-
-        val layoutParams: WindowManager.LayoutParams = WindowManager.LayoutParams(
-            dpToInteger(context, width) + marginClear,
-            dpToInteger(context, height) + marginClear,
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.TRANSLUCENT
-        )
-        layoutParams.gravity = Gravity.TOP or Gravity.START
-        layoutParams.x = xPosition
-        layoutParams.y = yPosition
-        layoutParams.windowAnimations = android.R.style.Animation_Dialog
-
-        return layoutParams
     }
 
     fun playNotificationSound(activity: AppCompatActivity, soundId: Int) {

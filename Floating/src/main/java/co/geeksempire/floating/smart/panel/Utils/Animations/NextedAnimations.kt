@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/1/23, 10:51 AM
+ * Last modified 3/3/23, 7:40 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -16,17 +16,18 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 
 fun alphaAnimation(view: View,
-                   duration: Long = 999,
+                   initialDuration: Long = 999,
                    repeatDelay: Long = 777,
                    repeatCounter: Int = Animation.INFINITE,
-                   repeatMode: Int = Animation.REVERSE) {
+                   initialRepeatMode: Int = Animation.REVERSE) {
 
-    val alphaAnimation = AlphaAnimation(0.1f, 1f)
-    alphaAnimation.duration = duration
-    alphaAnimation.repeatCount = repeatCounter
-    alphaAnimation.repeatMode = repeatMode
-    alphaAnimation.startOffset = repeatDelay
-    alphaAnimation.interpolator = AccelerateDecelerateInterpolator()
+    val alphaAnimation = AlphaAnimation(0.1f, 1f).apply {
+        duration = initialDuration
+        startOffset = repeatDelay
+        repeatCount = repeatCounter
+        repeatMode = initialRepeatMode
+        interpolator = AccelerateDecelerateInterpolator()
+    }
     view.startAnimation(alphaAnimation)
     alphaAnimation.start()
 

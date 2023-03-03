@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 6:32 AM
+ * Last modified 3/3/23, 6:59 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -22,6 +22,7 @@ import android.provider.Settings
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
+import co.geeksempire.floating.smart.panel.BuildConfig
 import co.geeksempire.floating.smart.panel.Dashboard.UI.Dashboard
 import co.geeksempire.floating.smart.panel.Floating.FloatingPanelServices
 import co.geeksempire.floating.smart.panel.R
@@ -222,6 +223,35 @@ fun Dashboard.setupUserInterface() {
             if (!FloatingPanelServices.Floating) {
 
                 startForegroundService(Intent(applicationContext, FloatingPanelServices::class.java))
+
+            }
+
+        }
+
+    }
+
+    if (BuildConfig.DEBUG) {
+
+        dashboardLayoutBinding.launchButtonBackground.visibility = View.VISIBLE
+        dashboardLayoutBinding.launchButtonBackground.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
+
+        dashboardLayoutBinding.launchButtonBlurry.visibility = View.VISIBLE
+        dashboardLayoutBinding.launchButtonBlurry.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
+
+        alphaAnimation(dashboardLayoutBinding.launchButtonBlurry)
+
+        dashboardLayoutBinding.launchButton.visibility = View.VISIBLE
+        dashboardLayoutBinding.launchButton.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
+
+        dashboardLayoutBinding.launchButton.setOnClickListener {
+
+            notificationsCreator.playNotificationSound(this@setupUserInterface, R.raw.titan)
+            notificationsCreator.doVibrate(applicationContext, 73)
+
+            if (!FloatingPanelServices.Floating) {
+
+                startForegroundService(Intent(applicationContext, FloatingPanelServices::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
 
             }
 
