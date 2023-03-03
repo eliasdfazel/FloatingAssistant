@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 5:03 AM
+ * Last modified 3/3/23, 5:28 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -11,10 +11,13 @@
 package co.geeksempire.floating.smart.panel.Dashboard.UI
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import co.geeksempire.floating.smart.panel.BuildConfig
 import co.geeksempire.floating.smart.panel.Dashboard.Extensions.setupUserInterface
 import co.geeksempire.floating.smart.panel.Preferences.UI.ColorsIO
 import co.geeksempire.floating.smart.panel.R
+import co.geeksempire.floating.smart.panel.Tests.PrototypeData
 import co.geeksempire.floating.smart.panel.Utils.Colors.Palettes
 import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCreator
 import co.geeksempire.floating.smart.panel.Utils.Settings.SystemSettings
@@ -48,6 +51,24 @@ class Dashboard : AppCompatActivity() {
         setContentView(dashboardLayoutBinding.root)
 
         window.decorView.setBackgroundColor(getColor(R.color.black))
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        if (BuildConfig.DEBUG) {
+
+            dashboardLayoutBinding.prototypeGenerator.visibility = View.VISIBLE
+
+            dashboardLayoutBinding.prototypeGenerator.setOnClickListener {
+
+                PrototypeData(applicationContext)
+                    .generate()
+
+            }
+
+        }
 
     }
 
