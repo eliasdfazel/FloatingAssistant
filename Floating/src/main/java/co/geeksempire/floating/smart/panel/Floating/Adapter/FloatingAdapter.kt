@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/1/23, 10:12 AM
+ * Last modified 3/3/23, 10:45 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -11,11 +11,13 @@
 package co.geeksempire.floating.smart.panel.Floating.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
+import co.geeksempire.floating.smart.panel.Launch.OpenApplicationsLaunchPad
 import co.geeksempire.floating.smart.panel.databinding.FloatingItemBinding
 import com.bumptech.glide.Glide
 
@@ -34,15 +36,18 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
     }
 
     override fun onBindViewHolder(floatingViewHolder: FloatingViewHolder, position: Int) {
+        Log.d(this@FloatingAdapter.javaClass.simpleName, "Application: ${applicationsData[position].applicationName} | Package: ${applicationsData[position].applicationPackageName}")
 
         Glide.with(context)
             .load(applicationsData[position].applicationIcon)
-            .submit()
+            .into(floatingViewHolder.applicationIcon)
 
         floatingViewHolder.rootViewItem.setOnClickListener {
             Log.d(this@FloatingAdapter.javaClass.simpleName, applicationsData[position].applicationPackageName)
 
-
+            context.startActivity(Intent(context, OpenApplicationsLaunchPad::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            })
 
         }
 

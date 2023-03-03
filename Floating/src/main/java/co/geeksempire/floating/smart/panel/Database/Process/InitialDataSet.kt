@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 9:10 AM
+ * Last modified 3/3/23, 10:19 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -33,8 +33,7 @@ class InitialDataSet (private val context: Context) {
 
         val randomApplications = ArrayList<FloatingDataStructure>()
 
-        queryUsageStats.slice(IntRange(0, 19)).forEach { usageStat ->
-            Log.d(this@InitialDataSet.javaClass.simpleName, "Package Name: ${usageStat.packageName}")
+        queryUsageStats.slice(IntRange(0, 37)).forEach { usageStat ->
 
             if (usageStat.packageName != context.packageName
                 && !applicationsData.isDefaultLauncher(usageStat.packageName)
@@ -43,13 +42,16 @@ class InitialDataSet (private val context: Context) {
 
                 randomApplications.add(FloatingDataStructure(
                     applicationPackageName = usageStat.packageName,
-                    applicationName = applicationsData.activityLabel(applicationsData.createActivityInformation(usageStat.packageName)),
-                    applicationIcon = applicationsData.applicationIcon(applicationsData.createActivityInformation(usageStat.packageName))
+                    applicationName = applicationsData.applicationName(usageStat.packageName),
+                    applicationIcon = applicationsData.applicationIcon(usageStat.packageName)
                 ))
 
+                Log.d(this@InitialDataSet.javaClass.simpleName, "Package Name: ${usageStat.packageName}")
             }
 
         }
+
+        randomApplications.shuffle()
 
         return randomApplications
     }

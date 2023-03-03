@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/1/23, 10:12 AM
+ * Last modified 3/3/23, 10:41 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -151,4 +151,18 @@ fun navigationBarHeight(context: Context) : Int {
 fun Float.calculatePercentage(percentageAmount: Float) : Float {
 
     return ((this@calculatePercentage * percentageAmount) / 100).toFloat()
+}
+
+fun displaySection(context: Context, X: Int, Y: Int): Int {
+    var section = 1
+    if (X < displayX(context) / 2 && Y < displayY(context) / 2) { //top-left
+        section = 1
+    } else if (X > displayX(context) / 2 && Y < displayY(context) / 2) { //top-right
+        section = 2
+    } else if (X < displayX(context) / 2 && Y > displayY(context) / 2) { //bottom-left
+        section = 3
+    } else if (X > displayX(context) / 2 && Y > displayY(context) / 2) { //bottom-right
+        section = 4
+    }
+    return section
 }

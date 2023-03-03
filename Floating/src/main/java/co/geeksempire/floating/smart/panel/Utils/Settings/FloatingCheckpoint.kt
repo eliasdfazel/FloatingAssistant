@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/1/23, 10:12 AM
+ * Last modified 3/3/23, 10:44 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -18,6 +18,13 @@ import android.provider.Settings
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 class FloatingCheckpoint {
+
+    object DisplaySection {
+        const val TopLeft = 1
+        const val TopRight = 2
+        const val BottomLeft = 3
+        const val BottomRight = 4
+    }
 
     object WindowMode {
         const val WINDOWING_MODE_FREEFORM = 5
@@ -41,7 +48,7 @@ class FloatingCheckpoint {
         return if (returnApi() >= 28) "setLaunchWindowingMode" else "setLaunchStackId"
     }
 
-    private fun getFreeformWindowModeId() : Int {
+    fun getFreeformWindowModeId() : Int {
         return if (returnApi() >= 28) {
             WindowMode.WINDOWING_MODE_FREEFORM
         } else {

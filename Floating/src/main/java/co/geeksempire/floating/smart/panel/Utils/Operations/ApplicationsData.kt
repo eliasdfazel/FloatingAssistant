@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 9:10 AM
+ * Last modified 3/3/23, 10:45 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -22,7 +22,7 @@ import co.geeksempire.floating.smart.panel.R
 
 class ApplicationsData (private val context: Context) {
 
-    fun applicationName(packageName: String): String {
+    fun applicationName(packageName: String) : String {
 
         return  try {
 
@@ -46,7 +46,7 @@ class ApplicationsData (private val context: Context) {
         }
     }
 
-    fun activityLabel(activityInfo: ActivityInfo): String {
+    fun activityLabel(activityInfo: ActivityInfo) : String {
 
         return try {
 
@@ -60,7 +60,7 @@ class ApplicationsData (private val context: Context) {
         }
     }
 
-    fun applicationIcon(packageName: String): Drawable {
+    fun applicationIcon(packageName: String) : Drawable {
 
         return try {
 
@@ -84,7 +84,7 @@ class ApplicationsData (private val context: Context) {
         }
     }
 
-    fun applicationIcon(activityInfo: ActivityInfo): Drawable {
+    fun applicationIcon(activityInfo: ActivityInfo) : Drawable {
 
         return try {
 
@@ -154,33 +154,44 @@ class ApplicationsData (private val context: Context) {
         }
     }
 
-    fun isSystemApplication(packageName: String): Boolean {
+    fun isSystemApplication(packageName: String) : Boolean {
+
         val packageManager = context.packageManager
 
-        return  try {
-            val targetPkgInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
-            val sys = packageManager.getPackageInfo(
-                "android", PackageManager.GET_SIGNATURES)
-            targetPkgInfo?.signatures != null && (sys.signatures[0] == targetPkgInfo.signatures[0])
+        return try {
+
+            val targetPackageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+
+            val systemPackageInfo = packageManager.getPackageInfo("android", PackageManager.GET_SIGNATURES)
+
+            targetPackageInfo?.signatures != null && (systemPackageInfo.signatures[0] == targetPackageInfo.signatures[0])
+
         } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
+
             false
+
         } catch (e: Exception) {
-            e.printStackTrace()
+
             false
+
         }
     }
 
-    fun isDefaultLauncher(packageName: String): Boolean {
+    fun isDefaultLauncher(packageName: String) : Boolean {
+
         val intent = Intent(Intent.ACTION_MAIN)
         intent.addCategory(Intent.CATEGORY_HOME)
+
         val defaultLauncher = context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY)
+
         val defaultLauncherPackageName = defaultLauncher?.activityInfo?.packageName
+
         return (defaultLauncherPackageName == packageName)
     }
 
-    fun canLaunch(packageName: String?): Boolean {
-        return context.packageManager.getLaunchIntentForPackage(packageName!!) != null
+    fun canLaunch(packageName: String) : Boolean {
+
+        return context.packageManager.getLaunchIntentForPackage(packageName) != null
     }
 
 }
