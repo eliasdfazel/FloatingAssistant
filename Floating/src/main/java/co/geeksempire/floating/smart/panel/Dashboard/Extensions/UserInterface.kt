@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 5:03 AM
+ * Last modified 3/3/23, 6:32 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -21,10 +21,13 @@ import android.os.Looper
 import android.provider.Settings
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.constraintlayout.widget.ConstraintLayout
 import co.geeksempire.floating.smart.panel.Dashboard.UI.Dashboard
 import co.geeksempire.floating.smart.panel.Floating.FloatingPanelServices
 import co.geeksempire.floating.smart.panel.R
 import co.geeksempire.floating.smart.panel.Utils.Animations.alphaAnimation
+import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
+import co.geeksempire.floating.smart.panel.Utils.Display.statusBarHeight
 import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchController
 import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchInterface
 import com.bumptech.glide.Glide
@@ -72,6 +75,18 @@ fun Dashboard.setupUserInterface() {
             .submit()
 
     }
+
+    /* Start - Profile */
+    val profileImageLayoutParameters = dashboardLayoutBinding.profileImageBackground.layoutParams as ConstraintLayout.LayoutParams
+    profileImageLayoutParameters.topMargin = dpToInteger(applicationContext, 37) + statusBarHeight(applicationContext)
+    dashboardLayoutBinding.profileImageBackground.layoutParams = profileImageLayoutParameters
+
+    val profileImageGlowLayoutParameters = dashboardLayoutBinding.profileImageGlow.layoutParams as ConstraintLayout.LayoutParams
+    profileImageGlowLayoutParameters.topMargin = -dpToInteger(applicationContext, 27) + statusBarHeight(applicationContext)
+    dashboardLayoutBinding.profileImageGlow.layoutParams = profileImageGlowLayoutParameters
+
+    dashboardLayoutBinding.contentWrapper.setPadding(0, dpToInteger(applicationContext, 173) + statusBarHeight(applicationContext), 0, dashboardLayoutBinding.contentWrapper.paddingBottom)
+    /* end - Profile */
 
     /* Start - Interactions  */
     dashboardLayoutBinding.interactions.preferencesTitle.text = getString(R.string.interactionsTitle)
