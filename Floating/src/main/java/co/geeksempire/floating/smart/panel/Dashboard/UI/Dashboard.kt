@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/25/23, 10:16 AM
+ * Last modified 3/3/23, 5:03 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -55,8 +55,6 @@ class Dashboard : AppCompatActivity() {
         super.onResume()
 
         setupUserInterface()
-
-        colorsIO.processWallpaperColors()
 
     }
 
