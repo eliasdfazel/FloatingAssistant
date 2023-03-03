@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 8:08 AM
+ * Last modified 3/3/23, 8:09 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -96,8 +96,6 @@ class FloatingPanelServices : Service() {
             floatingLayoutBinding.floatingRecyclerView.layoutManager = linearLayoutManager
 
             floatingLayoutBinding.floatingRecyclerView.adapter = floatingAdapter
-
-            // if final list empty then show random apps from most used apps
 
             floatingLayoutBinding.floatingHandheld.setOnClickListener { }
             floatingLayoutBinding.floatingHandheld.setOnTouchListener(object : View.OnTouchListener {
@@ -193,6 +191,8 @@ class FloatingPanelServices : Service() {
                     return false
                 }
             })
+
+            // if final list empty then show random apps from most used apps
 
         }
 
