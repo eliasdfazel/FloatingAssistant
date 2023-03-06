@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/1/23, 10:12 AM
+ * Last modified 3/6/23, 6:56 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -50,8 +50,6 @@ class ColorsIO(private val context: Context) {
                 }
 
             }
-
-
 
             storeDominantColor(wallpaperColors.primaryColor.toArgb())
 

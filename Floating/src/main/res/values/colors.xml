@@ -3,7 +3,7 @@
   ~ Copyright © 2023 By Geeks Empire.
   ~
   ~ Created by Elias Fazel
-  ~ Last modified 2/20/23, 5:50 AM
+  ~ Last modified 3/6/23, 6:33 AM
   ~
   ~ Licensed Under MIT License.
   ~ https://opensource.org/licenses/MIT
@@ -12,11 +12,16 @@
 <resources>
 
     <color name="primaryColorPurple">#38003C</color>
+    <color name="primaryColorPurple50">#8038003C</color>
     <color name="primaryColorPurpleLight">#EE00FF</color>
     <color name="primaryColorRed">#e90052</color>
+    <color name="primaryColorRed50">#80E90052</color>
     <color name="primaryColorGreen">#00ff85</color>
+    <color name="primaryColorGreen50">#8000ff85</color>
     <color name="primaryColorBlue">#04f5ff</color>
-
+    <color name="primaryColorBlue50">#8004f5ff</color>
+    <color name="primaryColorOrange">#F16006</color>
+    <color name="primaryColorOrange50">#80F16006</color>
 
     <color name="default_color">#237DAE</color>
     <color name="default_color_bright">#00A5FF</color>

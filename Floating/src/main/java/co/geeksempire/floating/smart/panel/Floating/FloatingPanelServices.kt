@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 8:54 AM
+ * Last modified 3/6/23, 7:14 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -12,11 +12,8 @@ package co.geeksempire.floating.smart.panel.Floating
 
 import android.annotation.SuppressLint
 import android.app.Service
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import android.content.res.ColorStateList
 import android.os.IBinder
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,9 +25,10 @@ import androidx.recyclerview.widget.RecyclerView
 import co.geeksempire.floating.smart.panel.Database.Database
 import co.geeksempire.floating.smart.panel.Database.Process.InitialDataSet
 import co.geeksempire.floating.smart.panel.Floating.Adapter.FloatingAdapter
+import co.geeksempire.floating.smart.panel.Floating.Extensions.registerFloatingBroadcasts
+import co.geeksempire.floating.smart.panel.Floating.Extensions.setupUserInterface
 import co.geeksempire.floating.smart.panel.Preferences.Floating.FloatingIO
 import co.geeksempire.floating.smart.panel.Preferences.UI.ColorsIO
-import co.geeksempire.floating.smart.panel.Utils.Animations.alphaAnimation
 import co.geeksempire.floating.smart.panel.Utils.Display.displayX
 import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCreator
@@ -60,6 +58,10 @@ class FloatingPanelServices : Service() {
 
     private val floatingIO: FloatingIO by lazy {
         FloatingIO(applicationContext)
+    }
+
+    val colorsIO: ColorsIO by lazy {
+        ColorsIO(applicationContext)
     }
 
     val safeAreaRight: Int by lazy {
@@ -92,14 +94,25 @@ class FloatingPanelServices : Service() {
 
             windowManager.addView(floatingLayoutBinding.root, layoutParameters)
 
-            registerFloatingBroadcasts(floatingLayoutBinding)
+            if (!FloatingPanelServices.Floating) {
+
+                FloatingPanelServices.Floating = true
+
+                setupUserInterface(floatingLayoutBinding)
+
+                registerFloatingBroadcasts(floatingLayoutBinding)
+
+            }
 
             val linearLayoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
             floatingLayoutBinding.floatingRecyclerView.layoutManager = linearLayoutManager
 
             floatingLayoutBinding.floatingRecyclerView.adapter = floatingAdapter
 
-            floatingLayoutBinding.floatingHandheld.setOnClickListener { }
+            floatingLayoutBinding.floatingHandheld.setOnClickListener {
+                Log.d(this@FloatingPanelServices.javaClass.simpleName, "Floating Handheld Clicked")
+            }
+
             floatingLayoutBinding.floatingHandheld.setOnTouchListener(object : View.OnTouchListener {
 
                 var initialX: Int = 0
@@ -118,8 +131,6 @@ class FloatingPanelServices : Service() {
 
                             initialTouchX = motionEvent.rawX
                             initialTouchY = motionEvent.rawY
-
-                            alphaAnimation(floatingLayoutBinding.floatingHandheldGlow, initialDuration = 777, repeatCounter = 3)
 
                         }
                         MotionEvent.ACTION_UP -> {
@@ -194,8 +205,6 @@ class FloatingPanelServices : Service() {
                 }
             })
 
-            // if final list empty then show random apps from most used apps
-
             prepareInitialData()
 
         }
@@ -208,39 +217,12 @@ class FloatingPanelServices : Service() {
 
         startForeground(333, notificationsCreator.bindNotification(applicationContext))
 
-        FloatingPanelServices.Floating = true
-
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
         FloatingPanelServices.Floating = false
-
-    }
-
-    private fun registerFloatingBroadcasts(floatingLayoutBinding: FloatingLayoutBinding) {
-
-        val intentFilter = IntentFilter()
-        intentFilter.addAction(ColorsIO.Type.colorsChanged)
-        val broadcastReceiver = object : BroadcastReceiver() {
-
-            override fun onReceive(context: Context?, intent: Intent?) {
-
-                intent?.let {
-
-                    if (intent.action == ColorsIO.Type.colorsChanged) {
-
-                        floatingLayoutBinding.floatingBackground.imageTintList = ColorStateList.valueOf(intent.getIntExtra(ColorsIO.Type.dominantColor, 0))
-
-                    }
-
-                }
-
-            }
-
-        }
-        registerReceiver(broadcastReceiver, intentFilter)
 
     }
 
@@ -252,10 +234,13 @@ class FloatingPanelServices : Service() {
 
         } else {
 
+            val initialDataSet = InitialDataSet(applicationContext).generate()
+
             floatingAdapter.applicationsData.clear()
-            floatingAdapter.applicationsData.addAll(InitialDataSet(applicationContext).generate())
+            floatingAdapter.applicationsData.addAll(initialDataSet)
 
             floatingAdapter.notifyDataSetChanged()
+
         }
 
     }
