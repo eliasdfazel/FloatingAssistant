@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 7:57 AM
+ * Last modified 3/6/23, 8:21 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -22,8 +22,9 @@ import co.geeksempire.floating.smart.panel.databinding.FloatingLayoutBinding
 
 fun FloatingPanelServices.registerFloatingBroadcasts(floatingLayoutBinding: FloatingLayoutBinding) {
 
-    val intentFilter = IntentFilter()
-    intentFilter.addAction(ColorsIO.Type.colorsChanged)
+    val intentFilter = IntentFilter().apply {
+        addAction(ColorsIO.Type.colorsChanged)
+    }
     val broadcastReceiver = object : BroadcastReceiver() {
 
         override fun onReceive(context: Context?, intent: Intent?) {

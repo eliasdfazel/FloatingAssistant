@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 10:19 AM
+ * Last modified 3/6/23, 8:10 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -33,7 +33,10 @@ class InitialDataSet (private val context: Context) {
 
         val randomApplications = ArrayList<FloatingDataStructure>()
 
-        queryUsageStats.slice(IntRange(0, 37)).forEach { usageStat ->
+        queryUsageStats.slice(IntRange(0, 37)).distinctBy {
+
+            it.packageName
+        }.forEach { usageStat ->
 
             if (usageStat.packageName != context.packageName
                 && !applicationsData.isDefaultLauncher(usageStat.packageName)

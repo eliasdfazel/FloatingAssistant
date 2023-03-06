@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 7:55 AM
+ * Last modified 3/6/23, 8:27 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -92,16 +92,6 @@ class FloatingPanelServices : Service() {
             layoutParameters = generateLayoutParameters(applicationContext, 73, 301, xPosition, yPosition)
 
             windowManager.addView(floatingLayoutBinding.root, layoutParameters)
-
-            if (!FloatingPanelServices.Floating) {
-
-                FloatingPanelServices.Floating = true
-
-                setupUserInterface(floatingLayoutBinding)
-
-                registerFloatingBroadcasts(floatingLayoutBinding)
-
-            }
 
             val linearLayoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
             floatingLayoutBinding.floatingRecyclerView.layoutManager = linearLayoutManager
@@ -204,7 +194,17 @@ class FloatingPanelServices : Service() {
                 }
             })
 
-            prepareInitialData()
+            if (!FloatingPanelServices.Floating) {
+
+                FloatingPanelServices.Floating = true
+
+                setupUserInterface(floatingLayoutBinding)
+
+                registerFloatingBroadcasts(floatingLayoutBinding)
+
+                prepareInitialData()
+
+            }
 
         }
 
