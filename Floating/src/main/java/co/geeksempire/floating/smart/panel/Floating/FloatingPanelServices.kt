@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 10:16 AM
+ * Last modified 3/6/23, 11:09 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -14,7 +14,9 @@ import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -29,9 +31,7 @@ import co.geeksempire.floating.smart.panel.Floating.Extensions.registerFloatingB
 import co.geeksempire.floating.smart.panel.Floating.Extensions.setupUserInterface
 import co.geeksempire.floating.smart.panel.Preferences.Floating.FloatingIO
 import co.geeksempire.floating.smart.panel.Preferences.UI.ColorsIO
-import co.geeksempire.floating.smart.panel.Utils.Animations.AnimationStatus
-import co.geeksempire.floating.smart.panel.Utils.Animations.alphaAnimation
-import co.geeksempire.floating.smart.panel.Utils.Animations.rotateAnimationY
+import co.geeksempire.floating.smart.panel.Utils.Animations.*
 import co.geeksempire.floating.smart.panel.Utils.Display.displayX
 import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCreator
@@ -74,7 +74,9 @@ class FloatingPanelServices : Service() {
         dpToInteger(applicationContext, 19)
     }
 
-    val sideLeftRight = FloatingIO.FloatingSide.RightSide
+    var sideLeftRight = FloatingIO.FloatingSide.RightSide
+
+    var inStandBy = false
 
     override fun onBind(intent: Intent?) : IBinder? { return null }
 
@@ -86,7 +88,22 @@ class FloatingPanelServices : Service() {
 
             val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
-            val floatingLayoutBinding = FloatingLayoutBinding.inflate(layoutInflater)
+            sideLeftRight = floatingIO.floatingSide()
+
+            val floatingLayoutBinding: FloatingLayoutBinding = FloatingLayoutBinding.inflate(layoutInflater)
+
+            when (sideLeftRight) {
+                FloatingIO.FloatingSide.LeftSide -> {
+
+                    floatingLayoutBinding.floatingHandheldGlow.rotationY = 180f
+
+                }
+                FloatingIO.FloatingSide.RightSide -> {
+
+                    floatingLayoutBinding.floatingHandheldGlow.rotationY = 0f
+
+                }
+            }
 
             val xPosition: Int = floatingIO.positionX()
             val yPosition: Int = floatingIO.positionY()
@@ -104,19 +121,38 @@ class FloatingPanelServices : Service() {
             floatingLayoutBinding.floatingHandheld.setOnClickListener {
                 Log.d(this@FloatingPanelServices.javaClass.simpleName, "Floating Handheld Clicked")
 
-                floatingLayoutBinding.floatingHandheldGlow.let {
+                when (sideLeftRight) {
+                    FloatingIO.FloatingSide.LeftSide -> {
 
-                    it.visibility = View.VISIBLE
+                        floatingLayoutBinding.floatingHandheldGlow.let {
 
-                    if (it.rotationY == 0f) {
+                            it.visibility = View.VISIBLE
 
-                        rotateAnimationY(it, animationStatus =  object : AnimationStatus {
+                            if (it.rotationY == 180f) {
 
-                            override fun animationFinished() {
-
-                                alphaAnimation(view = it, repeatCounter = 3, animationStatus =  object : AnimationStatus {
+                                rotateAnimationY(it, toY = 0f, animationStatus =  object : AnimationStatus {
 
                                     override fun animationFinished() {
+
+                                        alphaAnimation(view = it, repeatCounter = 3, animationStatus =  object : AnimationStatus {
+
+                                            override fun animationFinished() {
+
+                                            }
+
+                                        })
+
+                                    }
+
+                                })
+
+                            } else {
+
+                                rotateAnimationY(view = it, toY = 180f, animationStatus =  object : AnimationStatus {
+
+                                    override fun animationFinished() {
+
+
 
                                     }
 
@@ -124,33 +160,37 @@ class FloatingPanelServices : Service() {
 
                             }
 
-                        })
+                        }
 
-                    } else {
+                        floatingLayoutBinding.floatingHandheld.let {
 
-                        rotateAnimationY(view = it, toY = 0f, animationStatus =  object : AnimationStatus {
+                            if (it.rotationY == 180f) {
 
-                            override fun animationFinished() {
+                                inStandBy = true
 
+                                rotateAnimationY(it, toY = 0f, animationStatus =  object : AnimationStatus {
 
+                                    override fun animationFinished() {
 
-                            }
+                                        alphaAnimation(view = it, repeatCounter = 3, animationStatus =  object : AnimationStatus {
 
-                        })
+                                            override fun animationFinished() {
 
-                    }
+                                            }
 
-                }
+                                        })
 
-                floatingLayoutBinding.floatingHandheld.let {
+                                    }
 
-                    if (it.rotationY == 0f) {
+                                })
 
-                        rotateAnimationY(it, animationStatus =  object : AnimationStatus {
+                                moveFloatingToLeft(applicationContext, windowManager, floatingLayoutBinding, layoutParameters)
 
-                            override fun animationFinished() {
+                            } else {
 
-                                alphaAnimation(view = it, repeatCounter = 3, animationStatus =  object : AnimationStatus {
+                                inStandBy = false
+
+                                rotateAnimationY(view = it, toY = 180f, animationStatus =  object : AnimationStatus {
 
                                     override fun animationFinished() {
 
@@ -158,22 +198,96 @@ class FloatingPanelServices : Service() {
 
                                 })
 
-                            }
-
-                        })
-
-                    } else {
-
-                        rotateAnimationY(view = it, toY = 0f, animationStatus =  object : AnimationStatus {
-
-                            override fun animationFinished() {
+                                moveFloatingTo(applicationContext, windowManager, floatingLayoutBinding, layoutParameters, floatingIO.positionX())
 
                             }
 
-                        })
+                        }
 
                     }
+                    FloatingIO.FloatingSide.RightSide -> {
 
+                        floatingLayoutBinding.floatingHandheldGlow.let {
+
+                            it.visibility = View.VISIBLE
+
+                            if (it.rotationY == 0f) {
+
+                                rotateAnimationY(it, animationStatus =  object : AnimationStatus {
+
+                                    override fun animationFinished() {
+
+                                        alphaAnimation(view = it, repeatCounter = 3, animationStatus =  object : AnimationStatus {
+
+                                            override fun animationFinished() {
+
+                                            }
+
+                                        })
+
+                                    }
+
+                                })
+
+                            } else {
+
+                                rotateAnimationY(view = it, toY = 0f, animationStatus =  object : AnimationStatus {
+
+                                    override fun animationFinished() {
+
+
+
+                                    }
+
+                                })
+
+                            }
+
+                        }
+
+                        floatingLayoutBinding.floatingHandheld.let {
+
+                            if (it.rotationY == 0f) {
+
+                                inStandBy = true
+
+                                rotateAnimationY(it, animationStatus =  object : AnimationStatus {
+
+                                    override fun animationFinished() {
+
+                                        alphaAnimation(view = it, repeatCounter = 3, animationStatus =  object : AnimationStatus {
+
+                                            override fun animationFinished() {
+
+                                            }
+
+                                        })
+
+                                    }
+
+                                })
+
+                                moveFloatingToRight(applicationContext, windowManager, floatingLayoutBinding, layoutParameters)
+
+                            } else {
+
+                                inStandBy = false
+
+                                rotateAnimationY(view = it, toY = 0f, animationStatus =  object : AnimationStatus {
+
+                                    override fun animationFinished() {
+
+                                    }
+
+                                })
+
+                                moveFloatingTo(applicationContext, windowManager, floatingLayoutBinding, layoutParameters, floatingIO.positionX())
+
+                            }
+
+                        }
+
+                    }
                 }
 
             }
@@ -232,6 +346,7 @@ class FloatingPanelServices : Service() {
                                 }
                             }
 
+                            floatingPanelStandBy(windowManager, floatingLayoutBinding, standByDelay = 7777)
 
                         }
                         MotionEvent.ACTION_MOVE -> {
@@ -242,7 +357,18 @@ class FloatingPanelServices : Service() {
                             when (sideLeftRight) {
                                 FloatingIO.FloatingSide.LeftSide -> {
 
+                                    if (moveX > safeAreaLeft) {
 
+                                        layoutParameters.x = moveX
+                                        layoutParameters.y = moveY
+
+                                        try {
+
+                                            windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
+
+                                        } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
+
+                                    }
 
                                 }
                                 FloatingIO.FloatingSide.RightSide -> {
@@ -268,11 +394,14 @@ class FloatingPanelServices : Service() {
 
                     return false
                 }
+
             })
 
             if (!FloatingPanelServices.Floating) {
 
                 FloatingPanelServices.Floating = true
+
+                floatingPanelStandBy(windowManager, floatingLayoutBinding)
 
                 setupUserInterface(floatingLayoutBinding)
 
@@ -315,6 +444,34 @@ class FloatingPanelServices : Service() {
             floatingAdapter.applicationsData.addAll(initialDataSet)
 
             floatingAdapter.notifyDataSetChanged()
+
+        }
+
+    }
+
+    private fun floatingPanelStandBy(windowManager: WindowManager, floatingLayoutBinding: FloatingLayoutBinding,
+        standByDelay: Long = 7531) {
+
+        if (!inStandBy) {
+
+            Handler(Looper.getMainLooper()).postDelayed({
+
+                when (sideLeftRight) {
+                    FloatingIO.FloatingSide.LeftSide -> {
+
+                        moveFloatingToLeft(applicationContext, windowManager, floatingLayoutBinding, layoutParameters)
+
+                    }
+                    FloatingIO.FloatingSide.RightSide -> {
+
+                        moveFloatingToRight(applicationContext, windowManager, floatingLayoutBinding, layoutParameters)
+
+                    }
+                }
+
+                inStandBy = true
+
+            }, standByDelay)
 
         }
 

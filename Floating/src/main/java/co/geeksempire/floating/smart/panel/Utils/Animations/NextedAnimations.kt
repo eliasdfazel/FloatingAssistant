@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 10:17 AM
+ * Last modified 3/6/23, 10:45 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -10,11 +10,17 @@
 
 package co.geeksempire.floating.smart.panel.Utils.Animations
 
+import android.animation.ValueAnimator
+import android.content.Context
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
+import co.geeksempire.floating.smart.panel.Utils.Display.displayX
+import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
+import co.geeksempire.floating.smart.panel.databinding.FloatingLayoutBinding
 
 interface AnimationStatus {
     fun animationFinished()
@@ -75,5 +81,74 @@ fun rotateAnimationY(view: View,
 
         }
         .start()
+
+}
+
+fun moveFloatingTo(context: Context, windowManager: WindowManager,
+                        floatingLayoutBinding: FloatingLayoutBinding, layoutParameters: WindowManager.LayoutParams, toPosition: Int) {
+
+
+    val standByPosition = ValueAnimator.ofInt(layoutParameters.x, toPosition)
+    standByPosition.duration = 1337
+    standByPosition.interpolator = AccelerateDecelerateInterpolator()
+    standByPosition.addUpdateListener {
+
+        layoutParameters.x = it.animatedValue as Int
+
+        try {
+
+            windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
+
+        } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
+
+    }
+    standByPosition.start()
+
+}
+fun moveFloatingToRight(context: Context, windowManager: WindowManager,
+                        floatingLayoutBinding: FloatingLayoutBinding, layoutParameters: WindowManager.LayoutParams) {
+
+
+    val safeAreaX = displayX(context) - dpToInteger(context, 19)
+
+    val standByPosition = ValueAnimator.ofInt(layoutParameters.x, safeAreaX)
+    standByPosition.duration = 1337
+    standByPosition.interpolator = AccelerateDecelerateInterpolator()
+    standByPosition.addUpdateListener {
+
+        layoutParameters.x = it.animatedValue as Int
+
+        try {
+
+            windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
+
+        } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
+
+    }
+    standByPosition.start()
+
+}
+
+fun moveFloatingToLeft(context: Context, windowManager: WindowManager,
+                       floatingLayoutBinding: FloatingLayoutBinding, layoutParameters: WindowManager.LayoutParams) {
+
+
+    val safeAreaX = dpToInteger(context, 19)
+
+    val standByPosition = ValueAnimator.ofInt(layoutParameters.x, safeAreaX)
+    standByPosition.duration = 1337
+    standByPosition.interpolator = AccelerateDecelerateInterpolator()
+    standByPosition.addUpdateListener {
+
+        layoutParameters.x = it.animatedValue as Int
+
+        try {
+
+            windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
+
+        } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
+
+    }
+    standByPosition.start()
 
 }
