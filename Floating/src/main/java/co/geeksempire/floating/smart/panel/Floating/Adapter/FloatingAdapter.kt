@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 10:45 AM
+ * Last modified 3/6/23, 11:32 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -46,6 +46,10 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
             Log.d(this@FloatingAdapter.javaClass.simpleName, applicationsData[position].applicationPackageName)
 
             context.startActivity(Intent(context, OpenApplicationsLaunchPad::class.java).apply {
+                putExtra("packageName", applicationsData[position].applicationPackageName)
+                applicationsData[position].applicationClassName?.let {
+                    putExtra("className", applicationsData[position].applicationClassName)
+                }
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             })
 

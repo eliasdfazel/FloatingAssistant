@@ -3,7 +3,7 @@
   ~ Copyright © 2023 By Geeks Empire.
   ~
   ~ Created by Elias Fazel
-  ~ Last modified 3/6/23, 7:16 AM
+  ~ Last modified 3/6/23, 11:33 AM
   ~
   ~ Licensed Under MIT License.
   ~ https://opensource.org/licenses/MIT
@@ -97,6 +97,14 @@
             android:supportsPictureInPicture="true"
             android:theme="@style/Transparent"/>
 
+        <activity
+            android:name=".Boot.OpenOnBoot"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:excludeFromRecents="true"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
+            android:theme="@style/Transparent"/>
+
         <service
             android:label="@string/applicationName"
             android:name=".Interactions.InteractionsObserver"
@@ -115,6 +123,16 @@
             android:label="@string/applicationName"
             android:name=".Floating.FloatingPanelServices"
             android:foregroundServiceType="dataSync"/>
+
+        <receiver
+            android:name=".Boot.BootReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
