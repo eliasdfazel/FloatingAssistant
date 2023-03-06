@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 7:10 AM
+ * Last modified 3/6/23, 7:57 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -33,7 +33,7 @@ fun FloatingPanelServices.registerFloatingBroadcasts(floatingLayoutBinding: Floa
                 if (intent.action == ColorsIO.Type.colorsChanged) {
                     Log.d(this@registerFloatingBroadcasts.javaClass.simpleName, "New Background Color Received")
 
-                    val backgroundColor = setColorAlpha(intent.getIntExtra(ColorsIO.Type.dominantColor, 0), 1f)
+                    val backgroundColor = setColorAlpha(intent.getIntExtra(ColorsIO.Type.dominantColor, 0), 173f)
 
                     floatingLayoutBinding.rootView.setBackgroundColor(backgroundColor)
 
