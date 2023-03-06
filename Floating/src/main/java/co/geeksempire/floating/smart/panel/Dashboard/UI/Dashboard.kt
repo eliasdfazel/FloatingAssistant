@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 6:53 AM
+ * Last modified 3/6/23, 7:24 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -10,6 +10,8 @@
 
 package co.geeksempire.floating.smart.panel.Dashboard.UI
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -43,6 +45,10 @@ class Dashboard : AppCompatActivity() {
         Palettes(applicationContext)
     }
 
+    private object RequestId {
+        const val Permissions = 0
+    }
+
     lateinit var dashboardLayoutBinding: DashboardLayoutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +59,13 @@ class Dashboard : AppCompatActivity() {
         window.decorView.setBackgroundColor(getColor(R.color.black))
 
         colorsIO.processWallpaperColors()
+
+        val allPermissions: ArrayList<String> = ArrayList<String>()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            allPermissions.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
+        requestPermissions(allPermissions.toTypedArray(), Dashboard.RequestId.Permissions)
 
     }
 
