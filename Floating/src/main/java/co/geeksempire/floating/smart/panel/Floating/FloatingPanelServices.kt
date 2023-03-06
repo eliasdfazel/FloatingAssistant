@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 11:09 AM
+ * Last modified 3/6/23, 11:11 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -95,7 +95,7 @@ class FloatingPanelServices : Service() {
             when (sideLeftRight) {
                 FloatingIO.FloatingSide.LeftSide -> {
 
-                    floatingLayoutBinding.floatingHandheldGlow.rotationY = 180f
+
 
                 }
                 FloatingIO.FloatingSide.RightSide -> {
@@ -124,85 +124,7 @@ class FloatingPanelServices : Service() {
                 when (sideLeftRight) {
                     FloatingIO.FloatingSide.LeftSide -> {
 
-                        floatingLayoutBinding.floatingHandheldGlow.let {
 
-                            it.visibility = View.VISIBLE
-
-                            if (it.rotationY == 180f) {
-
-                                rotateAnimationY(it, toY = 0f, animationStatus =  object : AnimationStatus {
-
-                                    override fun animationFinished() {
-
-                                        alphaAnimation(view = it, repeatCounter = 3, animationStatus =  object : AnimationStatus {
-
-                                            override fun animationFinished() {
-
-                                            }
-
-                                        })
-
-                                    }
-
-                                })
-
-                            } else {
-
-                                rotateAnimationY(view = it, toY = 180f, animationStatus =  object : AnimationStatus {
-
-                                    override fun animationFinished() {
-
-
-
-                                    }
-
-                                })
-
-                            }
-
-                        }
-
-                        floatingLayoutBinding.floatingHandheld.let {
-
-                            if (it.rotationY == 180f) {
-
-                                inStandBy = true
-
-                                rotateAnimationY(it, toY = 0f, animationStatus =  object : AnimationStatus {
-
-                                    override fun animationFinished() {
-
-                                        alphaAnimation(view = it, repeatCounter = 3, animationStatus =  object : AnimationStatus {
-
-                                            override fun animationFinished() {
-
-                                            }
-
-                                        })
-
-                                    }
-
-                                })
-
-                                moveFloatingToLeft(applicationContext, windowManager, floatingLayoutBinding, layoutParameters)
-
-                            } else {
-
-                                inStandBy = false
-
-                                rotateAnimationY(view = it, toY = 180f, animationStatus =  object : AnimationStatus {
-
-                                    override fun animationFinished() {
-
-                                    }
-
-                                })
-
-                                moveFloatingTo(applicationContext, windowManager, floatingLayoutBinding, layoutParameters, floatingIO.positionX())
-
-                            }
-
-                        }
 
                     }
                     FloatingIO.FloatingSide.RightSide -> {
@@ -320,15 +242,7 @@ class FloatingPanelServices : Service() {
                             when (sideLeftRight) {
                                 FloatingIO.FloatingSide.LeftSide -> {
 
-                                    if (moveX > safeAreaLeft) {
 
-                                        layoutParameters.x = moveX
-                                        layoutParameters.y = moveY
-
-                                        floatingIO.storePositionX(layoutParameters.x)
-                                        floatingIO.storePositionY(layoutParameters.y)
-
-                                    }
 
                                 }
                                 FloatingIO.FloatingSide.RightSide -> {
@@ -357,18 +271,7 @@ class FloatingPanelServices : Service() {
                             when (sideLeftRight) {
                                 FloatingIO.FloatingSide.LeftSide -> {
 
-                                    if (moveX > safeAreaLeft) {
 
-                                        layoutParameters.x = moveX
-                                        layoutParameters.y = moveY
-
-                                        try {
-
-                                            windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
-
-                                        } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
-
-                                    }
 
                                 }
                                 FloatingIO.FloatingSide.RightSide -> {
@@ -459,7 +362,7 @@ class FloatingPanelServices : Service() {
                 when (sideLeftRight) {
                     FloatingIO.FloatingSide.LeftSide -> {
 
-                        moveFloatingToLeft(applicationContext, windowManager, floatingLayoutBinding, layoutParameters)
+
 
                     }
                     FloatingIO.FloatingSide.RightSide -> {
