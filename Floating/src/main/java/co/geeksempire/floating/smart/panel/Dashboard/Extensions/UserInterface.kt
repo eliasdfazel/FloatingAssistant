@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 6:54 AM
+ * Last modified 3/6/23, 7:55 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -40,6 +40,8 @@ import com.bumptech.glide.request.target.Target
 
 
 fun Dashboard.setupUserInterface() {
+
+    colorsIO.processWallpaperColors()
 
     fireaseUser?.let {
 

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 7:15 AM
+ * Last modified 3/6/23, 7:55 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -13,14 +13,9 @@ package co.geeksempire.floating.smart.panel.Preferences.UI
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
-import androidx.datastore.preferences.core.intPreferencesKey
 import co.geeksempire.floating.smart.panel.Preferences.PreferencesIO
 import co.geeksempire.floating.smart.panel.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.*
 
 class ColorsIO(private val context: Context) {
 
@@ -41,14 +36,11 @@ class ColorsIO(private val context: Context) {
 
         wallpaperColors?.let {
 
-            dominantColor().collect { currentDominantWallpaper ->
+            val currentDominantWallpaper = dominantColor()
 
-                println(">> >> >> > send")
-                if (currentDominantWallpaper != wallpaperColors.primaryColor.toArgb()) {
+            if (currentDominantWallpaper != wallpaperColors.primaryColor.toArgb()) {
 
-                    context.sendBroadcast(Intent(ColorsIO.Type.colorsChanged).putExtra(ColorsIO.Type.dominantColor, wallpaperColors.primaryColor.toArgb()))
-
-                }
+                context.sendBroadcast(Intent(Type.colorsChanged).putExtra(ColorsIO.Type.dominantColor, wallpaperColors.primaryColor.toArgb()))
 
             }
 
@@ -62,37 +54,38 @@ class ColorsIO(private val context: Context) {
 
     }
 
-    fun storeDominantColor(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).async {
+    fun storeDominantColor(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
 
-        preferencesIO.savePreferences(intPreferencesKey(ColorsIO.Type.dominantColor), inputValue)
-
-    }
-
-    fun storeVibrantColor(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).async {
-
-        preferencesIO.savePreferences(intPreferencesKey(ColorsIO.Type.vibrantColor), inputValue)
+        preferencesIO.savePreference((ColorsIO.Type.dominantColor), inputValue)
 
     }
 
-    fun storeMutedColor(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).async {
+    fun storeVibrantColor(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
 
-        preferencesIO.savePreferences(intPreferencesKey(ColorsIO.Type.mutedColor), inputValue)
+        preferencesIO.savePreference((ColorsIO.Type.dominantColor), inputValue)
 
     }
 
-    fun dominantColor() : Flow<Int> {
+    fun storeMutedColor(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
 
-        return preferencesIO.readPreferencesInt(intPreferencesKey(ColorsIO.Type.dominantColor), context.getColor(R.color.primaryColorPurple))
+        preferencesIO.savePreference((ColorsIO.Type.dominantColor), inputValue)
+
     }
 
-    fun vibrantColor() : Flow<Int> {
+    fun dominantColor() : Int {
 
-        return preferencesIO.readPreferencesInt(intPreferencesKey(ColorsIO.Type.vibrantColor), context.getColor(R.color.primaryColorPurpleLight))
+        return preferencesIO.readPreference((ColorsIO.Type.dominantColor), context.getColor(R.color.primaryColorPurple))
     }
 
-    fun mutedColor() : Flow<Int> {
+    fun vibrantColor() : Int {
 
-        return preferencesIO.readPreferencesInt(intPreferencesKey(ColorsIO.Type.vibrantColor), context.getColor(R.color.premiumDark))
+        return preferencesIO.readPreference((ColorsIO.Type.vibrantColor), context.getColor(R.color.primaryColorPurple))
+    }
+
+    fun mutedColor() : Int {
+
+        return preferencesIO.readPreference((ColorsIO.Type.mutedColor), context.getColor(R.color.primaryColorPurple))
+
     }
 
 }

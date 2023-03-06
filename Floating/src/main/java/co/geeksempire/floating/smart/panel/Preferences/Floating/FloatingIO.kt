@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 8:06 AM
+ * Last modified 3/6/23, 7:55 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -11,13 +11,11 @@
 package co.geeksempire.floating.smart.panel.Preferences.Floating
 
 import android.content.Context
-import androidx.datastore.preferences.core.intPreferencesKey
 import co.geeksempire.floating.smart.panel.Preferences.PreferencesIO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.Flow
 
 class FloatingIO (private val context: Context) {
 
@@ -33,24 +31,24 @@ class FloatingIO (private val context: Context) {
 
     fun storePositionX(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).async {
 
-        preferencesIO.savePreferences(intPreferencesKey(FloatingIO.FloatingSide.FloatingSideX), inputValue)
+        preferencesIO.savePreference((FloatingIO.FloatingSide.FloatingSideX), inputValue)
 
     }
 
     fun storePositionY(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).async {
 
-        preferencesIO.savePreferences(intPreferencesKey(FloatingIO.FloatingSide.FloatingSideY), inputValue)
+        preferencesIO.savePreference((FloatingIO.FloatingSide.FloatingSideY), inputValue)
 
     }
 
-    fun positionX() : Flow<Int> {
+    fun positionX() : Int {
 
-        return preferencesIO.readPreferencesInt(intPreferencesKey(FloatingIO.FloatingSide.FloatingSideX), 37)
+        return preferencesIO.readPreference((FloatingIO.FloatingSide.FloatingSideX), 37)
     }
 
-    fun positionY() : Flow<Int> {
+    fun positionY() : Int {
 
-        return preferencesIO.readPreferencesInt(intPreferencesKey(FloatingIO.FloatingSide.FloatingSideY), 37)
+        return preferencesIO.readPreference((FloatingIO.FloatingSide.FloatingSideY), 37)
     }
 
 }

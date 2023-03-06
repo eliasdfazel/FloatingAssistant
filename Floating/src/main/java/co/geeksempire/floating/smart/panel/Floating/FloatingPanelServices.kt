@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 7:14 AM
+ * Last modified 3/6/23, 7:55 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -35,7 +35,6 @@ import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCrea
 import co.geeksempire.floating.smart.panel.databinding.FloatingLayoutBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class FloatingPanelServices : Service() {
@@ -86,8 +85,8 @@ class FloatingPanelServices : Service() {
 
             val floatingLayoutBinding = FloatingLayoutBinding.inflate(layoutInflater)
 
-            val xPosition: Int = floatingIO.positionX().first()
-            val yPosition: Int = floatingIO.positionY().first()
+            val xPosition: Int = floatingIO.positionX()
+            val yPosition: Int = floatingIO.positionY()
             Log.d(this@FloatingPanelServices.javaClass.simpleName, "X -> $xPosition : Y  -> $yPosition")
 
             layoutParameters = generateLayoutParameters(applicationContext, 73, 301, xPosition, yPosition)

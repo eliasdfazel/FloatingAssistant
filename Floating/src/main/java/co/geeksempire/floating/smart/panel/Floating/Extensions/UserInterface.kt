@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 7:13 AM
+ * Last modified 3/6/23, 7:55 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -19,17 +19,11 @@ import kotlinx.coroutines.launch
 
 fun FloatingPanelServices.setupUserInterface(floatingLayoutBinding: FloatingLayoutBinding) = CoroutineScope(Dispatchers.Main).launch {
 
-    colorsIO.dominantColor().collect { dominantColor ->
+    val dominantColor = colorsIO.dominantColor()
 
-        println(">>> >> > ${dominantColor}")
+    val backgroundColor = setColorAlpha(dominantColor, 173f)
 
-        val backgroundColor = setColorAlpha(dominantColor, 173f)
-
-        floatingLayoutBinding.rootView.setBackgroundColor(backgroundColor)
-
-
-
-    }
+    floatingLayoutBinding.rootView.setBackgroundColor(backgroundColor)
 
 }
 
