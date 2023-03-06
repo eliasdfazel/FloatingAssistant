@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 7:55 AM
+ * Last modified 3/6/23, 9:37 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -21,7 +21,7 @@ fun FloatingPanelServices.setupUserInterface(floatingLayoutBinding: FloatingLayo
 
     val dominantColor = colorsIO.dominantColor()
 
-    val backgroundColor = setColorAlpha(dominantColor, 173f)
+    val backgroundColor = setColorAlpha(dominantColor, floatingIO.transparency())
 
     floatingLayoutBinding.rootView.setBackgroundColor(backgroundColor)
 

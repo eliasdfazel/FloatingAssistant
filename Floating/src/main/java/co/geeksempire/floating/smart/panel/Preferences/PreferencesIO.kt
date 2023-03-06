@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 7:49 AM
+ * Last modified 3/6/23, 9:37 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -14,7 +14,7 @@ import android.content.Context
 
 class PreferencesIO (private val context: Context) {
 
-    fun savePreference(key: String?, value: Int) {
+    fun savePreference(key: String, value: Int) {
 
         context.getSharedPreferences("Preferences", Context.MODE_PRIVATE).apply {
 
@@ -29,9 +29,14 @@ class PreferencesIO (private val context: Context) {
 
     }
 
-    fun readPreference(key: String?, defaultValue: Int) : Int {
+    fun readPreference(key: String, defaultValue: Int) : Int {
 
         return context.getSharedPreferences("Preferences", Context.MODE_PRIVATE).getInt(key, defaultValue)
+    }
+
+    fun readPreference(key: String, defaultValue: Float) : Float {
+
+        return context.getSharedPreferences("Preferences", Context.MODE_PRIVATE).getFloat(key, defaultValue)
     }
 
 }

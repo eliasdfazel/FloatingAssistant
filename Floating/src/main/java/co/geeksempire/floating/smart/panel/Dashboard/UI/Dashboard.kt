@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 8:12 AM
+ * Last modified 3/6/23, 10:13 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -20,6 +20,7 @@ import co.geeksempire.floating.smart.panel.Dashboard.Extensions.setupUserInterfa
 import co.geeksempire.floating.smart.panel.Preferences.UI.ColorsIO
 import co.geeksempire.floating.smart.panel.R
 import co.geeksempire.floating.smart.panel.Tests.PrototypeData
+import co.geeksempire.floating.smart.panel.Utils.Animations.AnimationStatus
 import co.geeksempire.floating.smart.panel.Utils.Colors.Palettes
 import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCreator
 import co.geeksempire.floating.smart.panel.Utils.Settings.SystemSettings
@@ -27,7 +28,7 @@ import co.geeksempire.floating.smart.panel.databinding.DashboardLayoutBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class Dashboard : AppCompatActivity() {
+class Dashboard : AppCompatActivity(), AnimationStatus {
 
     val fireaseUser = Firebase.auth.currentUser
 
@@ -59,13 +60,20 @@ class Dashboard : AppCompatActivity() {
         window.decorView.setBackgroundColor(getColor(R.color.black))
 
         val allPermissions: ArrayList<String> = ArrayList<String>()
+        allPermissions.add(Manifest.permission.INTERNET)
+        allPermissions.add(Manifest.permission.VIBRATE)
+        allPermissions.add(Manifest.permission.SYSTEM_ALERT_WINDOW)
+        allPermissions.add(Manifest.permission.PACKAGE_USAGE_STATS)
+        allPermissions.add(Manifest.permission.RECEIVE_BOOT_COMPLETED)
+        allPermissions.add(Manifest.permission.WAKE_LOCK)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            allPermissions.add(Manifest.permission.USE_BIOMETRIC)
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             allPermissions.add(Manifest.permission.POST_NOTIFICATIONS)
         }
 
         requestPermissions(allPermissions.toTypedArray(), Dashboard.RequestId.Permissions)
-
-        colorsIO.processWallpaperColors()
 
     }
 
@@ -91,6 +99,12 @@ class Dashboard : AppCompatActivity() {
         super.onResume()
 
         setupUserInterface()
+
+    }
+
+    override fun animationFinished() {
+
+
 
     }
 

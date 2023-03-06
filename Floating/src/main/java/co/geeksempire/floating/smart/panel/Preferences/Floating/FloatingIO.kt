@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 7:55 AM
+ * Last modified 3/6/23, 9:37 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -22,6 +22,8 @@ class FloatingIO (private val context: Context) {
     object FloatingSide {
         const val FloatingSideX = "FloatingSideX"
         const val FloatingSideY = "FloatingSideY"
+
+        const val FloatingTransparency = "FloatingTransparency"
 
         const val LeftSide = 0
         const val RightSide = 1
@@ -49,6 +51,11 @@ class FloatingIO (private val context: Context) {
     fun positionY() : Int {
 
         return preferencesIO.readPreference((FloatingIO.FloatingSide.FloatingSideY), 37)
+    }
+
+    fun transparency() : Float {
+
+        return preferencesIO.readPreference((FloatingIO.FloatingSide.FloatingTransparency), 173f)
     }
 
 }

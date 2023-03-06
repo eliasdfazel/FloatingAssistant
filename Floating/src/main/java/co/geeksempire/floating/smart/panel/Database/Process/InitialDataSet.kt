@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 8:10 AM
+ * Last modified 3/6/23, 9:45 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -54,9 +54,21 @@ class InitialDataSet (private val context: Context) {
 
         }
 
-        randomApplications.shuffle()
+        val finalRandomApplication: ArrayList<FloatingDataStructure> = ArrayList<FloatingDataStructure>()
 
-        return randomApplications
+        if (randomApplications.size > 7) {
+
+            finalRandomApplication.addAll(randomApplications.slice(IntRange(1, 5)))
+
+        } else {
+
+            finalRandomApplication.addAll(randomApplications)
+
+        }
+
+        finalRandomApplication.shuffle()
+
+        return finalRandomApplication
     }
 
 }

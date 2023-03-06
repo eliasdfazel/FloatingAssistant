@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 8:12 AM
+ * Last modified 3/6/23, 10:13 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -40,6 +40,8 @@ import com.bumptech.glide.request.target.Target
 
 
 fun Dashboard.setupUserInterface() {
+
+    colorsIO.processWallpaperColors()
 
     fireaseUser?.let {
 
@@ -208,7 +210,7 @@ fun Dashboard.setupUserInterface() {
         dashboardLayoutBinding.launchButtonBlurry.visibility = View.VISIBLE
         dashboardLayoutBinding.launchButtonBlurry.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
 
-        alphaAnimation(dashboardLayoutBinding.launchButtonBlurry)
+        alphaAnimation(view =  dashboardLayoutBinding.launchButtonBlurry, animationStatus = this@setupUserInterface)
 
         dashboardLayoutBinding.launchButton.visibility = View.VISIBLE
         dashboardLayoutBinding.launchButton.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
@@ -236,7 +238,7 @@ fun Dashboard.setupUserInterface() {
         dashboardLayoutBinding.launchButtonBlurry.visibility = View.VISIBLE
         dashboardLayoutBinding.launchButtonBlurry.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
 
-        alphaAnimation(dashboardLayoutBinding.launchButtonBlurry)
+        alphaAnimation(view = dashboardLayoutBinding.launchButtonBlurry, animationStatus = this@setupUserInterface)
 
         dashboardLayoutBinding.launchButton.visibility = View.VISIBLE
         dashboardLayoutBinding.launchButton.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
