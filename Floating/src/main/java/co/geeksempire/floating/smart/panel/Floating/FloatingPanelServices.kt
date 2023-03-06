@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 11:11 AM
+ * Last modified 3/6/23, 11:20 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -100,7 +100,8 @@ class FloatingPanelServices : Service() {
                 }
                 FloatingIO.FloatingSide.RightSide -> {
 
-                    floatingLayoutBinding.floatingHandheldGlow.rotationY = 0f
+                    floatingLayoutBinding.floatingHandheldGlow.rotationY = 180f
+                    floatingLayoutBinding.floatingHandheld.rotationY = 180f
 
                 }
             }
@@ -189,7 +190,9 @@ class FloatingPanelServices : Service() {
 
                                 })
 
-                                moveFloatingToRight(applicationContext, windowManager, floatingLayoutBinding, layoutParameters)
+                                moveFloatingTo(applicationContext, windowManager, floatingLayoutBinding, layoutParameters, floatingIO.positionX())
+
+                                floatingPanelStandBy(windowManager, floatingLayoutBinding, standByDelay = 13579)
 
                             } else {
 
@@ -203,7 +206,7 @@ class FloatingPanelServices : Service() {
 
                                 })
 
-                                moveFloatingTo(applicationContext, windowManager, floatingLayoutBinding, layoutParameters, floatingIO.positionX())
+                                moveFloatingToRight(applicationContext, windowManager, floatingLayoutBinding, layoutParameters)
 
                             }
 
@@ -259,8 +262,6 @@ class FloatingPanelServices : Service() {
 
                                 }
                             }
-
-                            floatingPanelStandBy(windowManager, floatingLayoutBinding, standByDelay = 7777)
 
                         }
                         MotionEvent.ACTION_MOVE -> {
@@ -359,20 +360,44 @@ class FloatingPanelServices : Service() {
 
             Handler(Looper.getMainLooper()).postDelayed({
 
-                when (sideLeftRight) {
-                    FloatingIO.FloatingSide.LeftSide -> {
+                if (!inStandBy) {
+
+                    when (sideLeftRight) {
+                        FloatingIO.FloatingSide.LeftSide -> {
 
 
 
+                        }
+                        FloatingIO.FloatingSide.RightSide -> {
+
+                            rotateAnimationY(floatingLayoutBinding.floatingHandheldGlow, toY = 0f, animationStatus =  object : AnimationStatus {
+
+                                override fun animationFinished() {
+
+
+
+                                }
+
+                            })
+
+                            rotateAnimationY(floatingLayoutBinding.floatingHandheld, toY = 0f, animationStatus =  object : AnimationStatus {
+
+                                override fun animationFinished() {
+
+
+
+                                }
+
+                            })
+
+                            moveFloatingToRight(applicationContext, windowManager, floatingLayoutBinding, layoutParameters)
+
+                        }
                     }
-                    FloatingIO.FloatingSide.RightSide -> {
 
-                        moveFloatingToRight(applicationContext, windowManager, floatingLayoutBinding, layoutParameters)
+                    inStandBy = true
 
-                    }
                 }
-
-                inStandBy = true
 
             }, standByDelay)
 
