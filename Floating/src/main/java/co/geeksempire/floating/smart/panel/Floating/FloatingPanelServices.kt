@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 8:27 AM
+ * Last modified 3/6/23, 8:34 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -29,6 +29,7 @@ import co.geeksempire.floating.smart.panel.Floating.Extensions.registerFloatingB
 import co.geeksempire.floating.smart.panel.Floating.Extensions.setupUserInterface
 import co.geeksempire.floating.smart.panel.Preferences.Floating.FloatingIO
 import co.geeksempire.floating.smart.panel.Preferences.UI.ColorsIO
+import co.geeksempire.floating.smart.panel.Utils.Animations.alphaAnimation
 import co.geeksempire.floating.smart.panel.Utils.Display.displayX
 import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCreator
@@ -100,6 +101,9 @@ class FloatingPanelServices : Service() {
 
             floatingLayoutBinding.floatingHandheld.setOnClickListener {
                 Log.d(this@FloatingPanelServices.javaClass.simpleName, "Floating Handheld Clicked")
+
+                alphaAnimation(floatingLayoutBinding.floatingHandheldGlow)
+
             }
 
             floatingLayoutBinding.floatingHandheld.setOnTouchListener(object : View.OnTouchListener {

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 7:55 AM
+ * Last modified 3/6/23, 8:34 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -62,13 +62,13 @@ class ColorsIO(private val context: Context) {
 
     fun storeVibrantColor(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
 
-        preferencesIO.savePreference((ColorsIO.Type.dominantColor), inputValue)
+        preferencesIO.savePreference((ColorsIO.Type.vibrantColor), inputValue)
 
     }
 
     fun storeMutedColor(inputValue: Int) = CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
 
-        preferencesIO.savePreference((ColorsIO.Type.dominantColor), inputValue)
+        preferencesIO.savePreference((ColorsIO.Type.mutedColor), inputValue)
 
     }
 
