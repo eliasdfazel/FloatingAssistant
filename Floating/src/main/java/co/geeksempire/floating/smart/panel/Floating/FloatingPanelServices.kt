@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 11:20 AM
+ * Last modified 3/7/23, 8:33 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -50,10 +50,6 @@ class FloatingPanelServices : Service() {
 
     private val layoutInflater: LayoutInflater by lazy {
         getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    }
-
-    private val floatingAdapter: FloatingAdapter by lazy {
-        FloatingAdapter(applicationContext, layoutInflater)
     }
 
     private var layoutParameters = WindowManager.LayoutParams()
@@ -117,6 +113,7 @@ class FloatingPanelServices : Service() {
             val linearLayoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
             floatingLayoutBinding.floatingRecyclerView.layoutManager = linearLayoutManager
 
+            val floatingAdapter: FloatingAdapter = FloatingAdapter(applicationContext, layoutInflater, floatingLayoutBinding.floatingShield)
             floatingLayoutBinding.floatingRecyclerView.adapter = floatingAdapter
 
             floatingLayoutBinding.floatingHandheld.setOnClickListener {
@@ -301,6 +298,8 @@ class FloatingPanelServices : Service() {
 
             })
 
+            floatingLayoutBinding.floatingShield.setOnClickListener {  }
+
             if (!FloatingPanelServices.Floating) {
 
                 FloatingPanelServices.Floating = true
@@ -311,7 +310,7 @@ class FloatingPanelServices : Service() {
 
                 registerFloatingBroadcasts(floatingLayoutBinding)
 
-                prepareInitialData()
+                prepareInitialData(floatingAdapter)
 
             }
 
@@ -334,7 +333,7 @@ class FloatingPanelServices : Service() {
 
     }
 
-    private fun prepareInitialData() {
+    private fun prepareInitialData(floatingAdapter: FloatingAdapter) {
 
         if (getDatabasePath(Database.DatabaseName).exists()) {
 

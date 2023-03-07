@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 10:45 AM
+ * Last modified 3/7/23, 8:31 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -17,6 +17,7 @@ import android.content.Intent
 import android.graphics.Rect
 import android.os.Handler
 import android.os.Looper
+import co.geeksempire.floating.smart.panel.R
 import co.geeksempire.floating.smart.panel.Utils.Display.displaySection
 import co.geeksempire.floating.smart.panel.Utils.Display.displayX
 import co.geeksempire.floating.smart.panel.Utils.Display.displayY
@@ -28,7 +29,7 @@ fun openApplicationFromActivity(instanceOfActivity: Activity, packageName: Strin
     val openAlias = Intent()
     openAlias.setClassName(packageName, className)
     openAlias.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    instanceOfActivity.startActivity(openAlias)
+    instanceOfActivity.startActivity(openAlias, ActivityOptions.makeCustomAnimation(instanceOfActivity, R.anim.fade_in, 0).toBundle())
 
 }
 
@@ -38,7 +39,7 @@ fun openApplicationFromActivity(instanceOfActivity: Activity, packageName: Strin
 
     launchIntentForPackage?.let {
         launchIntentForPackage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        instanceOfActivity.startActivity(launchIntentForPackage)
+        instanceOfActivity.startActivity(launchIntentForPackage, ActivityOptions.makeCustomAnimation(instanceOfActivity, R.anim.fade_in, 0).toBundle())
     }
 
 }

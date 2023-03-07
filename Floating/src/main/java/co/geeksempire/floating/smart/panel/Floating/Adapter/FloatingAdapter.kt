@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 11:32 AM
+ * Last modified 3/7/23, 8:28 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -14,14 +14,16 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
 import co.geeksempire.floating.smart.panel.Launch.OpenApplicationsLaunchPad
 import co.geeksempire.floating.smart.panel.databinding.FloatingItemBinding
 import com.bumptech.glide.Glide
 
-class FloatingAdapter (private val context: Context, private val layoutInflater: LayoutInflater) : RecyclerView.Adapter<FloatingViewHolder>() {
+class FloatingAdapter (private val context: Context, private val layoutInflater: LayoutInflater, private val floatingShield: AppCompatImageView) : RecyclerView.Adapter<FloatingViewHolder>() {
 
     val applicationsData = ArrayList<FloatingDataStructure>()
 
@@ -52,6 +54,8 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
                 }
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             })
+
+            floatingShield.visibility = View.VISIBLE
 
         }
 
