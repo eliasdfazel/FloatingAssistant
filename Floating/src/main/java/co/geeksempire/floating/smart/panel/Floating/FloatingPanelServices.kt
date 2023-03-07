@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/7/23, 8:33 AM
+ * Last modified 3/7/23, 9:08 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -119,6 +119,8 @@ class FloatingPanelServices : Service() {
             floatingLayoutBinding.floatingHandheld.setOnClickListener {
                 Log.d(this@FloatingPanelServices.javaClass.simpleName, "Floating Handheld Clicked")
 
+                floatingLayoutBinding.floatingHandheld.isEnabled = false
+
                 when (sideLeftRight) {
                     FloatingIO.FloatingSide.LeftSide -> {
 
@@ -136,14 +138,6 @@ class FloatingPanelServices : Service() {
                                 rotateAnimationY(it, animationStatus =  object : AnimationStatus {
 
                                     override fun animationFinished() {
-
-                                        alphaAnimation(view = it, repeatCounter = 3, animationStatus =  object : AnimationStatus {
-
-                                            override fun animationFinished() {
-
-                                            }
-
-                                        })
 
                                     }
 
@@ -175,9 +169,12 @@ class FloatingPanelServices : Service() {
 
                                     override fun animationFinished() {
 
+                                        floatingLayoutBinding.floatingHandheld.isEnabled = true
+
                                         alphaAnimation(view = it, repeatCounter = 3, animationStatus =  object : AnimationStatus {
 
                                             override fun animationFinished() {
+
 
                                             }
 
@@ -198,6 +195,8 @@ class FloatingPanelServices : Service() {
                                 rotateAnimationY(view = it, toY = 0f, animationStatus =  object : AnimationStatus {
 
                                     override fun animationFinished() {
+
+                                        floatingLayoutBinding.floatingHandheld.isEnabled = true
 
                                     }
 

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 10:45 AM
+ * Last modified 3/7/23, 9:08 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -12,6 +12,9 @@ package co.geeksempire.floating.smart.panel.Utils.Animations
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -23,7 +26,9 @@ import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 import co.geeksempire.floating.smart.panel.databinding.FloatingLayoutBinding
 
 interface AnimationStatus {
-    fun animationFinished()
+    fun animationFinished() {
+        Log.d(this@AnimationStatus.javaClass.simpleName, "Animation Finished")
+    }
 }
 
 fun alphaAnimation(view: View,
@@ -71,16 +76,13 @@ fun rotateAnimationY(view: View,
         .setDuration(initialDuration)
         .setStartDelay(repeatDelay)
         .setInterpolator(AccelerateDecelerateInterpolator())
-        .setUpdateListener {
-
-            if ((it.animatedValue as Float) == toY) {
-
-                animationStatus.animationFinished()
-
-            }
-
-        }
         .start()
+
+    Handler(Looper.getMainLooper()).postDelayed({
+
+        animationStatus.animationFinished()
+
+    }, initialDuration)
 
 }
 
