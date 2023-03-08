@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 6:19 AM
+ * Last modified 3/8/23, 7:19 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -37,6 +37,8 @@ class PrototypeData (private val context: Context) {
                 Id = i,
 
                 Links = "co.geeksempire.floating.smart.panel-co.geeksempire.premium.storefront.android",
+                PackageOne = "co.geeksempire.floating.smart.panel",
+                PackageTwo = "co.geeksempire.premium.storefront.android",
                 Counter = 1,
 
                 TimeDay = 1337,

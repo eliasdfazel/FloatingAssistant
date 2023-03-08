@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/1/23, 10:09 AM
+ * Last modified 3/8/23, 7:35 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -102,7 +102,7 @@ class Filters {
 
         val calendar = Calendar.getInstance()
 
-        val currentWeekday = "${calendar.get(Calendar.DAY_OF_WEEK)}".toInt()
+        val currentWeekday = "${calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH)}".toInt()
 
         val inputMap = HashMap<ArwenDataStructure, Int>()
 

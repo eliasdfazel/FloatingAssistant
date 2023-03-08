@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 6:48 AM
+ * Last modified 3/8/23, 7:40 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import co.geeksempire.floating.smart.panel.Database.ArwenDataAccessObject
 import co.geeksempire.floating.smart.panel.Database.ArwenDataInterface
+import co.geeksempire.floating.smart.panel.Database.ArwenDataStructure
 import co.geeksempire.floating.smart.panel.Database.Database
 import co.geeksempire.floating.smart.panel.Database.Process.InitialDataSet
 import co.geeksempire.floating.smart.panel.Floating.Adapter.FloatingAdapter
@@ -46,6 +47,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.util.*
 
 class FloatingPanelServices : Service(), QueriesInterface {
 
@@ -432,10 +434,41 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
         CoroutineScope(Dispatchers.IO).async {
 
-            //get links
-            //get counter
-            //update counter
+            val calendar = Calendar.getInstance()
 
+            val arwenLink = arwenDatabaseAccess.specificLink(linkElementOne.applicationPackageName, linkElementTwo.applicationPackageName)
+
+            if (arwenLink != null) {
+
+
+                arwenLink.Counter = arwenLink.Counter + 1
+
+                arwenLink.TimeDay = "${calendar.get(Calendar.HOUR_OF_DAY)}${calendar.get(Calendar.MINUTE)}".toInt()
+                arwenLink.TimeWeek = calendar.get(Calendar.DAY_OF_WEEK)
+                arwenLink.TimeMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+                arwenDatabaseAccess.update(arwenLink)
+
+            } else {
+
+                val databaseIndex = arwenDatabaseAccess.rowCount()
+
+                arwenDatabaseAccess.insert(ArwenDataStructure(
+                    Id = databaseIndex,
+
+                    Links = "${linkElementOne.applicationPackageName}-${linkElementTwo.applicationPackageName}",
+
+                    PackageOne = linkElementOne.applicationPackageName,
+                    PackageTwo = linkElementTwo.applicationPackageName,
+
+                    Counter = 1,
+
+                    TimeDay = "${calendar.get(Calendar.HOUR_OF_DAY)}${calendar.get(Calendar.MINUTE)}".toInt(),
+                    TimeWeek = calendar.get(Calendar.DAY_OF_WEEK),
+                    TimeMonth = calendar.get(Calendar.DAY_OF_MONTH)
+                ))
+
+            }
 
         }
 

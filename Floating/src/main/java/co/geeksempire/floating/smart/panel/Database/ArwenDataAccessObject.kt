@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 2/27/23, 10:31 AM
+ * Last modified 3/8/23, 7:25 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -29,6 +29,9 @@ interface ArwenDataAccessObject {
 
     @Query("SELECT * FROM ARWEN WHERE Links IN (:PackageName) ORDER BY Counter DESC")
     suspend fun queryRelatedLinks(PackageName: String) : List<ArwenDataStructure>
+
+    @Query("SELECT * FROM ARWEN WHERE PackageNameOne IN (:PackageNameOne) AND PackageNameTwo IN (:PackageNameTwo)")
+    suspend fun specificLink(PackageNameOne: String, PackageNameTwo: String) : ArwenDataStructure?
 
     @Query("SELECT COUNT(Id) FROM ARWEN")
     suspend fun rowCount() : Int

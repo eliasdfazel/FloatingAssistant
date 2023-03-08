@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 6:21 AM
+ * Last modified 3/8/23, 7:19 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -28,6 +28,10 @@ data class ArwenDataStructure(
         @PrimaryKey var Id: Int,
 
         @ColumnInfo(name = "Links") var Links: String,
+
+        @ColumnInfo(name = "PackageOne") var PackageOne: String,
+        @ColumnInfo(name = "PackageTwo") var PackageTwo: String,
+
         @ColumnInfo(name = "Counter") var Counter: Int,
 
         @ColumnInfo(name = "TimeDay") var TimeDay: Int,
