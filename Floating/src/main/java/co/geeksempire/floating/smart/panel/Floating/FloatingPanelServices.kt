@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 5:32 AM
+ * Last modified 3/8/23, 5:35 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -358,7 +358,7 @@ class FloatingPanelServices : Service() {
 
                                                 windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
 
-                                            } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
+                                            } catch (e: Exception) { e.printStackTrace() }
 
                                         }
 

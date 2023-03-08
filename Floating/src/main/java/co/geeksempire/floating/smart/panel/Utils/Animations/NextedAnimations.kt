@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/7/23, 9:08 AM
+ * Last modified 3/8/23, 5:41 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -71,12 +71,18 @@ fun rotateAnimationY(view: View,
                      repeatDelay: Long = 73,
                      animationStatus: AnimationStatus) {
 
-    view.animate()
-        .rotationY(toY)
-        .setDuration(initialDuration)
-        .setStartDelay(repeatDelay)
-        .setInterpolator(AccelerateDecelerateInterpolator())
-        .start()
+    val rotateAnimationY = view.animate().apply {
+        rotationY(toY)
+        duration = initialDuration
+        startDelay = repeatDelay
+        interpolator = AccelerateDecelerateInterpolator()
+    }
+    rotateAnimationY.setUpdateListener {
+
+
+
+    }
+    rotateAnimationY.start()
 
     Handler(Looper.getMainLooper()).postDelayed({
 
@@ -101,7 +107,12 @@ fun moveFloatingTo(context: Context, windowManager: WindowManager,
 
             windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
 
-        } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            standByPosition.cancel()
+
+        }
 
     }
     standByPosition.start()
@@ -109,7 +120,6 @@ fun moveFloatingTo(context: Context, windowManager: WindowManager,
 }
 fun moveFloatingToRight(context: Context, windowManager: WindowManager,
                         floatingLayoutBinding: FloatingLayoutBinding, layoutParameters: WindowManager.LayoutParams) {
-
 
     val safeAreaX = displayX(context) - dpToInteger(context, 19)
 
@@ -124,7 +134,12 @@ fun moveFloatingToRight(context: Context, windowManager: WindowManager,
 
             windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
 
-        } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            standByPosition.cancel()
+
+        }
 
     }
     standByPosition.start()
@@ -148,7 +163,12 @@ fun moveFloatingToLeft(context: Context, windowManager: WindowManager,
 
             windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
 
-        } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            standByPosition.cancel()
+
+        }
 
     }
     standByPosition.start()

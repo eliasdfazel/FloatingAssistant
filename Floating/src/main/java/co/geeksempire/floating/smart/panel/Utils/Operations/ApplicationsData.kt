@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/3/23, 10:45 AM
+ * Last modified 3/8/23, 5:35 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -52,7 +52,7 @@ class ApplicationsData (private val context: Context) {
 
             activityInfo.loadLabel(context.packageManager).toString()
 
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: Exception) {
             e.printStackTrace()
 
             applicationName(activityInfo.packageName)
@@ -117,7 +117,7 @@ class ApplicationsData (private val context: Context) {
 
                 context.packageManager.getActivityInfo(ComponentName(context, packageName), PackageManager.ComponentInfoFlags.of(0))
 
-            } catch (e: PackageManager.NameNotFoundException) {
+            } catch (e: Exception) {
                 e.printStackTrace()
 
                 context.packageManager.getActivityInfo(ComponentName(context, packageName), 0)
@@ -140,7 +140,7 @@ class ApplicationsData (private val context: Context) {
 
                 context.packageManager.getActivityInfo(ComponentName(packageName, className), PackageManager.ComponentInfoFlags.of(0))
 
-            } catch (e: PackageManager.NameNotFoundException) {
+            } catch (e: Exception) {
                 e.printStackTrace()
 
                 context.packageManager.getActivityInfo(ComponentName(packageName, className), 0)
