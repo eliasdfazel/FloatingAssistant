@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 4:54 AM
+ * Last modified 3/8/23, 5:12 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -273,12 +273,54 @@ class FloatingPanelServices : Service() {
                                             floatingIO.storePositionX(layoutParameters.x)
                                             floatingIO.storePositionY(layoutParameters.y)
 
+                                            if (floatingLayoutBinding.floatingHandheld.rotationY == 0f) {
+
+                                                rotateAnimationY(floatingLayoutBinding.floatingHandheldGlow, toY = 180f, animationStatus =  object : AnimationStatus {
+
+                                                    override fun animationFinished() {
+
+                                                    }
+
+                                                })
+
+                                                rotateAnimationY(floatingLayoutBinding.floatingHandheld, toY = 180f, animationStatus =  object : AnimationStatus {
+
+                                                    override fun animationFinished() {
+
+                                                    }
+
+                                                })
+
+                                            }
+
+                                        } else {
+
+                                            if (floatingLayoutBinding.floatingHandheld.rotationY == 180f) {
+
+                                                rotateAnimationY(floatingLayoutBinding.floatingHandheldGlow, toY = 0f, animationStatus =  object : AnimationStatus {
+
+                                                    override fun animationFinished() {
+
+                                                    }
+
+                                                })
+
+                                                rotateAnimationY(floatingLayoutBinding.floatingHandheld, toY = 0f, animationStatus =  object : AnimationStatus {
+
+                                                    override fun animationFinished() {
+
+                                                    }
+
+                                                })
+
+                                            }
+
                                         }
 
                                     }
                                 }
 
-                                moveIt = true
+                                moveIt = false
 
                             }
 
