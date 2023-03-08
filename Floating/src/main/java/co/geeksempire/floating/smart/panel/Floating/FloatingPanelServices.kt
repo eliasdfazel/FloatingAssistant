@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 7:40 AM
+ * Last modified 3/8/23, 7:45 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -478,7 +478,11 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
         CoroutineScope(Dispatchers.IO).async {
 
-//            arwenDatabaseAccess.queryRelatedLinks(priorElement.applicationPackageName)
+            arwenDatabaseAccess.queryRelatedLinks(priorElement.applicationPackageName)?.let {
+
+
+
+            }
 
         }
 
@@ -488,7 +492,9 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
         if (getDatabasePath(Database.DatabaseName).exists()) {
 
-
+            // query all based on day of week
+            // sort with counter
+            //queryRelatedDayTime
 
         } else {
 
