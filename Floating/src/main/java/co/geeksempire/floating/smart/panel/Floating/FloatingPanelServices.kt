@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 5:12 AM
+ * Last modified 3/8/23, 5:32 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -12,6 +12,7 @@ package co.geeksempire.floating.smart.panel.Floating
 
 import android.annotation.SuppressLint
 import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Handler
@@ -48,8 +49,16 @@ class FloatingPanelServices : Service() {
 
     private val notificationsCreator = NotificationsCreator()
 
+    val windowManager: WindowManager by lazy {
+        getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    }
+
     private val layoutInflater: LayoutInflater by lazy {
         getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    }
+
+    val floatingLayoutBinding: FloatingLayoutBinding by lazy {
+        FloatingLayoutBinding.inflate(layoutInflater)
     }
 
     private var layoutParameters = WindowManager.LayoutParams()
@@ -80,6 +89,8 @@ class FloatingPanelServices : Service() {
 
     var delayHandler: Handler = Handler(Looper.getMainLooper())
 
+    var broadcastReceiver: BroadcastReceiver? = null
+
     override fun onBind(intent: Intent?) : IBinder? { return null }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -88,11 +99,8 @@ class FloatingPanelServices : Service() {
 
         CoroutineScope(Dispatchers.Main).launch {
 
-            val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
             sideLeftRight = floatingIO.floatingSide()
-
-            val floatingLayoutBinding: FloatingLayoutBinding = FloatingLayoutBinding.inflate(layoutInflater)
 
             when (sideLeftRight) {
                 FloatingIO.FloatingSide.LeftSide -> {
@@ -399,6 +407,12 @@ class FloatingPanelServices : Service() {
         super.onDestroy()
 
         FloatingPanelServices.Floating = false
+
+        windowManager.removeView(floatingLayoutBinding.root)
+
+        broadcastReceiver?.let {
+            unregisterReceiver(it)
+        }
 
     }
 

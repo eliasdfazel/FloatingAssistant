@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 9:38 AM
+ * Last modified 3/8/23, 5:31 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -25,7 +25,7 @@ fun FloatingPanelServices.registerFloatingBroadcasts(floatingLayoutBinding: Floa
     val intentFilter = IntentFilter().apply {
         addAction(ColorsIO.Type.colorsChanged)
     }
-    val broadcastReceiver = object : BroadcastReceiver() {
+    broadcastReceiver = object : BroadcastReceiver() {
 
         override fun onReceive(context: Context?, intent: Intent?) {
 

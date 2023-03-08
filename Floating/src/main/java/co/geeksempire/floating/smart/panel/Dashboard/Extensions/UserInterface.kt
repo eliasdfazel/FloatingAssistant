@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 10:13 AM
+ * Last modified 3/8/23, 5:23 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -200,9 +200,9 @@ fun Dashboard.setupUserInterface() {
     /* End - Usage Access  */
 
     /* Start - Launch Button */
-    if (systemSettings.accessibilityServiceEnabled()
+    if ((systemSettings.accessibilityServiceEnabled()
         && systemSettings.floatingPermissionEnabled()
-        && systemSettings.usageAccessEnabled()) {
+        && systemSettings.usageAccessEnabled()) || BuildConfig.DEBUG) {
 
         dashboardLayoutBinding.launchButtonBackground.visibility = View.VISIBLE
         dashboardLayoutBinding.launchButtonBackground.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
@@ -224,34 +224,9 @@ fun Dashboard.setupUserInterface() {
 
                 startForegroundService(Intent(applicationContext, FloatingPanelServices::class.java))
 
-            }
+            } else {
 
-        }
-
-    }
-
-    if (BuildConfig.DEBUG) {
-
-        dashboardLayoutBinding.launchButtonBackground.visibility = View.VISIBLE
-        dashboardLayoutBinding.launchButtonBackground.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
-
-        dashboardLayoutBinding.launchButtonBlurry.visibility = View.VISIBLE
-        dashboardLayoutBinding.launchButtonBlurry.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
-
-        alphaAnimation(view = dashboardLayoutBinding.launchButtonBlurry, animationStatus = this@setupUserInterface)
-
-        dashboardLayoutBinding.launchButton.visibility = View.VISIBLE
-        dashboardLayoutBinding.launchButton.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
-
-        dashboardLayoutBinding.launchButton.setOnClickListener {
-
-            notificationsCreator.playNotificationSound(this@setupUserInterface, R.raw.titan)
-            notificationsCreator.doVibrate(applicationContext, 73)
-
-            if (!FloatingPanelServices.Floating) {
-
-                startForegroundService(Intent(applicationContext, FloatingPanelServices::class.java)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                stopService(Intent(applicationContext, FloatingPanelServices::class.java))
 
             }
 
