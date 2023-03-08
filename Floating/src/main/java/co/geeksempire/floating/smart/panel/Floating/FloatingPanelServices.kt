@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 9:36 AM
+ * Last modified 3/8/23, 9:43 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -465,11 +465,11 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
                 floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.applicationsData.size - 1)
 
+                floatingLayoutBinding.floatingShield.visibility = View.GONE
+
             }
 
         }
-
-        floatingLayoutBinding.floatingShield.visibility = View.GONE
 
     }
 
