@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 6:05 AM
+ * Last modified 3/8/23, 6:48 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -25,6 +25,9 @@ import android.view.View
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
+import co.geeksempire.floating.smart.panel.Database.ArwenDataAccessObject
+import co.geeksempire.floating.smart.panel.Database.ArwenDataInterface
 import co.geeksempire.floating.smart.panel.Database.Database
 import co.geeksempire.floating.smart.panel.Database.Process.InitialDataSet
 import co.geeksempire.floating.smart.panel.Floating.Adapter.FloatingAdapter
@@ -41,6 +44,7 @@ import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCrea
 import co.geeksempire.floating.smart.panel.databinding.FloatingLayoutBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class FloatingPanelServices : Service(), QueriesInterface {
@@ -68,6 +72,10 @@ class FloatingPanelServices : Service(), QueriesInterface {
     }
 
     private var layoutParameters = WindowManager.LayoutParams()
+
+    val arwenDatabaseAccess: ArwenDataAccessObject by lazy {
+        Room.databaseBuilder(applicationContext, ArwenDataInterface::class.java, Database.DatabaseName).build().initializeDataAccessObject()
+    }
 
     val floatingIO: FloatingIO by lazy {
         FloatingIO(applicationContext)
@@ -420,14 +428,26 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
     }
 
-    override fun startDatabaseQueries(linkElementOne: FloatingDataStructure, linkElementTwo: FloatingDataStructure) {
+    override fun insertDatabaseQueries(linkElementOne: FloatingDataStructure, linkElementTwo: FloatingDataStructure) {
 
+        CoroutineScope(Dispatchers.IO).async {
+
+            //get links
+            //get counter
+            //update counter
+
+
+        }
 
     }
 
     override fun notifyDataSetUpdate(priorElement: FloatingDataStructure) {
 
+        CoroutineScope(Dispatchers.IO).async {
 
+//            arwenDatabaseAccess.queryRelatedLinks(priorElement.applicationPackageName)
+
+        }
 
     }
 

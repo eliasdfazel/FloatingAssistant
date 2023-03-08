@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 6:27 AM
+ * Last modified 3/8/23, 6:48 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -51,12 +51,11 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
         floatingViewHolder.rootViewItem.setOnClickListener {
             Log.d(this@FloatingAdapter.javaClass.simpleName, applicationsData[position].applicationPackageName)
 
-            clickedApplicationData.add(
-                FloatingDataStructure(
-                    applicationPackageName = applicationsData[position].applicationPackageName,
-                    applicationClassName = applicationsData[position].applicationClassName,
-                    applicationName = applicationsData[position].applicationName,
-                    applicationIcon = applicationsData[position].applicationIcon
+            clickedApplicationData.add(FloatingDataStructure(
+                applicationPackageName = applicationsData[position].applicationPackageName,
+                applicationClassName = applicationsData[position].applicationClassName,
+                applicationName = applicationsData[position].applicationName,
+                applicationIcon = applicationsData[position].applicationIcon
             ))
 
             context.startActivity(Intent(context, OpenApplicationsLaunchPad::class.java).apply {
@@ -74,9 +73,9 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
             if (clickedApplicationData.size == 2) {
                 Log.d(this@FloatingAdapter.javaClass.simpleName, "Start Database Queries")
 
-                clickedApplicationData.clear()
+                queriesInterface.insertDatabaseQueries(clickedApplicationData[0], clickedApplicationData[1])
 
-                queriesInterface.startDatabaseQueries(clickedApplicationData[0], clickedApplicationData[1])
+                clickedApplicationData.removeFirst()
 
             }
 
