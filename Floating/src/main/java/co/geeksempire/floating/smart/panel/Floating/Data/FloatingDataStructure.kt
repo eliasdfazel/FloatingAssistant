@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 11:31 AM
+ * Last modified 3/8/23, 6:04 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -11,6 +11,11 @@
 package co.geeksempire.floating.smart.panel.Floating.Data
 
 import android.graphics.drawable.Drawable
+
+interface QueriesInterface {
+    fun startDatabaseQueries(linkElementOne: FloatingDataStructure, linkElementTwo: FloatingDataStructure)
+    fun notifyDataSetUpdate(priorElement: FloatingDataStructure)
+}
 
 data class FloatingDataStructure (val applicationPackageName: String, val applicationClassName: String?,
                                   val applicationName: String, val applicationIcon: Drawable)

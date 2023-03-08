@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/7/23, 8:28 AM
+ * Last modified 3/8/23, 6:27 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -19,13 +19,17 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
+import co.geeksempire.floating.smart.panel.Floating.Data.QueriesInterface
 import co.geeksempire.floating.smart.panel.Launch.OpenApplicationsLaunchPad
 import co.geeksempire.floating.smart.panel.databinding.FloatingItemBinding
 import com.bumptech.glide.Glide
 
-class FloatingAdapter (private val context: Context, private val layoutInflater: LayoutInflater, private val floatingShield: AppCompatImageView) : RecyclerView.Adapter<FloatingViewHolder>() {
+class FloatingAdapter (private val context: Context, private val layoutInflater: LayoutInflater, private val floatingShield: AppCompatImageView,
+                       private val queriesInterface: QueriesInterface) : RecyclerView.Adapter<FloatingViewHolder>() {
 
     val applicationsData = ArrayList<FloatingDataStructure>()
+
+    private val clickedApplicationData = ArrayList<FloatingDataStructure>()
 
     override fun getItemCount() : Int {
 
@@ -47,6 +51,14 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
         floatingViewHolder.rootViewItem.setOnClickListener {
             Log.d(this@FloatingAdapter.javaClass.simpleName, applicationsData[position].applicationPackageName)
 
+            clickedApplicationData.add(
+                FloatingDataStructure(
+                    applicationPackageName = applicationsData[position].applicationPackageName,
+                    applicationClassName = applicationsData[position].applicationClassName,
+                    applicationName = applicationsData[position].applicationName,
+                    applicationIcon = applicationsData[position].applicationIcon
+            ))
+
             context.startActivity(Intent(context, OpenApplicationsLaunchPad::class.java).apply {
                 putExtra("packageName", applicationsData[position].applicationPackageName)
                 applicationsData[position].applicationClassName?.let {
@@ -56,6 +68,17 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
             })
 
             floatingShield.visibility = View.VISIBLE
+
+            queriesInterface.notifyDataSetUpdate(applicationsData[position])
+
+            if (clickedApplicationData.size == 2) {
+                Log.d(this@FloatingAdapter.javaClass.simpleName, "Start Database Queries")
+
+                clickedApplicationData.clear()
+
+                queriesInterface.startDatabaseQueries(clickedApplicationData[0], clickedApplicationData[1])
+
+            }
 
         }
 

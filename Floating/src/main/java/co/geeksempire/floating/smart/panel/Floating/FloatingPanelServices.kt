@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 5:46 AM
+ * Last modified 3/8/23, 6:05 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -28,6 +28,8 @@ import androidx.recyclerview.widget.RecyclerView
 import co.geeksempire.floating.smart.panel.Database.Database
 import co.geeksempire.floating.smart.panel.Database.Process.InitialDataSet
 import co.geeksempire.floating.smart.panel.Floating.Adapter.FloatingAdapter
+import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
+import co.geeksempire.floating.smart.panel.Floating.Data.QueriesInterface
 import co.geeksempire.floating.smart.panel.Floating.Extensions.registerFloatingBroadcasts
 import co.geeksempire.floating.smart.panel.Floating.Extensions.setupUserInterface
 import co.geeksempire.floating.smart.panel.Preferences.Floating.FloatingIO
@@ -41,7 +43,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FloatingPanelServices : Service() {
+class FloatingPanelServices : Service(), QueriesInterface {
 
     companion object {
         var Floating = false
@@ -62,7 +64,7 @@ class FloatingPanelServices : Service() {
     }
 
     private val floatingAdapter: FloatingAdapter by lazy {
-        FloatingAdapter(applicationContext, layoutInflater, floatingLayoutBinding.floatingShield)
+        FloatingAdapter(applicationContext, layoutInflater, floatingLayoutBinding.floatingShield, this@FloatingPanelServices)
     }
 
     private var layoutParameters = WindowManager.LayoutParams()
@@ -415,6 +417,17 @@ class FloatingPanelServices : Service() {
         broadcastReceiver?.let {
             unregisterReceiver(it)
         }
+
+    }
+
+    override fun startDatabaseQueries(linkElementOne: FloatingDataStructure, linkElementTwo: FloatingDataStructure) {
+
+
+    }
+
+    override fun notifyDataSetUpdate(priorElement: FloatingDataStructure) {
+
+
 
     }
 
