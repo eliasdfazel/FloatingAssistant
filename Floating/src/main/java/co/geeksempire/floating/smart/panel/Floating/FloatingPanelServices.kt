@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 7:46 AM
+ * Last modified 3/8/23, 7:50 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -43,10 +43,8 @@ import co.geeksempire.floating.smart.panel.Utils.Display.displayX
 import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCreator
 import co.geeksempire.floating.smart.panel.databinding.FloatingLayoutBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.lang.Runnable
 import java.util.*
 
 class FloatingPanelServices : Service(), QueriesInterface {
@@ -478,7 +476,7 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
         CoroutineScope(Dispatchers.IO).async {
 
-            arwenDatabaseAccess.queryRelatedLinks(priorElement.applicationPackageName)?.let {
+            arwenDatabaseAccess.queryRelatedLinks(priorElement.applicationPackageName)?.let { relatedLinks ->
 
 
 
@@ -504,12 +502,20 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
         } else {
 
-            val initialDataSet = InitialDataSet(applicationContext).generate()
+            CoroutineScope(Dispatchers.IO).async {
 
-            floatingAdapter.applicationsData.clear()
-            floatingAdapter.applicationsData.addAll(initialDataSet)
+                val initialDataSet = InitialDataSet(applicationContext).generate()
 
-            floatingAdapter.notifyDataSetChanged()
+                floatingAdapter.applicationsData.clear()
+                floatingAdapter.applicationsData.addAll(initialDataSet)
+
+                withContext(Dispatchers.Main) {
+
+                    floatingAdapter.notifyItemRangeInserted(0, initialDataSet.size - 1)
+
+                }
+
+            }
 
         }
 

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 7:46 AM
+ * Last modified 3/8/23, 7:51 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -33,7 +33,7 @@ interface ArwenDataAccessObject {
     @Query("SELECT * FROM ARWEN WHERE TimeWeek IN (:dayOfWeek) ORDER BY Counter DESC")
     suspend fun queryRelatedDayTime(dayOfWeek: Int) : List<ArwenDataStructure>?
 
-    @Query("SELECT * FROM ARWEN WHERE PackageNameOne IN (:PackageNameOne) AND PackageNameTwo IN (:PackageNameTwo)")
+    @Query("SELECT * FROM ARWEN WHERE PackageOne IN (:PackageNameOne) AND PackageTwo IN (:PackageNameTwo)")
     suspend fun specificLink(PackageNameOne: String, PackageNameTwo: String) : ArwenDataStructure?
 
     @Query("SELECT COUNT(Id) FROM ARWEN")
