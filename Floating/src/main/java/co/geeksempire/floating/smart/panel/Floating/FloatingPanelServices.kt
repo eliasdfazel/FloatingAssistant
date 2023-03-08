@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/7/23, 9:08 AM
+ * Last modified 3/8/23, 4:54 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -73,6 +73,12 @@ class FloatingPanelServices : Service() {
     var sideLeftRight = FloatingIO.FloatingSide.RightSide
 
     var inStandBy = false
+
+    var moveIt = false
+
+    lateinit var delayRunnable: Runnable
+
+    var delayHandler: Handler = Handler(Looper.getMainLooper())
 
     override fun onBind(intent: Intent?) : IBinder? { return null }
 
@@ -232,61 +238,83 @@ class FloatingPanelServices : Service() {
                             initialTouchX = motionEvent.rawX
                             initialTouchY = motionEvent.rawY
 
+                            delayRunnable = Runnable {
+                                Log.d(this@FloatingPanelServices.javaClass.simpleName, "Action Down: Moving Permission Granted")
+
+                                moveIt = true
+
+                            }
+
+                            delayHandler.postDelayed(delayRunnable, 777)
+
                         }
                         MotionEvent.ACTION_UP -> {
 
-                            val moveX = initialX + ((motionEvent.rawX - initialTouchX)).toInt()
-                            val moveY = initialY + ((motionEvent.rawY - initialTouchY)).toInt()
+                            delayHandler.removeCallbacks(delayRunnable)
 
-                            when (sideLeftRight) {
-                                FloatingIO.FloatingSide.LeftSide -> {
+                            if (moveIt) {
+
+                                val moveX = initialX + ((motionEvent.rawX - initialTouchX)).toInt()
+                                val moveY = initialY + ((motionEvent.rawY - initialTouchY)).toInt()
+
+                                when (sideLeftRight) {
+                                    FloatingIO.FloatingSide.LeftSide -> {
 
 
-
-                                }
-                                FloatingIO.FloatingSide.RightSide -> {
-
-                                    if (moveX < safeAreaRight) {
-
-                                        layoutParameters.x = moveX
-                                        layoutParameters.y = moveY
-
-                                        floatingIO.storePositionX(layoutParameters.x)
-                                        floatingIO.storePositionY(layoutParameters.y)
 
                                     }
+                                    FloatingIO.FloatingSide.RightSide -> {
 
+                                        if (moveX < safeAreaRight) {
+
+                                            layoutParameters.x = moveX
+                                            layoutParameters.y = moveY
+
+                                            floatingIO.storePositionX(layoutParameters.x)
+                                            floatingIO.storePositionY(layoutParameters.y)
+
+                                        }
+
+                                    }
                                 }
+
+                                moveIt = true
+
                             }
 
                         }
                         MotionEvent.ACTION_MOVE -> {
 
-                            val moveX = initialX + ((motionEvent.rawX - initialTouchX)).toInt()
-                            val moveY = initialY + ((motionEvent.rawY - initialTouchY)).toInt()
+                            if (moveIt) {
+                                Log.d(this@FloatingPanelServices.javaClass.simpleName, "Action Move: Moving...")
 
-                            when (sideLeftRight) {
-                                FloatingIO.FloatingSide.LeftSide -> {
+                                val moveX = initialX + ((motionEvent.rawX - initialTouchX)).toInt()
+                                val moveY = initialY + ((motionEvent.rawY - initialTouchY)).toInt()
+
+                                when (sideLeftRight) {
+                                    FloatingIO.FloatingSide.LeftSide -> {
 
 
-
-                                }
-                                FloatingIO.FloatingSide.RightSide -> {
-
-                                    if (moveX < safeAreaRight) {
-
-                                        layoutParameters.x = moveX
-                                        layoutParameters.y = moveY
-
-                                        try {
-
-                                            windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
-
-                                        } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
 
                                     }
+                                    FloatingIO.FloatingSide.RightSide -> {
 
+                                        if (moveX < safeAreaRight) {
+
+                                            layoutParameters.x = moveX
+                                            layoutParameters.y = moveY
+
+                                            try {
+
+                                                windowManager.updateViewLayout(floatingLayoutBinding.root, layoutParameters)
+
+                                            } catch (e: WindowManager.InvalidDisplayException) { e.printStackTrace() }
+
+                                        }
+
+                                    }
                                 }
+
                             }
 
                         }
