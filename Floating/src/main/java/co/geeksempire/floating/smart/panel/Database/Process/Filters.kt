@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 7:35 AM
+ * Last modified 3/8/23, 8:31 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -10,7 +10,10 @@
 
 package co.geeksempire.floating.smart.panel.Database.Process
 
+import android.util.Log
+import co.geeksempire.floating.smart.panel.Database.ArwenDataAccessObject
 import co.geeksempire.floating.smart.panel.Database.ArwenDataStructure
+import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +27,49 @@ class Filters {
         const val Hours = 1
         const val Weekdays = 37
         const val Monthdays = 73
+    }
+
+    fun insertProcess(arwenDatabaseAccess: ArwenDataAccessObject,
+                      linkElementOne: FloatingDataStructure, linkElementTwo: FloatingDataStructure) = CoroutineScope(Dispatchers.IO).async {
+        Log.d(this@Filters.javaClass.simpleName, "Processing Links: ${linkElementOne.applicationPackageName} & ${linkElementTwo.applicationPackageName}")
+
+        val calendar = Calendar.getInstance()
+
+        val arwenLink = arwenDatabaseAccess.specificLink(linkElementOne.applicationPackageName, linkElementTwo.applicationPackageName)
+
+        if (arwenLink != null) {
+            Log.d(this@Filters.javaClass.simpleName, "Updating Link")
+
+            arwenLink.Counter = arwenLink.Counter + 1
+
+            arwenLink.TimeDay = "${calendar.get(Calendar.HOUR_OF_DAY)}${calendar.get(Calendar.MINUTE)}".toInt()
+            arwenLink.TimeWeek = calendar.get(Calendar.DAY_OF_WEEK)
+            arwenLink.TimeMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+            arwenDatabaseAccess.update(arwenLink)
+
+        } else {
+            Log.d(this@Filters.javaClass.simpleName, "Inserting Link")
+
+            val databaseIndex = arwenDatabaseAccess.rowCount()
+
+            arwenDatabaseAccess.insert(ArwenDataStructure(
+                Id = databaseIndex,
+
+                Links = "${linkElementOne.applicationPackageName}-${linkElementTwo.applicationPackageName}",
+
+                PackageOne = linkElementOne.applicationPackageName,
+                PackageTwo = linkElementTwo.applicationPackageName,
+
+                Counter = 1,
+
+                TimeDay = "${calendar.get(Calendar.HOUR_OF_DAY)}${calendar.get(Calendar.MINUTE)}".toInt(),
+                TimeWeek = calendar.get(Calendar.DAY_OF_WEEK),
+                TimeMonth = calendar.get(Calendar.DAY_OF_MONTH)
+            ))
+
+        }
+
     }
 
     /**

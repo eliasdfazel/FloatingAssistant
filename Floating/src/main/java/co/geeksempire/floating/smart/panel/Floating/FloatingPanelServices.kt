@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 7:50 AM
+ * Last modified 3/8/23, 8:34 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -28,8 +28,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import co.geeksempire.floating.smart.panel.Database.ArwenDataAccessObject
 import co.geeksempire.floating.smart.panel.Database.ArwenDataInterface
-import co.geeksempire.floating.smart.panel.Database.ArwenDataStructure
 import co.geeksempire.floating.smart.panel.Database.Database
+import co.geeksempire.floating.smart.panel.Database.Process.Filters
 import co.geeksempire.floating.smart.panel.Database.Process.InitialDataSet
 import co.geeksempire.floating.smart.panel.Floating.Adapter.FloatingAdapter
 import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
@@ -76,6 +76,8 @@ class FloatingPanelServices : Service(), QueriesInterface {
     val arwenDatabaseAccess: ArwenDataAccessObject by lazy {
         Room.databaseBuilder(applicationContext, ArwenDataInterface::class.java, Database.DatabaseName).build().initializeDataAccessObject()
     }
+
+    val filters: Filters = Filters()
 
     val floatingIO: FloatingIO by lazy {
         FloatingIO(applicationContext)
@@ -430,59 +432,15 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
     override fun insertDatabaseQueries(linkElementOne: FloatingDataStructure, linkElementTwo: FloatingDataStructure) {
 
-        CoroutineScope(Dispatchers.IO).async {
-
-            val calendar = Calendar.getInstance()
-
-            val arwenLink = arwenDatabaseAccess.specificLink(linkElementOne.applicationPackageName, linkElementTwo.applicationPackageName)
-
-            if (arwenLink != null) {
-
-
-                arwenLink.Counter = arwenLink.Counter + 1
-
-                arwenLink.TimeDay = "${calendar.get(Calendar.HOUR_OF_DAY)}${calendar.get(Calendar.MINUTE)}".toInt()
-                arwenLink.TimeWeek = calendar.get(Calendar.DAY_OF_WEEK)
-                arwenLink.TimeMonth = calendar.get(Calendar.DAY_OF_MONTH)
-
-                arwenDatabaseAccess.update(arwenLink)
-
-            } else {
-
-                val databaseIndex = arwenDatabaseAccess.rowCount()
-
-                arwenDatabaseAccess.insert(ArwenDataStructure(
-                    Id = databaseIndex,
-
-                    Links = "${linkElementOne.applicationPackageName}-${linkElementTwo.applicationPackageName}",
-
-                    PackageOne = linkElementOne.applicationPackageName,
-                    PackageTwo = linkElementTwo.applicationPackageName,
-
-                    Counter = 1,
-
-                    TimeDay = "${calendar.get(Calendar.HOUR_OF_DAY)}${calendar.get(Calendar.MINUTE)}".toInt(),
-                    TimeWeek = calendar.get(Calendar.DAY_OF_WEEK),
-                    TimeMonth = calendar.get(Calendar.DAY_OF_MONTH)
-                ))
-
-            }
-
-        }
+        filters.insertProcess(arwenDatabaseAccess, linkElementOne, linkElementTwo)
 
     }
 
     override fun notifyDataSetUpdate(priorElement: FloatingDataStructure) {
 
-        CoroutineScope(Dispatchers.IO).async {
+        // Filtering Process
 
-            arwenDatabaseAccess.queryRelatedLinks(priorElement.applicationPackageName)?.let { relatedLinks ->
-
-
-
-            }
-
-        }
+        floatingLayoutBinding.floatingShield.visibility = View.GONE
 
     }
 
@@ -492,9 +450,17 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
             CoroutineScope(Dispatchers.IO).async {
 
-                arwenDatabaseAccess.queryRelatedDayTime(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))?.let {
+                if (arwenDatabaseAccess.rowCount() > 37) {
+
+                    arwenDatabaseAccess.queryRelatedDayTime(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))?.let {
 
 
+
+                    }
+
+                } else {
+
+                    frequentlyApplications(floatingAdapter)
 
                 }
 
@@ -502,18 +468,27 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
         } else {
 
-            CoroutineScope(Dispatchers.IO).async {
+            frequentlyApplications(floatingAdapter)
 
-                val initialDataSet = InitialDataSet(applicationContext).generate()
+        }
 
-                floatingAdapter.applicationsData.clear()
-                floatingAdapter.applicationsData.addAll(initialDataSet)
 
-                withContext(Dispatchers.Main) {
 
-                    floatingAdapter.notifyItemRangeInserted(0, initialDataSet.size - 1)
+    }
 
-                }
+    private fun frequentlyApplications(floatingAdapter: FloatingAdapter) {
+        Log.d(this@FloatingPanelServices.javaClass.simpleName, "Initial Data Set")
+
+        CoroutineScope(Dispatchers.IO).async {
+
+            val initialDataSet = InitialDataSet(applicationContext).generate()
+
+            floatingAdapter.applicationsData.clear()
+            floatingAdapter.applicationsData.addAll(initialDataSet)
+
+            withContext(Dispatchers.Main) {
+
+                floatingAdapter.notifyItemRangeInserted(0, initialDataSet.size - 1)
 
             }
 
