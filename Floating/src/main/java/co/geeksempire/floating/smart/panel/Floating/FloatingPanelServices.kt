@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 9:33 AM
+ * Last modified 3/8/23, 9:36 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -54,7 +54,9 @@ class FloatingPanelServices : Service(), QueriesInterface {
         var Floating = false
     }
 
+
     private val notificationsCreator = NotificationsCreator()
+
 
     val windowManager: WindowManager by lazy {
         getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -74,9 +76,11 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
     private var layoutParameters = WindowManager.LayoutParams()
 
+
     private val arwenDatabaseAccess: ArwenDataAccessObject by lazy {
         Room.databaseBuilder(applicationContext, ArwenDataInterface::class.java, Database.DatabaseName).build().initializeDataAccessObject()
     }
+
 
     private val filters: Filters by lazy {
         Filters(applicationContext)
@@ -86,6 +90,7 @@ class FloatingPanelServices : Service(), QueriesInterface {
         ApplicationsData(applicationContext)
     }
 
+
     val floatingIO: FloatingIO by lazy {
         FloatingIO(applicationContext)
     }
@@ -93,6 +98,7 @@ class FloatingPanelServices : Service(), QueriesInterface {
     val colorsIO: ColorsIO by lazy {
         ColorsIO(applicationContext)
     }
+
 
     val safeAreaRight: Int by lazy {
         displayX(applicationContext) - dpToInteger(applicationContext, 19)
@@ -104,15 +110,19 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
     var sideLeftRight = FloatingIO.FloatingSide.RightSide
 
+
     var inStandBy = false
 
     var moveIt = false
+
 
     lateinit var delayRunnable: Runnable
 
     var delayHandler: Handler = Handler(Looper.getMainLooper())
 
+
     var broadcastReceiver: BroadcastReceiver? = null
+
 
     override fun onBind(intent: Intent?) : IBinder? { return null }
 

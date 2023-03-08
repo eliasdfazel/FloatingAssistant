@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 9:34 AM
+ * Last modified 3/8/23, 9:41 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -82,15 +82,17 @@ class Filters (private val context: Context) {
 
         if (inputDataSet != null) {
 
+            floatingDataStructures.clear()
+
             if (inputDataSet.size > 73) {
 
                 identifyNearestTime(filterPriority(inputDataSet, priorElement.applicationPackageName).await()).await().forEach {
 
                     floatingDataStructures.add(FloatingDataStructure(
-                            applicationPackageName = it.PackageOne,
+                            applicationPackageName = it.PackageTwo,
                             applicationClassName = null,
-                            applicationName = applicationsData.applicationName(it.PackageOne),
-                            applicationIcon = applicationsData.applicationIcon(it.PackageOne)
+                            applicationName = applicationsData.applicationName(it.PackageTwo),
+                            applicationIcon = applicationsData.applicationIcon(it.PackageTwo)
                     ))
 
                 }
@@ -99,7 +101,26 @@ class Filters (private val context: Context) {
 
             } else {
 
-                identifyNearestTime(inputDataSet).await()
+                identifyNearestTime(inputDataSet).await().forEach {
+
+                    val packageName = if (it.PackageOne == priorElement.applicationPackageName) {
+
+                        it.PackageTwo
+
+                    } else {
+
+                        it.PackageOne
+
+                    }
+
+                    floatingDataStructures.add(FloatingDataStructure(
+                        applicationPackageName = packageName,
+                        applicationClassName = null,
+                        applicationName = applicationsData.applicationName(packageName),
+                        applicationIcon = applicationsData.applicationIcon(packageName)
+                    ))
+
+                }
 
                 floatingDataStructures
 
