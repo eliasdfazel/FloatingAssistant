@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 8:34 AM
+ * Last modified 3/8/23, 9:33 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -42,6 +42,7 @@ import co.geeksempire.floating.smart.panel.Utils.Animations.*
 import co.geeksempire.floating.smart.panel.Utils.Display.displayX
 import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCreator
+import co.geeksempire.floating.smart.panel.Utils.Operations.ApplicationsData
 import co.geeksempire.floating.smart.panel.databinding.FloatingLayoutBinding
 import kotlinx.coroutines.*
 import java.lang.Runnable
@@ -73,11 +74,17 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
     private var layoutParameters = WindowManager.LayoutParams()
 
-    val arwenDatabaseAccess: ArwenDataAccessObject by lazy {
+    private val arwenDatabaseAccess: ArwenDataAccessObject by lazy {
         Room.databaseBuilder(applicationContext, ArwenDataInterface::class.java, Database.DatabaseName).build().initializeDataAccessObject()
     }
 
-    val filters: Filters = Filters()
+    private val filters: Filters by lazy {
+        Filters(applicationContext)
+    }
+
+    private val applicationsData by lazy {
+        ApplicationsData(applicationContext)
+    }
 
     val floatingIO: FloatingIO by lazy {
         FloatingIO(applicationContext)
@@ -438,7 +445,19 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
     override fun notifyDataSetUpdate(priorElement: FloatingDataStructure) {
 
-        // Filtering Process
+        CoroutineScope(Dispatchers.IO).async {
+
+            floatingAdapter.applicationsData.clear()
+
+            floatingAdapter.applicationsData.addAll(filters.retrieveProcess(arwenDatabaseAccess, applicationsData, priorElement).await())
+
+            withContext(Dispatchers.Main) {
+
+                floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.applicationsData.size - 1)
+
+            }
+
+        }
 
         floatingLayoutBinding.floatingShield.visibility = View.GONE
 
@@ -488,7 +507,7 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
             withContext(Dispatchers.Main) {
 
-                floatingAdapter.notifyItemRangeInserted(0, initialDataSet.size - 1)
+                floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.applicationsData.size - 1)
 
             }
 

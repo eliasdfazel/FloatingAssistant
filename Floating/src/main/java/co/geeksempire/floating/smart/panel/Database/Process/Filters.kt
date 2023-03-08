@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 8:31 AM
+ * Last modified 3/8/23, 9:34 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -10,10 +10,12 @@
 
 package co.geeksempire.floating.smart.panel.Database.Process
 
+import android.content.Context
 import android.util.Log
 import co.geeksempire.floating.smart.panel.Database.ArwenDataAccessObject
 import co.geeksempire.floating.smart.panel.Database.ArwenDataStructure
 import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
+import co.geeksempire.floating.smart.panel.Utils.Operations.ApplicationsData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +23,7 @@ import kotlinx.coroutines.async
 import java.util.*
 import kotlin.math.abs
 
-class Filters {
+class Filters (private val context: Context) {
 
     object Level {
         const val Hours = 1
@@ -72,10 +74,49 @@ class Filters {
 
     }
 
+    fun retrieveProcess(arwenDatabaseAccess: ArwenDataAccessObject, applicationsData: ApplicationsData, priorElement: FloatingDataStructure) : Deferred<ArrayList<FloatingDataStructure>> = CoroutineScope(Dispatchers.IO).async {
+
+        val floatingDataStructures = ArrayList<FloatingDataStructure>()
+
+        val inputDataSet = arwenDatabaseAccess.queryRelatedLinks(priorElement.applicationPackageName)
+
+        if (inputDataSet != null) {
+
+            if (inputDataSet.size > 73) {
+
+                identifyNearestTime(filterPriority(inputDataSet, priorElement.applicationPackageName).await()).await().forEach {
+
+                    floatingDataStructures.add(FloatingDataStructure(
+                            applicationPackageName = it.PackageOne,
+                            applicationClassName = null,
+                            applicationName = applicationsData.applicationName(it.PackageOne),
+                            applicationIcon = applicationsData.applicationIcon(it.PackageOne)
+                    ))
+
+                }
+
+                floatingDataStructures
+
+            } else {
+
+                identifyNearestTime(inputDataSet).await()
+
+                floatingDataStructures
+
+            }
+
+        } else {
+
+            InitialDataSet(context).generate()
+
+        }
+
+    }
+
     /**
      * @param priorElement Current Clicked Element
      **/
-    fun filterPriority(inputDataSet: ArrayList<ArwenDataStructure>, priorElement: String) : Deferred<List<ArwenDataStructure>> = CoroutineScope(Dispatchers.IO).async {
+    private fun filterPriority(inputDataSet: List<ArwenDataStructure>, priorElement: String) : Deferred<List<ArwenDataStructure>> = CoroutineScope(Dispatchers.IO).async {
 
         inputDataSet.filter {
 
@@ -86,7 +127,7 @@ class Filters {
     /**
      * @param inputDataSet Data Set After Being Prioritize
      **/
-    fun identifyNearestTime(inputDataSet: ArrayList<ArwenDataStructure>) : Deferred<List<ArwenDataStructure>> = CoroutineScope(Dispatchers.IO).async {
+    private fun identifyNearestTime(inputDataSet: List<ArwenDataStructure>) : Deferred<ArrayList<ArwenDataStructure>> = CoroutineScope(Dispatchers.IO).async {
 
         when (inputDataSet.size) {
             Filters.Level.Hours -> {
@@ -106,14 +147,14 @@ class Filters {
             }
             else -> {
 
-                inputDataSet
+                nearestHours(inputDataSet)
 
             }
         }
 
     }
 
-    fun nearestHours(inputDataSet: ArrayList<ArwenDataStructure>) : ArrayList<ArwenDataStructure> {
+    private fun nearestHours(inputDataSet: List<ArwenDataStructure>) : ArrayList<ArwenDataStructure> {
 
         val calendar = Calendar.getInstance()
 
@@ -144,7 +185,7 @@ class Filters {
 
     }
 
-    fun nearestWeekdays(inputDataSet: ArrayList<ArwenDataStructure>) : ArrayList<ArwenDataStructure> {
+    private fun nearestWeekdays(inputDataSet: List<ArwenDataStructure>) : ArrayList<ArwenDataStructure> {
 
         val calendar = Calendar.getInstance()
 
@@ -175,7 +216,7 @@ class Filters {
 
     }
 
-    fun nearestMonthdays(inputDataSet: ArrayList<ArwenDataStructure>) : ArrayList<ArwenDataStructure> {
+    private fun nearestMonthdays(inputDataSet: List<ArwenDataStructure>) : ArrayList<ArwenDataStructure> {
 
         val calendar = Calendar.getInstance()
 
