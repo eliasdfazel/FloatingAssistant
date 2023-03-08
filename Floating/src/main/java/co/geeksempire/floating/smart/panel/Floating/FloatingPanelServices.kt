@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 5:35 AM
+ * Last modified 3/8/23, 5:46 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -61,6 +61,10 @@ class FloatingPanelServices : Service() {
         FloatingLayoutBinding.inflate(layoutInflater)
     }
 
+    private val floatingAdapter: FloatingAdapter by lazy {
+        FloatingAdapter(applicationContext, layoutInflater, floatingLayoutBinding.floatingShield)
+    }
+
     private var layoutParameters = WindowManager.LayoutParams()
 
     val floatingIO: FloatingIO by lazy {
@@ -99,7 +103,6 @@ class FloatingPanelServices : Service() {
 
         CoroutineScope(Dispatchers.Main).launch {
 
-
             sideLeftRight = floatingIO.floatingSide()
 
             when (sideLeftRight) {
@@ -127,7 +130,6 @@ class FloatingPanelServices : Service() {
             val linearLayoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
             floatingLayoutBinding.floatingRecyclerView.layoutManager = linearLayoutManager
 
-            val floatingAdapter: FloatingAdapter = FloatingAdapter(applicationContext, layoutInflater, floatingLayoutBinding.floatingShield)
             floatingLayoutBinding.floatingRecyclerView.adapter = floatingAdapter
 
             floatingLayoutBinding.floatingHandheld.setOnClickListener {
@@ -375,7 +377,7 @@ class FloatingPanelServices : Service() {
 
             })
 
-            floatingLayoutBinding.floatingShield.setOnClickListener {  }
+            floatingLayoutBinding.floatingShield.setOnClickListener { }
 
             if (!FloatingPanelServices.Floating) {
 
