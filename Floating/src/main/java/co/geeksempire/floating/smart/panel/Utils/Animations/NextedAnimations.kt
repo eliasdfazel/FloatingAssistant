@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 5:41 AM
+ * Last modified 3/10/23, 7:23 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -12,15 +12,15 @@ package co.geeksempire.floating.smart.panel.Utils.Animations
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
+import android.view.animation.*
 import android.view.animation.Animation.AnimationListener
+import androidx.appcompat.widget.AppCompatImageView
 import co.geeksempire.floating.smart.panel.Utils.Display.displayX
 import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 import co.geeksempire.floating.smart.panel.databinding.FloatingLayoutBinding
@@ -172,5 +172,21 @@ fun moveFloatingToLeft(context: Context, windowManager: WindowManager,
 
     }
     standByPosition.start()
+
+}
+
+fun multipleColorsRotation(instanceOfView: AppCompatImageView, allColors: Array<Int>) {
+
+    instanceOfView.setImageDrawable(GradientDrawable(GradientDrawable.Orientation.TR_BL, allColors.toIntArray()))
+
+    val rotateAnimation = RotateAnimation(0f, 360f,
+        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f).apply {
+        duration = 3333
+        repeatCount = Animation.INFINITE
+        interpolator = OvershootInterpolator()
+        repeatMode = Animation.REVERSE
+    }
+
+    instanceOfView.startAnimation(rotateAnimation)
 
 }

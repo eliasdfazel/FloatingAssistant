@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/10/23, 7:04 AM
+ * Last modified 3/10/23, 7:23 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -38,6 +38,7 @@ import co.geeksempire.floating.smart.panel.Floating.Extensions.registerFloatingB
 import co.geeksempire.floating.smart.panel.Floating.Extensions.setupUserInterface
 import co.geeksempire.floating.smart.panel.Preferences.Floating.FloatingIO
 import co.geeksempire.floating.smart.panel.Preferences.UI.ColorsIO
+import co.geeksempire.floating.smart.panel.R
 import co.geeksempire.floating.smart.panel.Utils.Animations.*
 import co.geeksempire.floating.smart.panel.Utils.Display.displayX
 import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
@@ -411,6 +412,13 @@ class FloatingPanelServices : Service(), QueriesInterface {
             if (!FloatingPanelServices.Floating) {
 
                 FloatingPanelServices.Floating = true
+
+                floatingLayoutBinding.loadingImageView.visibility = View.VISIBLE
+
+                multipleColorsRotation(floatingLayoutBinding.loadingImageView, arrayOf(
+                    getColor(R.color.primaryColorBlue),
+                    getColor(R.color.primaryColorOrange)
+                ))
 
                 floatingPanelStandBy(windowManager, floatingLayoutBinding)
 
