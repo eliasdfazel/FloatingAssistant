@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 9:43 AM
+ * Last modified 3/10/23, 7:04 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -475,9 +475,11 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
     private fun prepareInitialData(floatingAdapter: FloatingAdapter) {
 
-        if (getDatabasePath(Database.DatabaseName).exists()) {
+        floatingLayoutBinding.floatingShield.visibility = View.VISIBLE
 
-            CoroutineScope(Dispatchers.IO).async {
+        CoroutineScope(Dispatchers.IO).async {
+
+            if (getDatabasePath(Database.DatabaseName).exists()) {
 
                 if (arwenDatabaseAccess.rowCount() > 37) {
 
@@ -493,33 +495,29 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
                 }
 
+            } else {
+
+                frequentlyApplications(floatingAdapter)
+
             }
-
-        } else {
-
-            frequentlyApplications(floatingAdapter)
 
         }
 
-
-
     }
 
-    private fun frequentlyApplications(floatingAdapter: FloatingAdapter) {
+    private fun frequentlyApplications(floatingAdapter: FloatingAdapter) = CoroutineScope(Dispatchers.IO).async {
         Log.d(this@FloatingPanelServices.javaClass.simpleName, "Initial Data Set")
 
-        CoroutineScope(Dispatchers.IO).async {
+        val initialDataSet = InitialDataSet(applicationContext).generate()
 
-            val initialDataSet = InitialDataSet(applicationContext).generate()
+        floatingAdapter.applicationsData.clear()
+        floatingAdapter.applicationsData.addAll(initialDataSet)
 
-            floatingAdapter.applicationsData.clear()
-            floatingAdapter.applicationsData.addAll(initialDataSet)
+        withContext(Dispatchers.Main) {
 
-            withContext(Dispatchers.Main) {
+            floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.applicationsData.size - 1)
 
-                floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.applicationsData.size - 1)
-
-            }
+            floatingLayoutBinding.floatingShield.visibility = View.GONE
 
         }
 

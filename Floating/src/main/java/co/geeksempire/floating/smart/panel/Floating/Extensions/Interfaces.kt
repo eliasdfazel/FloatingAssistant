@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 5:31 AM
+ * Last modified 3/10/23, 7:04 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -14,6 +14,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.ColorStateList
 import android.util.Log
 import co.geeksempire.floating.smart.panel.Floating.FloatingPanelServices
 import co.geeksempire.floating.smart.panel.Preferences.UI.ColorsIO
@@ -37,6 +38,9 @@ fun FloatingPanelServices.registerFloatingBroadcasts(floatingLayoutBinding: Floa
                     val backgroundColor = setColorAlpha(intent.getIntExtra(ColorsIO.Type.dominantColor, 0), floatingIO.transparency())
 
                     floatingLayoutBinding.rootView.setBackgroundColor(backgroundColor)
+
+                    floatingLayoutBinding.floatingHandheldGlow.imageTintList = ColorStateList.valueOf(backgroundColor)
+                    floatingLayoutBinding.floatingHandheld.imageTintList = ColorStateList.valueOf(backgroundColor)
 
                 }
 
