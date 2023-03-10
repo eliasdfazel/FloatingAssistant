@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/10/23, 7:23 AM
+ * Last modified 3/10/23, 7:48 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -413,13 +413,6 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
                 FloatingPanelServices.Floating = true
 
-                floatingLayoutBinding.loadingImageView.visibility = View.VISIBLE
-
-                multipleColorsRotation(floatingLayoutBinding.loadingImageView, arrayOf(
-                    getColor(R.color.primaryColorBlue),
-                    getColor(R.color.primaryColorOrange)
-                ))
-
                 floatingPanelStandBy(windowManager, floatingLayoutBinding)
 
                 setupUserInterface(floatingLayoutBinding)
@@ -463,7 +456,7 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
     override fun notifyDataSetUpdate(priorElement: FloatingDataStructure) {
 
-        CoroutineScope(Dispatchers.IO).async {
+        CoroutineScope(Dispatchers.IO).launch {
 
             floatingAdapter.applicationsData.clear()
 
@@ -484,8 +477,14 @@ class FloatingPanelServices : Service(), QueriesInterface {
     private fun prepareInitialData(floatingAdapter: FloatingAdapter) {
 
         floatingLayoutBinding.floatingShield.visibility = View.VISIBLE
+        floatingLayoutBinding.loadingImageView.visibility = View.VISIBLE
 
-        CoroutineScope(Dispatchers.IO).async {
+        multipleColorsRotation(floatingLayoutBinding.loadingImageView, arrayOf(
+            getColor(R.color.primaryColorBlue),
+            getColor(R.color.primaryColorOrange)
+        ))
+
+        CoroutineScope(Dispatchers.IO).launch {
 
             if (getDatabasePath(Database.DatabaseName).exists()) {
 
@@ -493,7 +492,8 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
                     arwenDatabaseAccess.queryRelatedDayTime(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))?.let {
 
-
+                        floatingLayoutBinding.floatingShield.visibility = View.GONE
+                        floatingLayoutBinding.loadingImageView.visibility = View.GONE
 
                     }
 
@@ -513,7 +513,7 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
     }
 
-    private fun frequentlyApplications(floatingAdapter: FloatingAdapter) = CoroutineScope(Dispatchers.IO).async {
+    private fun frequentlyApplications(floatingAdapter: FloatingAdapter) = CoroutineScope(Dispatchers.IO).launch {
         Log.d(this@FloatingPanelServices.javaClass.simpleName, "Initial Data Set")
 
         val initialDataSet = InitialDataSet(applicationContext).generate()
@@ -523,9 +523,10 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
         withContext(Dispatchers.Main) {
 
-            floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.applicationsData.size - 1)
-
             floatingLayoutBinding.floatingShield.visibility = View.GONE
+            floatingLayoutBinding.loadingImageView.visibility = View.GONE
+
+            floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.applicationsData.size - 1)
 
         }
 
