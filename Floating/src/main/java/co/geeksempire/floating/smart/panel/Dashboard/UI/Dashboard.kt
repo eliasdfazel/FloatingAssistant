@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/6/23, 10:13 AM
+ * Last modified 3/11/23, 11:24 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -30,7 +30,7 @@ import com.google.firebase.ktx.Firebase
 
 class Dashboard : AppCompatActivity(), AnimationStatus {
 
-    val fireaseUser = Firebase.auth.currentUser
+    val firebaseUser = Firebase.auth.currentUser
 
     val systemSettings: SystemSettings by lazy {
         SystemSettings(applicationContext)

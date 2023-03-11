@@ -2,7 +2,7 @@
   ~ Copyright © 2023 By Geeks Empire.
   ~
   ~ Created by Elias Fazel
-  ~ Last modified 2/27/23, 10:51 AM
+  ~ Last modified 3/11/23, 11:08 AM
   ~
   ~ Licensed Under MIT License.
   ~ https://opensource.org/licenses/MIT
@@ -25,5 +25,11 @@
     
     <string name="usageAccessTitle">usage access</string>
     <string name="usageAccessDescription">This Permission Helps Me to Initialize List Of Frequently Usage Of Applications.</string>
+
+    <string name="removeFloatingPanelTitle">Remove Floating Panel</string>
+    <string name="removeFloatingPanelDescription">Do You Want To Remove Floating Panel?\n\n\n(<small>If You Want To Train Arwen AI In Background Let Interactions Switch On.</small>)</string>
+
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
 
 </resources>

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 5:23 AM
+ * Last modified 3/11/23, 11:24 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -29,6 +29,8 @@ import co.geeksempire.floating.smart.panel.R
 import co.geeksempire.floating.smart.panel.Utils.Animations.alphaAnimation
 import co.geeksempire.floating.smart.panel.Utils.Display.dpToInteger
 import co.geeksempire.floating.smart.panel.Utils.Display.statusBarHeight
+import co.geeksempire.floating.smart.panel.Utils.Views.Dialogue.ConfirmDialogue
+import co.geeksempire.floating.smart.panel.Utils.Views.Dialogue.ConfirmDialogueInterface
 import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchController
 import co.geeksempire.floating.smart.panel.Utils.Views.Switch.SwitchInterface
 import com.bumptech.glide.Glide
@@ -43,7 +45,7 @@ fun Dashboard.setupUserInterface() {
 
     colorsIO.processWallpaperColors()
 
-    fireaseUser?.let {
+    firebaseUser?.let {
 
         dashboardLayoutBinding.indicatorText.text = getString(R.string.profile)
 
@@ -226,7 +228,23 @@ fun Dashboard.setupUserInterface() {
 
             } else {
 
-                stopService(Intent(applicationContext, FloatingPanelServices::class.java))
+                val confirmDialogue = ConfirmDialogue(context = this@setupUserInterface, viewGroup = dashboardLayoutBinding.root)
+                confirmDialogue.initialize(dialogueTitle = getString(R.string.removeFloatingPanelTitle), dialogueDescription = getString(R.string.removeFloatingPanelDescription))
+                    .show(object : ConfirmDialogueInterface {
+
+                        override fun confirmed() {
+
+                            stopService(Intent(applicationContext, FloatingPanelServices::class.java))
+
+                        }
+
+                        override fun dismissed() {
+
+                            confirmDialogue.dismiss()
+
+                        }
+
+                    })
 
             }
 
