@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/11/23, 11:27 AM
+ * Last modified 3/11/23, 11:33 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -25,19 +25,24 @@ interface ConfirmDialogueInterface {
 
 class ConfirmDialogue (private val context: AppCompatActivity, private val viewGroup: ConstraintLayout) {
 
-    private val configurationsLayoutBinding = ConfirmationLayoutBinding.inflate(context.layoutInflater)
+    private val confirmationLayoutBinding = ConfirmationLayoutBinding.inflate(context.layoutInflater)
 
     fun initialize(dialogueTitle: String, dialogueDescription: String) : ConfirmDialogue {
 
-        viewGroup.addView(configurationsLayoutBinding.root)
+        viewGroup.addView(confirmationLayoutBinding.root)
 
-        configurationsLayoutBinding.root.visibility = View.INVISIBLE
+        confirmationLayoutBinding.root.visibility = View.INVISIBLE
 
-        configurationsLayoutBinding.confirmTitle.text = dialogueTitle
+        val confirmDialogueParameters = confirmationLayoutBinding.root.layoutParams as ConstraintLayout.LayoutParams
+        confirmDialogueParameters.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+        confirmDialogueParameters.height = ConstraintLayout.LayoutParams.MATCH_PARENT
+        confirmationLayoutBinding.root.layoutParams = confirmDialogueParameters
 
-        configurationsLayoutBinding.confirmDescription.text = Html.fromHtml(dialogueDescription, Html.FROM_HTML_MODE_COMPACT)
+        confirmationLayoutBinding.confirmTitle.text = dialogueTitle
 
-        configurationsLayoutBinding.rootView.apply {
+        confirmationLayoutBinding.confirmDescription.text = Html.fromHtml(dialogueDescription, Html.FROM_HTML_MODE_COMPACT)
+
+        confirmationLayoutBinding.rootView.apply {
             visibility = View.VISIBLE
             startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in))
         }
@@ -47,9 +52,9 @@ class ConfirmDialogue (private val context: AppCompatActivity, private val viewG
 
     fun show(confirmDialogueInterface: ConfirmDialogueInterface) {
 
-        configurationsLayoutBinding.contentWrapper.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_up))
+        confirmationLayoutBinding.contentWrapper.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_up))
 
-        configurationsLayoutBinding.confirmButton.setOnClickListener {
+        confirmationLayoutBinding.confirmButton.setOnClickListener {
 
             confirmDialogueInterface.confirmed()
 
@@ -57,7 +62,7 @@ class ConfirmDialogue (private val context: AppCompatActivity, private val viewG
 
         }
 
-        configurationsLayoutBinding.dismissButton.setOnClickListener {
+        confirmationLayoutBinding.dismissButton.setOnClickListener {
 
             confirmDialogueInterface.dismissed()
 
@@ -67,11 +72,11 @@ class ConfirmDialogue (private val context: AppCompatActivity, private val viewG
 
     fun dismiss() {
 
-        configurationsLayoutBinding.contentWrapper.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_down))
+        confirmationLayoutBinding.contentWrapper.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_down))
 
-        configurationsLayoutBinding.rootView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out))
+        confirmationLayoutBinding.rootView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out))
 
-        viewGroup.removeView(configurationsLayoutBinding.root)
+        viewGroup.removeView(confirmationLayoutBinding.root)
 
     }
 
