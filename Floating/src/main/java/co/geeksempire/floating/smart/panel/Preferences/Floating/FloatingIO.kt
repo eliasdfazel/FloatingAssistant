@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/10/23, 7:44 AM
+ * Last modified 3/11/23, 9:57 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -50,14 +50,14 @@ class FloatingIO (private val context: Context) {
         return preferencesIO.readPreference((FloatingIO.FloatingSide.FloatingSide), FloatingIO.FloatingSide.RightSide)
     }
 
-    fun positionX() : Int {
+    fun positionX(defaultX: Int = 337) : Int {
 
-        return preferencesIO.readPreference((FloatingIO.FloatingSide.FloatingSideX), 337)
+        return preferencesIO.readPreference((FloatingIO.FloatingSide.FloatingSideX), defaultX)
     }
 
-    fun positionY() : Int {
+    fun positionY(defaultY: Int = 337) : Int {
 
-        return preferencesIO.readPreference((FloatingIO.FloatingSide.FloatingSideY), 337)
+        return preferencesIO.readPreference((FloatingIO.FloatingSide.FloatingSideY), defaultY)
     }
 
     fun transparency() : Float {

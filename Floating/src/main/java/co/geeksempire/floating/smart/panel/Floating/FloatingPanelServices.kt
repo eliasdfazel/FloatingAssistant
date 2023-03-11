@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/11/23, 7:17 AM
+ * Last modified 3/11/23, 9:58 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -149,7 +149,9 @@ class FloatingPanelServices : Service(), QueriesInterface {
                 }
             }
 
-            val xPosition: Int = floatingIO.positionX()
+            val xPosition: Int = floatingIO.positionX(
+                defaultX = (displayX(applicationContext) - dpToInteger(applicationContext, 301))
+            )
             val yPosition: Int = floatingIO.positionY()
             Log.d(this@FloatingPanelServices.javaClass.simpleName, "X -> $xPosition : Y  -> $yPosition")
 
