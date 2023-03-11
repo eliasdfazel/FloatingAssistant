@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/11/23, 11:24 AM
+ * Last modified 3/11/23, 11:36 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -240,7 +240,7 @@ fun Dashboard.setupUserInterface() {
 
                         override fun dismissed() {
 
-                            confirmDialogue.dismiss()
+
 
                         }
 

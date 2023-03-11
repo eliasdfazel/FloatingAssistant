@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/11/23, 11:33 AM
+ * Last modified 3/11/23, 11:36 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -10,6 +10,8 @@
 
 package co.geeksempire.floating.smart.panel.Utils.Views.Dialogue
 
+import android.os.Handler
+import android.os.Looper
 import android.text.Html
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -52,6 +54,8 @@ class ConfirmDialogue (private val context: AppCompatActivity, private val viewG
 
     fun show(confirmDialogueInterface: ConfirmDialogueInterface) {
 
+        confirmationLayoutBinding.confirmTitle.setOnClickListener {  }
+
         confirmationLayoutBinding.contentWrapper.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_up))
 
         confirmationLayoutBinding.confirmButton.setOnClickListener {
@@ -66,17 +70,23 @@ class ConfirmDialogue (private val context: AppCompatActivity, private val viewG
 
             confirmDialogueInterface.dismissed()
 
+            dismiss()
+
         }
 
     }
 
-    fun dismiss() {
+    private fun dismiss() {
 
-        confirmationLayoutBinding.contentWrapper.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_down))
+        Handler(Looper.getMainLooper()).postDelayed({
 
-        confirmationLayoutBinding.rootView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out))
+            confirmationLayoutBinding.contentWrapper.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_down))
 
-        viewGroup.removeView(confirmationLayoutBinding.root)
+            confirmationLayoutBinding.rootView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out))
+
+            viewGroup.removeView(confirmationLayoutBinding.root)
+
+        }, 333)
 
     }
 
