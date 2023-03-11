@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/10/23, 7:48 AM
+ * Last modified 3/11/23, 7:17 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -482,7 +482,16 @@ class FloatingPanelServices : Service(), QueriesInterface {
         multipleColorsRotation(floatingLayoutBinding.loadingImageView, arrayOf(
             getColor(R.color.primaryColorBlue),
             getColor(R.color.primaryColorOrange)
-        ))
+        ), object : AnimationStatus {
+
+            override fun animationLoopFinished() {
+                super.animationLoopFinished()
+
+
+
+            }
+
+        })
 
         CoroutineScope(Dispatchers.IO).launch {
 

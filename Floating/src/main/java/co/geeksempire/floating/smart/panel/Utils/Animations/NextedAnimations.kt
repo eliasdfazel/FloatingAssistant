@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/10/23, 7:23 AM
+ * Last modified 3/11/23, 7:17 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -28,6 +28,9 @@ import co.geeksempire.floating.smart.panel.databinding.FloatingLayoutBinding
 interface AnimationStatus {
     fun animationFinished() {
         Log.d(this@AnimationStatus.javaClass.simpleName, "Animation Finished")
+    }
+    fun animationLoopFinished() {
+        Log.d(this@AnimationStatus.javaClass.simpleName, "Animation Loop Finished")
     }
 }
 
@@ -175,7 +178,7 @@ fun moveFloatingToLeft(context: Context, windowManager: WindowManager,
 
 }
 
-fun multipleColorsRotation(instanceOfView: AppCompatImageView, allColors: Array<Int>) {
+fun multipleColorsRotation(instanceOfView: AppCompatImageView, allColors: Array<Int>, animationStatus: AnimationStatus) {
 
     instanceOfView.setImageDrawable(GradientDrawable(GradientDrawable.Orientation.TR_BL, allColors.toIntArray()))
 
@@ -186,6 +189,25 @@ fun multipleColorsRotation(instanceOfView: AppCompatImageView, allColors: Array<
         interpolator = OvershootInterpolator()
         repeatMode = Animation.REVERSE
     }
+    rotateAnimation.setAnimationListener(object : AnimationListener {
+
+        override fun onAnimationStart(animation: Animation?) {}
+
+        override fun onAnimationEnd(animation: Animation?) {}
+
+        override fun onAnimationRepeat(animation: Animation?) {
+
+            animationStatus.animationLoopFinished()
+
+            if (instanceOfView.visibility == View.GONE) {
+
+                rotateAnimation.cancel()
+
+            }
+
+        }
+
+    })
 
     instanceOfView.startAnimation(rotateAnimation)
 
