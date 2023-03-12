@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/10/23, 7:04 AM
+ * Last modified 3/12/23, 9:09 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -18,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
+import co.geeksempire.floating.smart.panel.Database.ArwenDatabase
 import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
 import co.geeksempire.floating.smart.panel.Floating.Data.QueriesInterface
 import co.geeksempire.floating.smart.panel.Launch.OpenApplicationsLaunchPad
@@ -29,7 +30,6 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
 
     val applicationsData = ArrayList<FloatingDataStructure>()
 
-    private val clickedApplicationData = ArrayList<FloatingDataStructure>()
 
     override fun getItemCount() : Int {
 
@@ -51,7 +51,9 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
         floatingViewHolder.rootViewItem.setOnClickListener {
             Log.d(this@FloatingAdapter.javaClass.simpleName, "Clicked -> ${applicationsData[position].applicationPackageName}")
 
-            clickedApplicationData.add(FloatingDataStructure(
+            ArwenDatabase.DatabaseHandled = true
+
+            ArwenDatabase.clickedApplicationData.add(FloatingDataStructure(
                 applicationPackageName = applicationsData[position].applicationPackageName,
                 applicationClassName = applicationsData[position].applicationClassName,
                 applicationName = applicationsData[position].applicationName,
@@ -70,12 +72,12 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
 
             queriesInterface.notifyDataSetUpdate(applicationsData[position])
 
-            if (clickedApplicationData.size == 2) {
+            if (ArwenDatabase.clickedApplicationData.size == 2) {
                 Log.d(this@FloatingAdapter.javaClass.simpleName, "Start Database Queries")
 
-                queriesInterface.insertDatabaseQueries(clickedApplicationData[0], clickedApplicationData[1])
+                queriesInterface.insertDatabaseQueries(ArwenDatabase.clickedApplicationData[0], ArwenDatabase.clickedApplicationData[1])
 
-                clickedApplicationData.removeFirst()
+                ArwenDatabase.clickedApplicationData.removeFirst()
 
             }
 

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 7:19 AM
+ * Last modified 3/12/23, 8:38 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -15,7 +15,7 @@ import android.util.Log
 import androidx.room.Room
 import co.geeksempire.floating.smart.panel.Database.ArwenDataInterface
 import co.geeksempire.floating.smart.panel.Database.ArwenDataStructure
-import co.geeksempire.floating.smart.panel.Database.Database
+import co.geeksempire.floating.smart.panel.Database.ArwenDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -25,7 +25,7 @@ class PrototypeData (private val context: Context) {
 
     fun generate() = CoroutineScope(Dispatchers.IO).launch {
 
-        val arwenDataInterface = Room.databaseBuilder(context, ArwenDataInterface::class.java, Database.DatabaseName)
+        val arwenDataInterface = Room.databaseBuilder(context, ArwenDataInterface::class.java, ArwenDatabase.DatabaseName)
 
         val arwenDatabaseAccess = arwenDataInterface.build().initializeDataAccessObject()
 

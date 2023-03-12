@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/1/23, 10:12 AM
+ * Last modified 3/12/23, 9:09 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -14,13 +14,25 @@ import android.accessibilityservice.AccessibilityService
 import android.content.Intent
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
-import co.geeksempire.floating.smart.panel.Utils.Settings.SystemSettings
+import androidx.room.Room
+import co.geeksempire.floating.smart.panel.Database.ArwenDataAccessObject
+import co.geeksempire.floating.smart.panel.Database.ArwenDataInterface
+import co.geeksempire.floating.smart.panel.Database.ArwenDatabase
+import co.geeksempire.floating.smart.panel.Database.Process.Filters
+import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
+import co.geeksempire.floating.smart.panel.Utils.Operations.ApplicationsData
 
 class InteractionsObserver : AccessibilityService() {
 
-    val systemSettings: SystemSettings by lazy {
-        SystemSettings(applicationContext)
+    private val filters: Filters by lazy {
+        Filters(applicationContext)
     }
+
+
+    private val arwenDatabaseAccess: ArwenDataAccessObject by lazy {
+        Room.databaseBuilder(applicationContext, ArwenDataInterface::class.java, ArwenDatabase.DatabaseName).build().initializeDataAccessObject()
+    }
+
 
     override fun onServiceConnected() {
 
@@ -38,18 +50,40 @@ class InteractionsObserver : AccessibilityService() {
             when (accessibilityEvent.eventType) {
                 AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
 
-                    val packageName = accessibilityEvent.packageName.toString()
-                    val className = accessibilityEvent.className.toString()
+                    if (!ArwenDatabase.DatabaseHandled) {
 
-                    Log.d(this@InteractionsObserver.javaClass.simpleName, "Application: $packageName | $className")
+                        val packageName = accessibilityEvent.packageName.toString()
+                        val className = accessibilityEvent.className.toString()
 
+                        Log.d(this@InteractionsObserver.javaClass.simpleName, "Application: $packageName | $className")
 
+                        val applicationsData = ApplicationsData(applicationContext)
 
+                        val floatingDataStructure = FloatingDataStructure(
+                            applicationPackageName = packageName,
+                            applicationClassName = className,
+                            applicationName = applicationsData.applicationName(packageName),
+                            applicationIcon = applicationsData.applicationIcon(packageName)
+                        )
 
-                    // perform database process
+                        ArwenDatabase.clickedApplicationData.add(floatingDataStructure)
 
+                        sendBroadcast(Intent(ArwenDatabase.DatabaseName).putExtra(Intent.EXTRA_TEXT, packageName))
 
+                        if (ArwenDatabase.clickedApplicationData.size == 2) {
+                            Log.d(this@InteractionsObserver.javaClass.simpleName, "Start Database Queries")
 
+                            filters.insertProcess(arwenDatabaseAccess, ArwenDatabase.clickedApplicationData[0], ArwenDatabase.clickedApplicationData[1])
+
+                            ArwenDatabase.clickedApplicationData.removeFirst()
+
+                        }
+
+                    } else {
+
+                        ArwenDatabase.DatabaseHandled = false
+
+                    }
 
                 }
                 else -> {}

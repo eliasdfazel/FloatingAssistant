@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 7:19 AM
+ * Last modified 3/12/23, 8:50 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -13,9 +13,14 @@ package co.geeksempire.floating.smart.panel.Database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
 
-object Database {
+object ArwenDatabase {
         const val DatabaseName = "ARWEN"
+
+        var DatabaseHandled = false
+
+        val clickedApplicationData = ArrayList<FloatingDataStructure>()
 }
 
 /**
@@ -23,7 +28,7 @@ object Database {
  * @param Links: PackageName1-PackageName2
  * @param TimeDay: 24hrs -> 1319 (No Symbol)
  **/
-@Entity(tableName = Database.DatabaseName)
+@Entity(tableName = ArwenDatabase.DatabaseName)
 data class ArwenDataStructure(
         @PrimaryKey var Id: Int,
 

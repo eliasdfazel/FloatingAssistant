@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/11/23, 9:58 AM
+ * Last modified 3/12/23, 9:00 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import co.geeksempire.floating.smart.panel.Database.ArwenDataAccessObject
 import co.geeksempire.floating.smart.panel.Database.ArwenDataInterface
-import co.geeksempire.floating.smart.panel.Database.Database
+import co.geeksempire.floating.smart.panel.Database.ArwenDatabase
 import co.geeksempire.floating.smart.panel.Database.Process.Filters
 import co.geeksempire.floating.smart.panel.Database.Process.InitialDataSet
 import co.geeksempire.floating.smart.panel.Floating.Adapter.FloatingAdapter
@@ -79,7 +79,7 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
 
     private val arwenDatabaseAccess: ArwenDataAccessObject by lazy {
-        Room.databaseBuilder(applicationContext, ArwenDataInterface::class.java, Database.DatabaseName).build().initializeDataAccessObject()
+        Room.databaseBuilder(applicationContext, ArwenDataInterface::class.java, ArwenDatabase.DatabaseName).build().initializeDataAccessObject()
     }
 
 
@@ -497,7 +497,7 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            if (getDatabasePath(Database.DatabaseName).exists()) {
+            if (getDatabasePath(ArwenDatabase.DatabaseName).exists()) {
 
                 if (arwenDatabaseAccess.rowCount() > 37) {
 
