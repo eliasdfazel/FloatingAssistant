@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/11/23, 11:36 AM
+ * Last modified 3/12/23, 8:17 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -224,12 +224,22 @@ fun Dashboard.setupUserInterface() {
 
             if (!FloatingPanelServices.Floating) {
 
+                val confirmDialogue = ConfirmDialogue(context = this@setupUserInterface, viewGroup = dashboardLayoutBinding.root)
+                confirmDialogue.initialize(dialogueTitle = getString(R.string.floatingPanelTitle), dialogueDescription = getString(R.string.floatingPanelDescription))
+                    .show(object : ConfirmDialogueInterface {
+
+                        override fun confirmed() {}
+
+                        override fun dismissed() {}
+
+                    })
+
                 startForegroundService(Intent(applicationContext, FloatingPanelServices::class.java))
 
             } else {
 
                 val confirmDialogue = ConfirmDialogue(context = this@setupUserInterface, viewGroup = dashboardLayoutBinding.root)
-                confirmDialogue.initialize(dialogueTitle = getString(R.string.removeFloatingPanelTitle), dialogueDescription = getString(R.string.removeFloatingPanelDescription))
+                confirmDialogue.initialize(dialogueTitle = getString(R.string.floatingPanelTitle), dialogueDescription = getString(R.string.removeFloatingPanelDescription))
                     .show(object : ConfirmDialogueInterface {
 
                         override fun confirmed() {
@@ -238,11 +248,7 @@ fun Dashboard.setupUserInterface() {
 
                         }
 
-                        override fun dismissed() {
-
-
-
-                        }
+                        override fun dismissed() {}
 
                     })
 
