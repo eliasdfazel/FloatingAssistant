@@ -3,7 +3,7 @@
   ~ Copyright © 2023 By Geeks Empire.
   ~
   ~ Created by Elias Fazel
-  ~ Last modified 3/12/23, 9:30 AM
+  ~ Last modified 3/12/23, 9:31 AM
   ~
   ~ Licensed Under MIT License.
   ~ https://opensource.org/licenses/MIT
@@ -128,13 +128,6 @@
             android:name=".Floating.FloatingPanelServices"
             android:exported="false"
             android:foregroundServiceType="dataSync">
-            <intent-filter>
-                <action android:name="colorsChanged" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="ARWEN" />
-            </intent-filter>
         </service>
 
         <receiver
