@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 6:40 AM
+ * Last modified 3/13/23, 7:38 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -51,33 +51,39 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
         floatingViewHolder.rootViewItem.setOnClickListener {
             Log.d(this@FloatingAdapter.javaClass.simpleName, "Application: ${applicationsData[position].applicationPackageName}")
 
-            ArwenDatabase.DatabaseHandled = true
-
-            ArwenDatabase.clickedApplicationData.add(FloatingDataStructure(
+            val floatingDataStructure = FloatingDataStructure(
                 applicationPackageName = applicationsData[position].applicationPackageName,
                 applicationClassName = applicationsData[position].applicationClassName,
                 applicationName = applicationsData[position].applicationName,
                 applicationIcon = applicationsData[position].applicationIcon
-            ))
+            )
 
-            context.startActivity(Intent(context, OpenApplicationsLaunchPad::class.java).apply {
-                putExtra("packageName", applicationsData[position].applicationPackageName)
-                applicationsData[position].applicationClassName?.let {
-                    putExtra("className", applicationsData[position].applicationClassName)
+            if (!ArwenDatabase.clickedApplicationData.contains(floatingDataStructure)) {
+
+                ArwenDatabase.DatabaseHandled = true
+
+                ArwenDatabase.clickedApplicationData.add(floatingDataStructure)
+
+                context.startActivity(Intent(context, OpenApplicationsLaunchPad::class.java).apply {
+                    putExtra("packageName", applicationsData[position].applicationPackageName)
+                    applicationsData[position].applicationClassName?.let {
+                        putExtra("className", applicationsData[position].applicationClassName)
+                    }
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                })
+
+                floatingShield.visibility = View.VISIBLE
+
+                queriesInterface.notifyDataSetUpdate(applicationsData[position])
+
+                if (ArwenDatabase.clickedApplicationData.size == 2) {
+                    Log.d(this@FloatingAdapter.javaClass.simpleName, "Start Database Queries")
+
+                    queriesInterface.insertDatabaseQueries(ArwenDatabase.clickedApplicationData[0], ArwenDatabase.clickedApplicationData[1])
+
+                    ArwenDatabase.clickedApplicationData.removeFirst()
+
                 }
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            })
-
-            floatingShield.visibility = View.VISIBLE
-
-            queriesInterface.notifyDataSetUpdate(applicationsData[position])
-
-            if (ArwenDatabase.clickedApplicationData.size == 2) {
-                Log.d(this@FloatingAdapter.javaClass.simpleName, "Start Database Queries")
-
-                queriesInterface.insertDatabaseQueries(ArwenDatabase.clickedApplicationData[0], ArwenDatabase.clickedApplicationData[1])
-
-                ArwenDatabase.clickedApplicationData.removeFirst()
 
             }
 
