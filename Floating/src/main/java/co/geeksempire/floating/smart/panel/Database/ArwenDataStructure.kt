@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/12/23, 8:50 AM
+ * Last modified 3/13/23, 8:09 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -35,7 +35,10 @@ data class ArwenDataStructure(
         @ColumnInfo(name = "Links") var Links: String,
 
         @ColumnInfo(name = "PackageOne") var PackageOne: String,
+        @ColumnInfo(name = "ClassOne") var ClassOne: String?,
+
         @ColumnInfo(name = "PackageTwo") var PackageTwo: String,
+        @ColumnInfo(name = "ClassTwo") var ClassTwo: String?,
 
         @ColumnInfo(name = "Counter") var Counter: Int,
 

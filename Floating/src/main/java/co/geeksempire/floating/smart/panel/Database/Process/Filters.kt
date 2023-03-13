@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 9:41 AM
+ * Last modified 3/13/23, 8:09 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -61,7 +61,9 @@ class Filters (private val context: Context) {
                 Links = "${linkElementOne.applicationPackageName}-${linkElementTwo.applicationPackageName}",
 
                 PackageOne = linkElementOne.applicationPackageName,
+                ClassOne = linkElementOne.applicationClassName,
                 PackageTwo = linkElementTwo.applicationPackageName,
+                ClassTwo = linkElementTwo.applicationClassName,
 
                 Counter = 1,
 

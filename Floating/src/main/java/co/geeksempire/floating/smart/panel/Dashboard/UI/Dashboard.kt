@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/11/23, 11:24 AM
+ * Last modified 3/13/23, 8:11 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -15,8 +15,11 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import co.geeksempire.floating.smart.panel.BuildConfig
 import co.geeksempire.floating.smart.panel.Dashboard.Extensions.setupUserInterface
+import co.geeksempire.floating.smart.panel.Database.ArwenDataInterface
+import co.geeksempire.floating.smart.panel.Database.ArwenDatabase
 import co.geeksempire.floating.smart.panel.Preferences.UI.ColorsIO
 import co.geeksempire.floating.smart.panel.R
 import co.geeksempire.floating.smart.panel.Tests.PrototypeData
@@ -27,6 +30,9 @@ import co.geeksempire.floating.smart.panel.Utils.Settings.SystemSettings
 import co.geeksempire.floating.smart.panel.databinding.DashboardLayoutBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class Dashboard : AppCompatActivity(), AnimationStatus {
 
@@ -91,6 +97,22 @@ class Dashboard : AppCompatActivity(), AnimationStatus {
 
             }
 
+            dashboardLayoutBinding.prototypeGenerator.setOnLongClickListener {
+
+                val arwenDataInterface = Room.databaseBuilder(applicationContext, ArwenDataInterface::class.java, ArwenDatabase.DatabaseName)
+
+                val arwenDatabaseAccess = arwenDataInterface.build().initializeDataAccessObject()
+
+                CoroutineScope(Dispatchers.IO).launch {
+
+                    val allLinks = arwenDatabaseAccess.allLinks()
+
+                    println(allLinks)
+
+                }
+
+                true
+            }
         }
 
     }
