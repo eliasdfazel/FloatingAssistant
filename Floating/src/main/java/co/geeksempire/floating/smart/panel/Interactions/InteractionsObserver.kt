@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 9:56 AM
+ * Last modified 3/13/23, 10:25 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -21,7 +21,6 @@ import co.geeksempire.floating.smart.panel.Database.ArwenDatabase
 import co.geeksempire.floating.smart.panel.Database.Process.Filters
 import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
 import co.geeksempire.floating.smart.panel.Utils.Operations.ApplicationsData
-import co.geeksempire.floating.smart.panel.Utils.Operations.isContains
 
 class InteractionsObserver : AccessibilityService() {
 
@@ -69,7 +68,7 @@ class InteractionsObserver : AccessibilityService() {
                                 applicationIcon = applicationsData.activityIcon(packageName, className)
                             )
 
-                            if (!ArwenDatabase.clickedApplicationData.isContains(floatingDataStructure)) {
+                            if (filters.validateEntry(ArwenDatabase.clickedApplicationData, floatingDataStructure, applicationsData)) {
 
                                 ArwenDatabase.clickedApplicationData.add(floatingDataStructure)
 

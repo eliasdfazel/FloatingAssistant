@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 8:50 AM
+ * Last modified 3/13/23, 10:24 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -72,7 +72,7 @@ class FloatingPanelServices : Service(), QueriesInterface {
     }
 
     private val floatingAdapter: FloatingAdapter by lazy {
-        FloatingAdapter(applicationContext, layoutInflater, floatingLayoutBinding.floatingShield, this@FloatingPanelServices)
+        FloatingAdapter(applicationContext, layoutInflater, floatingLayoutBinding.floatingShield, filters, applicationsData, this@FloatingPanelServices)
     }
 
     private var layoutParameters = WindowManager.LayoutParams()
@@ -460,13 +460,13 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            floatingAdapter.applicationsData.clear()
+            floatingAdapter.floatingDataStructures.clear()
 
-            floatingAdapter.applicationsData.addAll(filters.retrieveProcess(arwenDatabaseAccess, applicationsData, priorElement).await())
+            floatingAdapter.floatingDataStructures.addAll(filters.retrieveProcess(arwenDatabaseAccess, applicationsData, priorElement).await())
 
             withContext(Dispatchers.Main) {
 
-                floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.applicationsData.size - 1)
+                floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.floatingDataStructures.size - 1)
 
                 floatingLayoutBinding.floatingShield.visibility = View.GONE
 
@@ -493,13 +493,13 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
                 if (arwenDatabaseAccess.rowCount() > 37) {
 
-                    floatingAdapter.applicationsData.clear()
+                    floatingAdapter.floatingDataStructures.clear()
 
-                    floatingAdapter.applicationsData.addAll(filters.generateInitials(arwenDatabaseAccess, applicationsData).await())
+                    floatingAdapter.floatingDataStructures.addAll(filters.generateInitials(arwenDatabaseAccess, applicationsData).await())
 
                     withContext(Dispatchers.Main) {
 
-                        floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.applicationsData.size - 1)
+                        floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.floatingDataStructures.size - 1)
 
                         floatingLayoutBinding.floatingShield.visibility = View.GONE
                         floatingLayoutBinding.loadingImageView.visibility = View.GONE
@@ -527,15 +527,15 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
         val initialDataSet = InitialDataSet(applicationContext).generate()
 
-        floatingAdapter.applicationsData.clear()
-        floatingAdapter.applicationsData.addAll(initialDataSet)
+        floatingAdapter.floatingDataStructures.clear()
+        floatingAdapter.floatingDataStructures.addAll(initialDataSet)
 
         withContext(Dispatchers.Main) {
 
             floatingLayoutBinding.floatingShield.visibility = View.GONE
             floatingLayoutBinding.loadingImageView.visibility = View.GONE
 
-            floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.applicationsData.size - 1)
+            floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.floatingDataStructures.size - 1)
 
         }
 

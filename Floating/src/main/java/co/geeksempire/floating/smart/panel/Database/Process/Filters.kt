@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 8:59 AM
+ * Last modified 3/13/23, 10:25 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -16,6 +16,7 @@ import co.geeksempire.floating.smart.panel.Database.ArwenDataAccessObject
 import co.geeksempire.floating.smart.panel.Database.ArwenDataStructure
 import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
 import co.geeksempire.floating.smart.panel.Utils.Operations.ApplicationsData
+import co.geeksempire.floating.smart.panel.Utils.Operations.isContains
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +27,7 @@ import kotlin.math.abs
 class Filters (private val context: Context) {
 
     object Level {
-        const val Hours = 1
+        const val Hours = 6
         const val Weekdays = 37
         const val Monthdays = 73
     }
@@ -243,7 +244,7 @@ class Filters (private val context: Context) {
             it.value
         }
 
-        sortHashMap.slice(IntRange(0, 5)).forEach {
+        sortHashMap.slice(IntRange(0, if (sortHashMap.size > 5) { 5 } else { sortHashMap.size })).forEach {
 
             nearElements.add(it.key)
 
@@ -274,7 +275,7 @@ class Filters (private val context: Context) {
             it.value
         }
 
-        sortHashMap.slice(IntRange(0, 5)).forEach {
+        sortHashMap.slice(IntRange(0, if (sortHashMap.size > 5) { 5 } else { sortHashMap.size })).forEach {
 
             nearElements.add(it.key)
 
@@ -305,7 +306,7 @@ class Filters (private val context: Context) {
             it.value
         }
 
-        sortHashMap.slice(IntRange(0, 5)).forEach {
+        sortHashMap.slice(IntRange(0, if (sortHashMap.size > 5) { 5 } else { sortHashMap.size })).forEach {
 
             nearElements.add(it.key)
 
@@ -313,6 +314,23 @@ class Filters (private val context: Context) {
 
         return nearestHours(nearestWeekdays(nearElements))
 
+    }
+
+    fun validateEntry(inputList: ArrayList<FloatingDataStructure>, inputData: FloatingDataStructure, applicationsData: ApplicationsData) : Boolean {
+
+        var validated = false
+
+        if (!inputList.isContains(inputData)
+            && (inputData.applicationPackageName != context.packageName)
+            && !applicationsData.canLaunch(inputData.applicationPackageName)
+            && !applicationsData.isDefaultLauncher(inputData.applicationPackageName)
+            && !applicationsData.isSystemApplication(inputData.applicationPackageName)) {
+
+            validated = true
+
+        }
+
+        return validated
     }
 
 }
