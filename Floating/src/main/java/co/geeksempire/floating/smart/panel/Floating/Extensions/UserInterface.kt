@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/11/23, 7:39 AM
+ * Last modified 3/13/23, 7:31 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -21,6 +21,9 @@ import kotlinx.coroutines.launch
 fun FloatingPanelServices.setupUserInterface(floatingLayoutBinding: FloatingLayoutBinding) = CoroutineScope(Dispatchers.Main).launch {
 
     val dominantColor = colorsIO.dominantColor()
+
+    floatingLayoutBinding.floatingHandheldGlow.imageTintList = ColorStateList.valueOf(dominantColor)
+    floatingLayoutBinding.floatingHandheld.imageTintList = ColorStateList.valueOf(dominantColor)
 
     val backgroundColor = setColorAlpha(dominantColor, floatingIO.transparency())
 

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 7:07 AM
+ * Last modified 3/13/23, 7:29 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -41,14 +41,15 @@ fun FloatingPanelServices.registerFloatingBroadcasts(floatingLayoutBinding: Floa
 
                     val dominantColor = intent.getIntExtra(ColorsIO.Type.dominantColor, Color.BLACK)
 
+                    floatingLayoutBinding.floatingHandheldGlow.imageTintList = ColorStateList.valueOf(Color.BLACK)
+                    floatingLayoutBinding.floatingHandheld.imageTintList = ColorStateList.valueOf(Color.BLACK)
+
                     val backgroundColor = setColorAlpha(dominantColor, floatingIO.transparency())
 
                     floatingLayoutBinding.rootView.backgroundTintList = ColorStateList.valueOf(backgroundColor)
 
-                    floatingLayoutBinding.floatingHandheldGlow.imageTintList = ColorStateList.valueOf(dominantColor)
-                    floatingLayoutBinding.floatingHandheld.imageTintList = ColorStateList.valueOf(dominantColor)
-
                 } else if (intent.action == ArwenDatabase.DatabaseName) {
+                    Log.d(this@registerFloatingBroadcasts.javaClass.simpleName, "Database Queries Started")
 
                     val applicationsData = ApplicationsData(applicationContext)
 
