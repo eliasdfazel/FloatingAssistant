@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 8:09 AM
+ * Last modified 3/13/23, 8:59 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -92,9 +92,9 @@ class Filters (private val context: Context) {
 
                     floatingDataStructures.add(FloatingDataStructure(
                             applicationPackageName = it.PackageTwo,
-                            applicationClassName = null,
-                            applicationName = applicationsData.applicationName(it.PackageTwo),
-                            applicationIcon = applicationsData.applicationIcon(it.PackageTwo)
+                            applicationClassName = it.ClassTwo,
+                            applicationName = applicationsData.activityName(it.PackageTwo, it.ClassTwo),
+                            applicationIcon = applicationsData.activityIcon(it.PackageTwo, it.ClassTwo)
                     ))
 
                 }
@@ -115,11 +115,21 @@ class Filters (private val context: Context) {
 
                     }
 
+                    val className = if (it.PackageOne == priorElement.applicationClassName) {
+
+                        it.ClassTwo
+
+                    } else {
+
+                        it.ClassOne
+
+                    }
+
                     floatingDataStructures.add(FloatingDataStructure(
                         applicationPackageName = packageName,
                         applicationClassName = null,
-                        applicationName = applicationsData.applicationName(packageName),
-                        applicationIcon = applicationsData.applicationIcon(packageName)
+                        applicationName = applicationsData.activityName(packageName, className),
+                        applicationIcon = applicationsData.activityIcon(packageName, className)
                     ))
 
                 }
@@ -127,6 +137,41 @@ class Filters (private val context: Context) {
                 floatingDataStructures
 
             }
+
+        } else {
+
+            InitialDataSet(context).generate()
+
+        }
+
+    }
+
+    fun generateInitials(arwenDatabaseAccess: ArwenDataAccessObject, applicationsData: ApplicationsData) : Deferred<ArrayList<FloatingDataStructure>> = CoroutineScope(Dispatchers.IO).async {
+
+        val relatedLinksDayTime = arwenDatabaseAccess.queryRelatedDayTime(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+
+        if (relatedLinksDayTime != null) {
+
+            val floatingDataStructures = ArrayList<FloatingDataStructure>()
+
+            relatedLinksDayTime.slice(IntRange(0, 5)).forEach {
+
+                val floatingDataStructure = FloatingDataStructure(
+                    applicationPackageName = it.PackageTwo,
+                    applicationClassName = it.ClassTwo,
+                    applicationName = applicationsData.activityName(it.PackageTwo, it.ClassTwo),
+                    applicationIcon = applicationsData.activityIcon(it.PackageTwo, it.ClassTwo)
+                )
+
+                if (!floatingDataStructures.contains(floatingDataStructure)) {
+
+                    floatingDataStructures.add(floatingDataStructure)
+
+                }
+
+            }
+
+            floatingDataStructures
 
         } else {
 

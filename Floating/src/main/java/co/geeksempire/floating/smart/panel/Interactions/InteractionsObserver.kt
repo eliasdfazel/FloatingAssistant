@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 7:40 AM
+ * Last modified 3/13/23, 8:53 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -62,8 +62,8 @@ class InteractionsObserver : AccessibilityService() {
                         val floatingDataStructure = FloatingDataStructure(
                             applicationPackageName = packageName,
                             applicationClassName = className,
-                            applicationName = applicationsData.applicationName(packageName),
-                            applicationIcon = applicationsData.applicationIcon(packageName)
+                            applicationName = applicationsData.activityName(packageName, className),
+                            applicationIcon = applicationsData.activityIcon(packageName, className)
                         )
 
                         if (!ArwenDatabase.clickedApplicationData.contains(floatingDataStructure)) {

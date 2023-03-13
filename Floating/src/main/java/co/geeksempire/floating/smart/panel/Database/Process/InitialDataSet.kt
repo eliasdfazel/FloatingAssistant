@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 7:50 AM
+ * Last modified 3/13/23, 8:42 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -46,8 +46,8 @@ class InitialDataSet (private val context: Context) {
                 randomApplications.add(FloatingDataStructure(
                     applicationPackageName = usageStat.packageName,
                     applicationClassName = null,
-                    applicationName = applicationsData.applicationName(usageStat.packageName),
-                    applicationIcon = applicationsData.applicationIcon(usageStat.packageName)
+                    applicationName = applicationsData.activityName(usageStat.packageName, null),
+                    applicationIcon = applicationsData.activityIcon(usageStat.packageName, null)
                 ))
 
                 Log.d(this@InitialDataSet.javaClass.simpleName, "Package Name: ${usageStat.packageName}")

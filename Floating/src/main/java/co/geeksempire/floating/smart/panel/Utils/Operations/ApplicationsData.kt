@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/8/23, 5:35 AM
+ * Last modified 3/13/23, 8:42 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -46,20 +46,6 @@ class ApplicationsData (private val context: Context) {
         }
     }
 
-    fun activityLabel(activityInfo: ActivityInfo) : String {
-
-        return try {
-
-            activityInfo.loadLabel(context.packageManager).toString()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-
-            applicationName(activityInfo.packageName)
-
-        }
-    }
-
     fun applicationIcon(packageName: String) : Drawable {
 
         return try {
@@ -84,27 +70,58 @@ class ApplicationsData (private val context: Context) {
         }
     }
 
-    fun applicationIcon(activityInfo: ActivityInfo) : Drawable {
+    fun activityName(packageName: String, className: String?) : String {
 
-        return try {
-
-            activityInfo.loadIcon(context.packageManager)
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-
-            applicationIcon(activityInfo.packageName)
-
-        } finally {
+        return if (className != null) {
 
             try {
 
-                context.packageManager.defaultActivityIcon
+                val activityInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    context.packageManager.getActivityInfo(ComponentName(packageName, className), PackageManager.ComponentInfoFlags.of(0))
+                } else {
+                    context.packageManager.getActivityInfo(ComponentName(packageName, className), 0)
+                }
+
+                activityInfo.loadLabel(context.packageManager).toString()
 
             } catch (e: Exception) {
                 e.printStackTrace()
 
+                applicationName(packageName)
+
             }
+
+        } else {
+
+            applicationName(packageName)
+
+        }
+    }
+
+    fun activityIcon(packageName: String, className: String?) : Drawable {
+
+        return if (className != null) {
+
+            try {
+
+                val activityInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    context.packageManager.getActivityInfo(ComponentName(packageName, className), PackageManager.ComponentInfoFlags.of(0))
+                } else {
+                    context.packageManager.getActivityInfo(ComponentName(packageName, className), 0)
+                }
+
+                activityInfo.loadIcon(context.packageManager)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+
+                applicationIcon(packageName)
+
+            }
+
+        } else {
+
+            applicationIcon(packageName)
 
         }
     }

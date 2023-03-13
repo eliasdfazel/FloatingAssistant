@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/12/23, 9:00 AM
+ * Last modified 3/13/23, 8:50 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -482,18 +482,10 @@ class FloatingPanelServices : Service(), QueriesInterface {
         floatingLayoutBinding.loadingImageView.visibility = View.VISIBLE
 
         multipleColorsRotation(floatingLayoutBinding.loadingImageView, arrayOf(
-            getColor(R.color.primaryColorBlue),
-            getColor(R.color.primaryColorOrange)
-        ), object : AnimationStatus {
-
-            override fun animationLoopFinished() {
-                super.animationLoopFinished()
-
-
-
-            }
-
-        })
+            getColor(R.color.primaryColorRed),
+            getColor(R.color.white_transparent),
+            getColor(R.color.primaryColorGreen)
+        ), object : AnimationStatus {})
 
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -501,7 +493,13 @@ class FloatingPanelServices : Service(), QueriesInterface {
 
                 if (arwenDatabaseAccess.rowCount() > 37) {
 
-                    arwenDatabaseAccess.queryRelatedDayTime(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))?.let {
+                    floatingAdapter.applicationsData.clear()
+
+                    floatingAdapter.applicationsData.addAll(filters.generateInitials(arwenDatabaseAccess, applicationsData).await())
+
+                    withContext(Dispatchers.Main) {
+
+                        floatingAdapter.notifyItemRangeInserted(0, floatingAdapter.applicationsData.size - 1)
 
                         floatingLayoutBinding.floatingShield.visibility = View.GONE
                         floatingLayoutBinding.loadingImageView.visibility = View.GONE
