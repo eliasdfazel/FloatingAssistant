@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/12/23, 9:07 AM
+ * Last modified 3/13/23, 7:07 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -15,6 +15,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.Log
 import co.geeksempire.floating.smart.panel.Database.ArwenDatabase
 import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
@@ -38,12 +39,14 @@ fun FloatingPanelServices.registerFloatingBroadcasts(floatingLayoutBinding: Floa
                 if (intent.action == ColorsIO.Type.colorsChanged) {
                     Log.d(this@registerFloatingBroadcasts.javaClass.simpleName, "New Background Color Received")
 
-                    val backgroundColor = setColorAlpha(intent.getIntExtra(ColorsIO.Type.dominantColor, 0), floatingIO.transparency())
+                    val dominantColor = intent.getIntExtra(ColorsIO.Type.dominantColor, Color.BLACK)
+
+                    val backgroundColor = setColorAlpha(dominantColor, floatingIO.transparency())
 
                     floatingLayoutBinding.rootView.backgroundTintList = ColorStateList.valueOf(backgroundColor)
 
-                    floatingLayoutBinding.floatingHandheldGlow.imageTintList = ColorStateList.valueOf(backgroundColor)
-                    floatingLayoutBinding.floatingHandheld.imageTintList = ColorStateList.valueOf(backgroundColor)
+                    floatingLayoutBinding.floatingHandheldGlow.imageTintList = ColorStateList.valueOf(dominantColor)
+                    floatingLayoutBinding.floatingHandheld.imageTintList = ColorStateList.valueOf(dominantColor)
 
                 } else if (intent.action == ArwenDatabase.DatabaseName) {
 
