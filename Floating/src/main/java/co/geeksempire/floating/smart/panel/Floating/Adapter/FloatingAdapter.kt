@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/12/23, 9:09 AM
+ * Last modified 3/13/23, 6:40 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -49,7 +49,7 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
             .into(floatingViewHolder.applicationIcon)
 
         floatingViewHolder.rootViewItem.setOnClickListener {
-            Log.d(this@FloatingAdapter.javaClass.simpleName, "Clicked -> ${applicationsData[position].applicationPackageName}")
+            Log.d(this@FloatingAdapter.javaClass.simpleName, "Application: ${applicationsData[position].applicationPackageName}")
 
             ArwenDatabase.DatabaseHandled = true
 
