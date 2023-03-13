@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 7:38 AM
+ * Last modified 3/13/23, 9:57 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -22,6 +22,7 @@ import co.geeksempire.floating.smart.panel.Database.ArwenDatabase
 import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
 import co.geeksempire.floating.smart.panel.Floating.Data.QueriesInterface
 import co.geeksempire.floating.smart.panel.Launch.OpenApplicationsLaunchPad
+import co.geeksempire.floating.smart.panel.Utils.Operations.isContains
 import co.geeksempire.floating.smart.panel.databinding.FloatingItemBinding
 import com.bumptech.glide.Glide
 
@@ -58,7 +59,7 @@ class FloatingAdapter (private val context: Context, private val layoutInflater:
                 applicationIcon = applicationsData[position].applicationIcon
             )
 
-            if (!ArwenDatabase.clickedApplicationData.contains(floatingDataStructure)) {
+            if (!ArwenDatabase.clickedApplicationData.isContains(floatingDataStructure)) {
 
                 ArwenDatabase.DatabaseHandled = true
 

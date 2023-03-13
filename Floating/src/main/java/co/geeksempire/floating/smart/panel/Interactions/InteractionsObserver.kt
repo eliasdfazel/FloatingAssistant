@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 8:53 AM
+ * Last modified 3/13/23, 9:56 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -21,6 +21,7 @@ import co.geeksempire.floating.smart.panel.Database.ArwenDatabase
 import co.geeksempire.floating.smart.panel.Database.Process.Filters
 import co.geeksempire.floating.smart.panel.Floating.Data.FloatingDataStructure
 import co.geeksempire.floating.smart.panel.Utils.Operations.ApplicationsData
+import co.geeksempire.floating.smart.panel.Utils.Operations.isContains
 
 class InteractionsObserver : AccessibilityService() {
 
@@ -59,25 +60,29 @@ class InteractionsObserver : AccessibilityService() {
 
                         val applicationsData = ApplicationsData(applicationContext)
 
-                        val floatingDataStructure = FloatingDataStructure(
-                            applicationPackageName = packageName,
-                            applicationClassName = className,
-                            applicationName = applicationsData.activityName(packageName, className),
-                            applicationIcon = applicationsData.activityIcon(packageName, className)
-                        )
+                        if (applicationsData.canLaunch(packageName)) {
 
-                        if (!ArwenDatabase.clickedApplicationData.contains(floatingDataStructure)) {
+                            val floatingDataStructure = FloatingDataStructure(
+                                applicationPackageName = packageName,
+                                applicationClassName = className,
+                                applicationName = applicationsData.activityName(packageName, className),
+                                applicationIcon = applicationsData.activityIcon(packageName, className)
+                            )
 
-                            ArwenDatabase.clickedApplicationData.add(floatingDataStructure)
+                            if (!ArwenDatabase.clickedApplicationData.isContains(floatingDataStructure)) {
 
-                            sendBroadcast(Intent(ArwenDatabase.DatabaseName).putExtra(Intent.EXTRA_TEXT, packageName))
+                                ArwenDatabase.clickedApplicationData.add(floatingDataStructure)
 
-                            if (ArwenDatabase.clickedApplicationData.size == 2) {
-                                Log.d(this@InteractionsObserver.javaClass.simpleName, "Start Database Queries")
+                                sendBroadcast(Intent(ArwenDatabase.DatabaseName).putExtra(Intent.EXTRA_TEXT, packageName))
 
-                                filters.insertProcess(arwenDatabaseAccess, ArwenDatabase.clickedApplicationData[0], ArwenDatabase.clickedApplicationData[1])
+                                if (ArwenDatabase.clickedApplicationData.size == 2) {
+                                    Log.d(this@InteractionsObserver.javaClass.simpleName, "Start Database Queries")
 
-                                ArwenDatabase.clickedApplicationData.removeFirst()
+                                    filters.insertProcess(arwenDatabaseAccess, ArwenDatabase.clickedApplicationData[0], ArwenDatabase.clickedApplicationData[1])
+
+                                    ArwenDatabase.clickedApplicationData.removeFirst()
+
+                                }
 
                             }
 
