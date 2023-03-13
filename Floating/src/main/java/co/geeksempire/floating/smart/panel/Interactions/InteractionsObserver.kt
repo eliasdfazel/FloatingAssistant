@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 10:25 AM
+ * Last modified 3/13/23, 10:53 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -29,10 +29,14 @@ class InteractionsObserver : AccessibilityService() {
     }
 
 
+    private val applicationsData: ApplicationsData by lazy {
+        ApplicationsData(applicationContext)
+    }
+
+
     private val arwenDatabaseAccess: ArwenDataAccessObject by lazy {
         Room.databaseBuilder(applicationContext, ArwenDataInterface::class.java, ArwenDatabase.DatabaseName).build().initializeDataAccessObject()
     }
-
 
     override fun onServiceConnected() {
 
@@ -55,33 +59,26 @@ class InteractionsObserver : AccessibilityService() {
                         val packageName = accessibilityEvent.packageName.toString()
                         val className = accessibilityEvent.className.toString()
 
-                        Log.d(this@InteractionsObserver.javaClass.simpleName, "Application: $packageName | $className")
+                        val floatingDataStructure = FloatingDataStructure(
+                            applicationPackageName = packageName,
+                            applicationClassName = className,
+                            applicationName = applicationsData.activityName(packageName, className),
+                            applicationIcon = applicationsData.activityIcon(packageName, className)
+                        )
 
-                        val applicationsData = ApplicationsData(applicationContext)
+                        if (filters.validateEntry(ArwenDatabase.clickedApplicationData, floatingDataStructure, applicationsData)) {
+                            Log.d(this@InteractionsObserver.javaClass.simpleName, "Application: $packageName | $className")
 
-                        if (applicationsData.canLaunch(packageName)) {
+                            ArwenDatabase.clickedApplicationData.add(floatingDataStructure)
 
-                            val floatingDataStructure = FloatingDataStructure(
-                                applicationPackageName = packageName,
-                                applicationClassName = className,
-                                applicationName = applicationsData.activityName(packageName, className),
-                                applicationIcon = applicationsData.activityIcon(packageName, className)
-                            )
+                            sendBroadcast(Intent(ArwenDatabase.DatabaseName).putExtra(Intent.EXTRA_TEXT, packageName))
 
-                            if (filters.validateEntry(ArwenDatabase.clickedApplicationData, floatingDataStructure, applicationsData)) {
+                            if (ArwenDatabase.clickedApplicationData.size == 2) {
+                                Log.d(this@InteractionsObserver.javaClass.simpleName, "Start Database Queries")
 
-                                ArwenDatabase.clickedApplicationData.add(floatingDataStructure)
+                                filters.insertProcess(arwenDatabaseAccess, ArwenDatabase.clickedApplicationData[0], ArwenDatabase.clickedApplicationData[1])
 
-                                sendBroadcast(Intent(ArwenDatabase.DatabaseName).putExtra(Intent.EXTRA_TEXT, packageName))
-
-                                if (ArwenDatabase.clickedApplicationData.size == 2) {
-                                    Log.d(this@InteractionsObserver.javaClass.simpleName, "Start Database Queries")
-
-                                    filters.insertProcess(arwenDatabaseAccess, ArwenDatabase.clickedApplicationData[0], ArwenDatabase.clickedApplicationData[1])
-
-                                    ArwenDatabase.clickedApplicationData.removeFirst()
-
-                                }
+                                ArwenDatabase.clickedApplicationData.removeFirst()
 
                             }
 

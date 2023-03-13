@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 8:42 AM
+ * Last modified 3/13/23, 10:51 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -20,7 +20,7 @@ class InitialDataSet (private val context: Context) {
 
     private val applicationsData = ApplicationsData(context)
 
-    suspend fun generate(daysAgo: Long = 7) : ArrayList<FloatingDataStructure> {
+    fun generate(daysAgo: Long = 7) : ArrayList<FloatingDataStructure> {
 
         val usageStatsManager = context.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 

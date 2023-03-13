@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 10:25 AM
+ * Last modified 3/13/23, 10:52 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -322,9 +322,9 @@ class Filters (private val context: Context) {
 
         if (!inputList.isContains(inputData)
             && (inputData.applicationPackageName != context.packageName)
-            && !applicationsData.canLaunch(inputData.applicationPackageName)
             && !applicationsData.isDefaultLauncher(inputData.applicationPackageName)
-            && !applicationsData.isSystemApplication(inputData.applicationPackageName)) {
+            && !applicationsData.isSystemApplication(inputData.applicationPackageName)
+            && applicationsData.canLaunch(inputData.applicationPackageName)) {
 
             validated = true
 

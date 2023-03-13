@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 8:42 AM
+ * Last modified 3/13/23, 10:39 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -39,7 +39,6 @@ class ApplicationsData (private val context: Context) {
             context.packageManager.getApplicationLabel(applicationInfo).toString()
 
         } catch (e: Exception) {
-            e.printStackTrace()
 
             ""
 
@@ -53,19 +52,8 @@ class ApplicationsData (private val context: Context) {
             context.packageManager.getApplicationIcon(packageName)
 
         } catch (e: Exception) {
-            e.printStackTrace()
 
             ColorDrawable(context.getColor(R.color.primaryColorPurple))
-
-        } finally {
-
-            try {
-
-                context.packageManager.defaultActivityIcon
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
 
         }
     }
@@ -85,7 +73,6 @@ class ApplicationsData (private val context: Context) {
                 activityInfo.loadLabel(context.packageManager).toString()
 
             } catch (e: Exception) {
-                e.printStackTrace()
 
                 applicationName(packageName)
 
@@ -113,7 +100,6 @@ class ApplicationsData (private val context: Context) {
                 activityInfo.loadIcon(context.packageManager)
 
             } catch (e: Exception) {
-                e.printStackTrace()
 
                 applicationIcon(packageName)
 
@@ -135,7 +121,6 @@ class ApplicationsData (private val context: Context) {
                 context.packageManager.getActivityInfo(ComponentName(context, packageName), PackageManager.ComponentInfoFlags.of(0))
 
             } catch (e: Exception) {
-                e.printStackTrace()
 
                 context.packageManager.getActivityInfo(ComponentName(context, packageName), 0)
 
@@ -158,7 +143,6 @@ class ApplicationsData (private val context: Context) {
                 context.packageManager.getActivityInfo(ComponentName(packageName, className), PackageManager.ComponentInfoFlags.of(0))
 
             } catch (e: Exception) {
-                e.printStackTrace()
 
                 context.packageManager.getActivityInfo(ComponentName(packageName, className), 0)
 
