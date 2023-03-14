@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/14/23, 8:31 AM
+ * Last modified 3/14/23, 8:34 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -163,7 +163,7 @@ class Dashboard : AppCompatActivity(), AnimationStatus {
         dashboardLayoutBinding.waitingAnimation.visibility = View.VISIBLE
 
         multipleColorsRotation(dashboardLayoutBinding.waitingAnimation, arrayOf(
-            getColor(R.color.red),
+            getColor(R.color.green),
             getColor(R.color.white_transparent),
             getColor(R.color.blue),
         ), animationDuration = 1357, animationStatus = object : AnimationStatus {})
