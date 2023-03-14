@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 10:24 AM
+ * Last modified 3/14/23, 8:31 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -485,7 +485,7 @@ class FloatingPanelServices : Service(), QueriesInterface {
             getColor(R.color.primaryColorRed),
             getColor(R.color.white_transparent),
             getColor(R.color.primaryColorGreen)
-        ), object : AnimationStatus {})
+        ), animationStatus = object : AnimationStatus {})
 
         CoroutineScope(Dispatchers.IO).launch {
 

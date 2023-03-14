@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/11/23, 7:17 AM
+ * Last modified 3/14/23, 8:30 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -178,13 +178,13 @@ fun moveFloatingToLeft(context: Context, windowManager: WindowManager,
 
 }
 
-fun multipleColorsRotation(instanceOfView: AppCompatImageView, allColors: Array<Int>, animationStatus: AnimationStatus) {
+fun multipleColorsRotation(instanceOfView: AppCompatImageView, allColors: Array<Int>, animationDuration: Long = 3333, animationStatus: AnimationStatus) {
 
     instanceOfView.setImageDrawable(GradientDrawable(GradientDrawable.Orientation.TR_BL, allColors.toIntArray()))
 
     val rotateAnimation = RotateAnimation(0f, 360f,
         Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f).apply {
-        duration = 3333
+        duration = animationDuration
         repeatCount = Animation.INFINITE
         interpolator = OvershootInterpolator()
         repeatMode = Animation.REVERSE
@@ -199,7 +199,8 @@ fun multipleColorsRotation(instanceOfView: AppCompatImageView, allColors: Array<
 
             animationStatus.animationLoopFinished()
 
-            if (instanceOfView.visibility == View.GONE) {
+            if (instanceOfView.visibility == View.GONE
+                || instanceOfView.visibility == View.INVISIBLE) {
 
                 rotateAnimation.cancel()
 

@@ -3,7 +3,7 @@
   ~ Copyright © 2023 By Geeks Empire.
   ~
   ~ Created by Elias Fazel
-  ~ Last modified 3/11/23, 10:54 AM
+  ~ Last modified 3/14/23, 8:27 AM
   ~
   ~ Licensed Under MIT License.
   ~ https://opensource.org/licenses/MIT
@@ -152,6 +152,19 @@
         android:src="@drawable/cyborg_girl"
 
         apps:shapeDrawable="@drawable/squircle_shape"
+
+        apps:layout_constraintTop_toTopOf="@id/profileImageBackground"
+        apps:layout_constraintBottom_toBottomOf="@id/profileImageBackground"
+        apps:layout_constraintStart_toStartOf="@id/profileImageBackground"
+        apps:layout_constraintEnd_toEndOf="@id/profileImageBackground"/>
+
+    <net.geekstools.imageview.customshapes.ShapesImage
+        android:id="@+id/waitingAnimation"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:scaleType="centerCrop"
+
+        apps:shapeDrawable="@drawable/ring_shape"
 
         apps:layout_constraintTop_toTopOf="@id/profileImageBackground"
         apps:layout_constraintBottom_toBottomOf="@id/profileImageBackground"

@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/12/23, 8:17 AM
+ * Last modified 3/14/23, 8:28 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -45,51 +45,7 @@ fun Dashboard.setupUserInterface() {
 
     colorsIO.processWallpaperColors()
 
-    firebaseUser?.let {
-
-        dashboardLayoutBinding.indicatorText.text = getString(R.string.profile)
-
-        Glide.with(applicationContext)
-            .asDrawable()
-            .load(it.photoUrl)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .listener(object : RequestListener<Drawable> {
-
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean) : Boolean {
-
-                    return false
-                }
-
-                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean) : Boolean {
-
-                    runOnUiThread {
-
-                        val profileColor = palettes.extractDominantColor(drawable = resource)
-
-                        dashboardLayoutBinding.profileImageGlow.imageTintList = ColorStateList.valueOf(profileColor)
-                        dashboardLayoutBinding.profileImageBackground.setImageDrawable(ColorDrawable(profileColor))
-
-                    }
-
-                    return false
-                }
-
-            })
-            .submit()
-
-    }
-
-    /* Start - Profile */
-    val profileImageLayoutParameters = dashboardLayoutBinding.profileImageBackground.layoutParams as ConstraintLayout.LayoutParams
-    profileImageLayoutParameters.topMargin = dpToInteger(applicationContext, 37) + statusBarHeight(applicationContext)
-    dashboardLayoutBinding.profileImageBackground.layoutParams = profileImageLayoutParameters
-
-    val profileImageGlowLayoutParameters = dashboardLayoutBinding.profileImageGlow.layoutParams as ConstraintLayout.LayoutParams
-    profileImageGlowLayoutParameters.topMargin = -dpToInteger(applicationContext, 27) + statusBarHeight(applicationContext)
-    dashboardLayoutBinding.profileImageGlow.layoutParams = profileImageGlowLayoutParameters
-
-    dashboardLayoutBinding.contentWrapper.setPadding(0, dpToInteger(applicationContext, 173) + statusBarHeight(applicationContext), 0, dashboardLayoutBinding.contentWrapper.paddingBottom)
-    /* end - Profile */
+    setupProfile()
 
     /* Start - Interactions  */
     dashboardLayoutBinding.interactions.preferencesTitle.text = getString(R.string.interactionsTitle)
@@ -258,5 +214,65 @@ fun Dashboard.setupUserInterface() {
 
     }
     /* End - Launch Button */
+
+}
+
+fun Dashboard.setupProfile() {
+
+    firebaseUser?.let {
+
+        dashboardLayoutBinding.indicatorText.text = getString(R.string.profile)
+
+        Glide.with(applicationContext)
+            .asDrawable()
+            .load(it.photoUrl)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .listener(object : RequestListener<Drawable> {
+
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean) : Boolean {
+
+                    return false
+                }
+
+                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean) : Boolean {
+
+                    runOnUiThread {
+
+                        val profileColor = palettes.extractDominantColor(drawable = resource)
+
+                        dashboardLayoutBinding.apply {
+
+                            profileImageGlow.imageTintList = ColorStateList.valueOf(profileColor)
+                            profileImageBackground.setImageDrawable(ColorDrawable(profileColor))
+
+                            profileImage.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in))
+
+                            profileImage.setImageDrawable(resource)
+
+                            dashboardLayoutBinding.waitingAnimation.visibility = View.GONE
+
+                        }
+
+                    }
+
+                    return false
+                }
+
+            })
+            .submit()
+
+    }
+
+    /* Start - Profile */
+    val profileImageLayoutParameters = dashboardLayoutBinding.profileImageBackground.layoutParams as ConstraintLayout.LayoutParams
+    profileImageLayoutParameters.topMargin = dpToInteger(applicationContext, 37) + statusBarHeight(applicationContext)
+    dashboardLayoutBinding.profileImageBackground.layoutParams = profileImageLayoutParameters
+
+    val profileImageGlowLayoutParameters = dashboardLayoutBinding.profileImageGlow.layoutParams as ConstraintLayout.LayoutParams
+    profileImageGlowLayoutParameters.topMargin = -dpToInteger(applicationContext, 27) + statusBarHeight(applicationContext)
+    dashboardLayoutBinding.profileImageGlow.layoutParams = profileImageGlowLayoutParameters
+
+    dashboardLayoutBinding.contentWrapper.setPadding(0, dpToInteger(applicationContext, 173) + statusBarHeight(applicationContext), 0, dashboardLayoutBinding.contentWrapper.paddingBottom)
+    /* end - Profile */
 
 }

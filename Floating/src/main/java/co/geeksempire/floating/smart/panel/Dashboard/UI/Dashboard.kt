@@ -2,7 +2,7 @@
  * Copyright © 2023 By Geeks Empire.
  *
  * Created by Elias Fazel
- * Last modified 3/13/23, 8:11 AM
+ * Last modified 3/14/23, 8:31 AM
  *
  * Licensed Under MIT License.
  * https://opensource.org/licenses/MIT
@@ -14,9 +14,12 @@ import android.Manifest
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import co.geeksempire.floating.smart.panel.BuildConfig
+import co.geeksempire.floating.smart.panel.Dashboard.Extensions.setupProfile
 import co.geeksempire.floating.smart.panel.Dashboard.Extensions.setupUserInterface
 import co.geeksempire.floating.smart.panel.Database.ArwenDataInterface
 import co.geeksempire.floating.smart.panel.Database.ArwenDatabase
@@ -24,10 +27,17 @@ import co.geeksempire.floating.smart.panel.Preferences.UI.ColorsIO
 import co.geeksempire.floating.smart.panel.R
 import co.geeksempire.floating.smart.panel.Tests.PrototypeData
 import co.geeksempire.floating.smart.panel.Utils.Animations.AnimationStatus
+import co.geeksempire.floating.smart.panel.Utils.Animations.multipleColorsRotation
 import co.geeksempire.floating.smart.panel.Utils.Colors.Palettes
 import co.geeksempire.floating.smart.panel.Utils.Notifications.NotificationsCreator
 import co.geeksempire.floating.smart.panel.Utils.Settings.SystemSettings
 import co.geeksempire.floating.smart.panel.databinding.DashboardLayoutBinding
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.identity.SignInCredential
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +46,7 @@ import kotlinx.coroutines.launch
 
 class Dashboard : AppCompatActivity(), AnimationStatus {
 
-    val firebaseUser = Firebase.auth.currentUser
+    var firebaseUser = Firebase.auth.currentUser
 
     val systemSettings: SystemSettings by lazy {
         SystemSettings(applicationContext)
@@ -50,6 +60,10 @@ class Dashboard : AppCompatActivity(), AnimationStatus {
 
     val palettes: Palettes by lazy {
         Palettes(applicationContext)
+    }
+
+    private val googleSignInClient: SignInClient by lazy {
+        Identity.getSignInClient(this@Dashboard)
     }
 
     private object RequestId {
@@ -85,6 +99,20 @@ class Dashboard : AppCompatActivity(), AnimationStatus {
 
     override fun onStart() {
         super.onStart()
+
+        dashboardLayoutBinding.profileImage.setOnClickListener {
+
+            if (firebaseUser != null) {
+
+                // Go To Profile
+
+            } else {
+
+                googleAccountAuthentication()
+
+            }
+
+        }
 
         if (BuildConfig.DEBUG) {
 
@@ -127,6 +155,75 @@ class Dashboard : AppCompatActivity(), AnimationStatus {
     override fun animationFinished() {
 
 
+
+    }
+
+    private fun googleAccountAuthentication() {
+
+        dashboardLayoutBinding.waitingAnimation.visibility = View.VISIBLE
+
+        multipleColorsRotation(dashboardLayoutBinding.waitingAnimation, arrayOf(
+            getColor(R.color.red),
+            getColor(R.color.white_transparent),
+            getColor(R.color.blue),
+        ), animationDuration = 1357, animationStatus = object : AnimationStatus {})
+
+        val beginSignInRequest = BeginSignInRequest.builder()
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    .setServerClientId(getString(R.string.webClientId))
+                    .setFilterByAuthorizedAccounts(false)
+                    .build()
+            )
+            .setAutoSelectEnabled(true)
+            .build()
+
+        googleSignInClient.beginSignIn(beginSignInRequest)
+            .addOnSuccessListener(this@Dashboard) { result ->
+
+                try {
+
+                    googleSignInResult.launch(IntentSenderRequest.Builder(result.pendingIntent.intentSender).build())
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+
+                }
+
+            }.addOnFailureListener(this@Dashboard) { e ->
+                e.printStackTrace()
+            }
+
+    }
+
+    private val googleSignInResult = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
+
+        it.data?.let { intentResult ->
+
+            val signInCredential: SignInCredential = googleSignInClient.getSignInCredentialFromIntent(intentResult)
+
+            val authenticationCredential: AuthCredential = GoogleAuthProvider.getCredential(signInCredential.googleIdToken, null)
+
+            Firebase.auth.signInWithCredential(authenticationCredential)
+                .addOnSuccessListener { authenticationResult ->
+
+                    authenticationResult.user?.let { firebaseUser ->
+
+                        this@Dashboard.firebaseUser = firebaseUser
+
+                        setupProfile()
+
+                    }
+
+                }.addOnFailureListener { exception ->
+                    exception.printStackTrace()
+
+                }
+
+
+
+        }
 
     }
 
